@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for recruiter project.
 
@@ -10,6 +11,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+gettext = lambda s: s
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -41,6 +44,9 @@ INSTALLED_APPS = (
     'account',
     'job_details',
     'resumes',
+
+    # Database migration tool
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,7 +75,9 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
-
+LANGUAGES = [
+    ('en', 'English'),
+]
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -85,3 +93,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_PATH, "templates")
+)
