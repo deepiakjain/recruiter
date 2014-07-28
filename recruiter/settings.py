@@ -48,6 +48,8 @@ INSTALLED_APPS = (
 
     # Database migration tool
     'south',
+
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,3 +101,6 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, "templates")
 )
+
+
+ACCOUNT_ACTIVATION_DAYS = 7

@@ -1,6 +1,13 @@
 <html>
-  <body>
-   {% placeholder base_content %}
-   {% block base_content%}{% endblock %}
-  </body>
+    <head>
+        <title> </title>
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block header_content%}
+        {% endblock %}
+    </body>
+    {% block js %}
+    {% endblock %}
 </html>
