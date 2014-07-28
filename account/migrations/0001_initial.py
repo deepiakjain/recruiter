@@ -8,32 +8,72 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'UserProfile'
-        db.create_table(u'account_userprofile', (
+        # Adding model 'Qualification'
+        db.create_table(u'account_qualification', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=70)),
+        ))
+        db.send_create_signal(u'account', ['Qualification'])
+
+        # Adding model 'JobSeekerProfile'
+        db.create_table(u'account_jobseekerprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('company_name', self.gf('django.db.models.fields.CharField')(max_length=70)),
-            ('website', self.gf('django.db.models.fields.TextField')()),
             ('mobile_no', self.gf('django.db.models.fields.PositiveIntegerField')(max_length=11)),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('resume', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+            ('profile_header', self.gf('django.db.models.fields.CharField')(max_length=130)),
+            ('qualification', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['account.Qualification'])),
         ))
-        db.send_create_signal(u'account', ['UserProfile'])
+        db.send_create_signal(u'account', ['JobSeekerProfile'])
+
+        # Adding model 'RecruiterProfile'
+        db.create_table(u'account_recruiterprofile', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
+            ('mobile_no', self.gf('django.db.models.fields.PositiveIntegerField')(max_length=11)),
+            ('create_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('company_name', self.gf('django.db.models.fields.CharField')(max_length=70)),
+            ('website', self.gf('django.db.models.fields.CharField')(max_length=90)),
+        ))
+        db.send_create_signal(u'account', ['RecruiterProfile'])
 
 
     def backwards(self, orm):
-        # Deleting model 'UserProfile'
-        db.delete_table(u'account_userprofile')
+        # Deleting model 'Qualification'
+        db.delete_table(u'account_qualification')
+
+        # Deleting model 'JobSeekerProfile'
+        db.delete_table(u'account_jobseekerprofile')
+
+        # Deleting model 'RecruiterProfile'
+        db.delete_table(u'account_recruiterprofile')
 
 
     models = {
-        u'account.userprofile': {
-            'Meta': {'object_name': 'UserProfile'},
+        u'account.jobseekerprofile': {
+            'Meta': {'object_name': 'JobSeekerProfile'},
+            'create_date': ('django.db.models.fields.DateTimeField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mobile_no': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '11'}),
+            'profile_header': ('django.db.models.fields.CharField', [], {'max_length': '130'}),
+            'qualification': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Qualification']"}),
+            'resume': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
+        },
+        u'account.qualification': {
+            'Meta': {'object_name': 'Qualification'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '70'})
+        },
+        u'account.recruiterprofile': {
+            'Meta': {'object_name': 'RecruiterProfile'},
             'company_name': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'mobile_no': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '11'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
-            'website': ('django.db.models.fields.TextField', [], {})
+            'website': ('django.db.models.fields.CharField', [], {'max_length': '90'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},

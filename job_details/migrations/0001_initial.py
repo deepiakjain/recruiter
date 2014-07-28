@@ -27,17 +27,39 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('position', self.gf('django.db.models.fields.related.ForeignKey')(related_name='positions', to=orm['job_details.Position'])),
-            ('technology', self.gf('django.db.models.fields.related.ForeignKey')(related_name='technologies', to=orm['job_details.Position'])),
+            ('technology', self.gf('django.db.models.fields.related.ForeignKey')(related_name='technologies', to=orm['job_details.Technology'])),
             ('experience_required', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('website', self.gf('django.db.models.fields.TextField')()),
-            ('company_name', self.gf('django.db.models.fields.CharField')(max_length=70)),
             ('description', self.gf('django.db.models.fields.TextField')()),
-            ('others', self.gf('django.db.models.fields.CharField')(max_length=70)),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('close_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('close_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('job_code', self.gf('django.db.models.fields.CharField')(max_length=70)),
         ))
         db.send_create_signal(u'job_details', ['JobDetails'])
+
+        # Adding model 'Status'
+        db.create_table(u'job_details_status', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('status', self.gf('django.db.models.fields.CharField')(max_length=2)),
+        ))
+        db.send_create_signal(u'job_details', ['Status'])
+
+        # Adding M2M table for field job on 'Status'
+        m2m_table_name = db.shorten_name(u'job_details_status_job')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('status', models.ForeignKey(orm[u'job_details.status'], null=False)),
+            ('jobdetails', models.ForeignKey(orm[u'job_details.jobdetails'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['status_id', 'jobdetails_id'])
+
+        # Adding M2M table for field seeker on 'Status'
+        m2m_table_name = db.shorten_name(u'job_details_status_seeker')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('status', models.ForeignKey(orm[u'job_details.status'], null=False)),
+            ('jobseekerprofile', models.ForeignKey(orm[u'account.jobseekerprofile'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['status_id', 'jobseekerprofile_id'])
 
 
     def backwards(self, orm):
@@ -50,8 +72,32 @@ class Migration(SchemaMigration):
         # Deleting model 'JobDetails'
         db.delete_table(u'job_details_jobdetails')
 
+        # Deleting model 'Status'
+        db.delete_table(u'job_details_status')
+
+        # Removing M2M table for field job on 'Status'
+        db.delete_table(db.shorten_name(u'job_details_status_job'))
+
+        # Removing M2M table for field seeker on 'Status'
+        db.delete_table(db.shorten_name(u'job_details_status_seeker'))
+
 
     models = {
+        u'account.jobseekerprofile': {
+            'Meta': {'object_name': 'JobSeekerProfile'},
+            'create_date': ('django.db.models.fields.DateTimeField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mobile_no': ('django.db.models.fields.PositiveIntegerField', [], {'max_length': '11'}),
+            'profile_header': ('django.db.models.fields.CharField', [], {'max_length': '130'}),
+            'qualification': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['account.Qualification']"}),
+            'resume': ('django.db.models.fields.files.FileField', [], {'max_length': '100'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
+        },
+        u'account.qualification': {
+            'Meta': {'object_name': 'Qualification'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '70'})
+        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -90,23 +136,27 @@ class Migration(SchemaMigration):
         },
         u'job_details.jobdetails': {
             'Meta': {'object_name': 'JobDetails'},
-            'close_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'company_name': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
+            'close_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {}),
             'description': ('django.db.models.fields.TextField', [], {}),
             'experience_required': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'job_code': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
-            'others': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
             'position': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'positions'", 'to': u"orm['job_details.Position']"}),
-            'technology': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'technologies'", 'to': u"orm['job_details.Position']"}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'website': ('django.db.models.fields.TextField', [], {})
+            'technology': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'technologies'", 'to': u"orm['job_details.Technology']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         },
         u'job_details.position': {
             'Meta': {'object_name': 'Position'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+        },
+        u'job_details.status': {
+            'Meta': {'object_name': 'Status'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'job': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['job_details.JobDetails']", 'symmetrical': 'False'}),
+            'seeker': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['account.JobSeekerProfile']", 'symmetrical': 'False'}),
+            'status': ('django.db.models.fields.CharField', [], {'max_length': '2'})
         },
         u'job_details.technology': {
             'Meta': {'object_name': 'Technology'},

@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     # Core apps
     'account',
     'job_details',
-    'resumes',
 
     # Database migration tool
     'south',

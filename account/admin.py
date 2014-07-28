@@ -9,6 +9,7 @@ Model reflection in django admin panel...
 
 # Register your models here.
 from django.contrib import admin
-from account.models import UserProfile
+from account.models import JobSeekerProfile, RecruiterProfile
 
-admin.site.register(UserProfile)
+admin.site.register(JobSeekerProfile)
+admin.site.register(RecruiterProfile)
