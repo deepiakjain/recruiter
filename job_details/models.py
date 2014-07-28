@@ -18,6 +18,9 @@ class Position(models.Model):
     """
     name = models.CharField(max_length=30)
 
+    def __unicode__(self):
+        return "%s" % self.name
+
 
 class Technology(models.Model):
     """
@@ -25,19 +28,22 @@ class Technology(models.Model):
     """
     name = models.CharField(max_length=30)
 
+    def __unicode__(self):
+        return "%s" % self.name
+
 
 class JobDetails(models.Model):
-    user = models.forignKey(User)
-    position = models.forignKey(Position)
-    technology = models.forignKey(Position)
+    user = models.ForeignKey(User)
+    position = models.ForeignKey(Position, related_name="positions")
+    technology = models.ForeignKey(Technology, related_name="technologies")
     experience_required = models.CharField(max_length=10)
     company_name = models.CharField(max_length=70)   # admin making entry then required if he / she
-    website = models.TextField(validators=[URLValidator()])  # admin making entry then required if he / she
+    website = models.CharField(max_length=90, validators=[URLValidator()])  # admin making entry then required if he / she
     company_name = models.CharField(max_length=70)   # admin making entry then required if he / she
     description = models.TextField()
-    others = models.CharField(max_length=70)
+    others = models.CharField(max_length=70, null=True, blank=True)
     create_date = models.DateTimeField('Job creation date')
-    close_date = models.DateTimeField('Job close date')
+    close_date = models.DateTimeField('Job close date', null=True, blank=True)
     job_code = models.CharField(max_length=70)  # Mostly we do search based on this unique code will create internally.
 
     def __unicode__(self):

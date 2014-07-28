@@ -15,7 +15,7 @@ from django.core.validators import URLValidator
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     company_name = models.CharField(max_length=70)
-    website = models.TextField(validators=[URLValidator()])
+    website = models.CharField(max_length=90, validators=[URLValidator()])
     mobile_no = models.PositiveIntegerField(max_length=11)  # Put form validation.
     create_date = models.DateTimeField('Creation Date')
 

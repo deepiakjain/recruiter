@@ -24,8 +24,8 @@ class JobDetails(models.Model):
     first_name = models.CharField(max_length=70)
     last_name = models.CharField(max_length=70)
     father_name = models.CharField(max_length=70)
-    qualification = models.forignKey(Qualification)
-    resume = models.fileField()
+    qualification = models.ForeignKey(Qualification)
+    resume = models.FileField(upload_to='user/resume')
     apply_date = models.DateTimeField('Apply date')
     job_code = models.CharField(max_length=70)  # user select pass after search.
     experience = models.PositiveIntegerField()
