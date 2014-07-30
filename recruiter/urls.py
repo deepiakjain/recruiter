@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
 # flat pages info urls
 urlpatterns += patterns('django.contrib.flatpages.views',
+    url(r'^$', 'flatpage', {'url': '/home/'}, name='home'),
     url(r'^about-us/$', 'flatpage', {'url': '/about-us/'}, name='about'),
     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='license'),
 )

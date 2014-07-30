@@ -1,12 +1,21 @@
 <html>
     <head>
-        <title> </title>
+        {% block title%}{% endblock %}
         {% block css %}
         {% endblock %}
     </head>
-    <body>
-        {% block header_content%}
-        {% endblock %}
+    <body style="padding:0; margin:0">
+        <div id="container" style="width: 70%; border: 1px solid red; border-radius: 5px; padding: 10px; margin:50px;">
+
+            <!-- Header -->
+            {% include  'navigation/header.html' %}
+
+            {% block content%}
+            {% endblock %}
+
+            <!-- Footer-->
+            {% include  'navigation/footer.html' %}
+        </div>
     </body>
     {% block js %}
     {% endblock %}

@@ -1,0 +1,15 @@
+{%load i18n %}
+
+<div id="footer" style="width: 100%; background-color: lavender; border-radius: 5px;">
+    <div style="height: 40px; position: relative; top: 10px; padding-left: 10px;">
+        <div style="float:left; width:70%">
+            <span> <a href="{% url 'home' %}">{% trans "Home" %}</a> </span> |
+            <span><a href="#">{% trans "About Us" %}</a></span> | <span><a href="#">{% trans "Contact Us" %}</a></span>
+        </div>
+
+        <div style="width:30%; float:right;">
+            <span id="Facebook" style="width:45%"> {% trans 'facebook page' %} </span> |
+            <span id="twitter" style="width:45%"> {% trans 'twitter page' %}</span>
+        </div>
+    </div>
+</div>
