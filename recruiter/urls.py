@@ -4,12 +4,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'recruiter.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
 
+    # account logout request
+    url(r'^accounts/login/$', 'django.contrib.auth.views.logout', {'login_flag': True}),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
+
 )
 
 # flat pages info urls

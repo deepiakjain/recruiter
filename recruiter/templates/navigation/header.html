@@ -12,7 +12,11 @@
                 <a href="{% url 'auth_logout' %}"> {% trans "Logout" %} </a>
            {%endif%}
         </span>|
-        <span> <a href="#"> {% trans "Upload Resume" %} </a> </span>
+        {%if login_flag %}
+            <span> <a href="#"> {% trans "Upload Resume" %} </a> </span>
+        {% else %}
+            <span> <a href="#"> {% trans "Sign Up" %} </a> </span>
+        {% endif %}
     </div>
 </div>
 
