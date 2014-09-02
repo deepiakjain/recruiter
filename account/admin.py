@@ -9,7 +9,8 @@ Model reflection in django admin panel...
 
 # Register your models here.
 from django.contrib import admin
-from account.models import JobSeekerProfile, RecruiterProfile
+from account.models import JobSeekerProfile, RecruiterProfile, Qualification
 
+admin.site.register(Qualification)
 admin.site.register(JobSeekerProfile)
 admin.site.register(RecruiterProfile)

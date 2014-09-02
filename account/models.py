@@ -15,7 +15,10 @@ from django.core.validators import URLValidator
 class Qualification(models.Model):
     """
     """
-    name = models.CharField(max_length=70)
+    name = models.CharField(max_length=70, unique=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class BaseProfile(models.Model):
@@ -27,13 +30,16 @@ class BaseProfile(models.Model):
         abstract = True
 
     def __unicode__(self):
-        return "User %s from %s" %(self.user.first_name, self.company_name)
+        return "User %s from %s" %(self.user.first_name)
 
 
 class JobSeekerProfile(BaseProfile):
     resume = models.FileField(upload_to='user/resume')
-    profile_header = models.CharField(max_length=130)
+    profile_header = models.CharField(max_length=130, help_text="Shreeyansh Jain Python Developer")
     qualification = models.ForeignKey(Qualification)
+
+    def __unicode__(self):
+        return "User %s from %s" %(self.user.first_name, self.profile_header)
 
 
 # Recruiter Profile is always created by admin user on the request basis, show that
@@ -41,3 +47,6 @@ class JobSeekerProfile(BaseProfile):
 class RecruiterProfile(BaseProfile):
     company_name = models.CharField(max_length=70)
     website = models.CharField(max_length=90, validators=[URLValidator()])
+
+    def __unicode__(self):
+        return "User %s from %s" %(self.user.first_name, self.company_name)

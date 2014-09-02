@@ -50,7 +50,7 @@ class JobDetails(models.Model):
     job_code = models.CharField(max_length=70)  # Mostly we do search based on this unique code will create internally.
 
     def __unicode__(self):
-        return "User %s from %s" %(self.user.first_name, self.company_name)
+        return "User %s from %s" %(self.user.first_name, self.job_code)
 
 
 class Status(models.Model):
