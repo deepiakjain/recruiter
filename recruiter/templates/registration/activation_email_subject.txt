@@ -1,0 +1,3 @@
+{% load i18n %}
+
+{{ site.name }} {% trans "Account Request" %}

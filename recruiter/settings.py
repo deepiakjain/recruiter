@@ -110,8 +110,19 @@ SITE_ID = 1
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, "templates")
+    os.path.join(PROJECT_PATH, "templates"),
 )
 
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+#EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+
+# email settings
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mail.tradingowl@gmail.com'
+EMAIL_HOST_PASSWORD = 'shree'
+DEFAULT_FROM_EMAIL = 'mail.tradingowl@gmail.com'
