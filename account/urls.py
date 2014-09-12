@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^', include('registration.backends.default.urls')),
 
+    #profile
+    url(r'^profile/$', 'account.views.profile_edit', name='profile'),
 )

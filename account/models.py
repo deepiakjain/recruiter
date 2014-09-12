@@ -22,7 +22,7 @@ class Qualification(models.Model):
 
 
 class BaseProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, editable=False)
     mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
     create_date = models.DateTimeField('Creation Date', auto_now_add=True)
 

@@ -1,0 +1,41 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %} Profile Edit {% endblock %}
+
+{% block content%}
+    <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
+        <form action='.' method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.errors}}
+            <div>
+                <div style="padding:5px;">
+                    <label id="{{form.profile_header.id_for_label}}">{{form.profile_header.label}}:</label>
+                    {{form.profile_header}}
+                    <div style="padding:5px;">{{form.profile_header.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.mobile_no.id_for_label}}">{{form.mobile_no.label}}:</label>
+                    {{form.mobile_no}}
+                    <div style="padding:5px;">{{form.mobile_no.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.resume.id_for_label}}">{{form.resume.label}}:</label>
+                    {{form.resume}}
+                    <div style="padding:5px;">{{form.resume.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.qualification.id_for_label}}">{{form.qualification.label}}:</label>
+                    {{form.qualification}}
+                    <div style="padding:5px;">{{form.qualification.errors.as_text}}</div>
+                </div>
+            </div>
+            <div style="width:100%;">
+                <span style="float:right">
+                    <input type='submit' value="Update" />
+                    <input type='button' value="cancel" onclick="window.location.href='{% url 'home' %}';"/>
+                </span>
+            </div>
+        </form>
+    </div>
+{% endblock %}
