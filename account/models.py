@@ -23,8 +23,8 @@ class Qualification(models.Model):
 
 class BaseProfile(models.Model):
     user = models.OneToOneField(User)
-    mobile_no = models.PositiveIntegerField(max_length=11)  # Put form validation.
-    create_date = models.DateTimeField('Creation Date')
+    mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
+    create_date = models.DateTimeField('Creation Date', auto_now_add=True)
 
     class Meta:
         abstract = True
@@ -34,9 +34,10 @@ class BaseProfile(models.Model):
 
 
 class JobSeekerProfile(BaseProfile):
-    resume = models.FileField(upload_to='user/resume')
-    profile_header = models.CharField(max_length=130, help_text="Shreeyansh Jain Python Developer")
-    qualification = models.ForeignKey(Qualification)
+    resume = models.FileField(upload_to='user/resume', null=True)
+    profile_header = models.CharField(max_length=130,
+                                      help_text="Shreeyansh Jain Python Developer", null=True)
+    qualification = models.ForeignKey(Qualification, null=True)
 
     def __unicode__(self):
         return "User %s from %s" %(self.user.first_name, self.profile_header)
@@ -45,8 +46,8 @@ class JobSeekerProfile(BaseProfile):
 # Recruiter Profile is always created by admin user on the request basis, show that
 # application admin can manage him / her info
 class RecruiterProfile(BaseProfile):
-    company_name = models.CharField(max_length=70)
-    website = models.CharField(max_length=90, validators=[URLValidator()])
+    company_name = models.CharField(max_length=70, null=True)
+    website = models.CharField(max_length=90, validators=[URLValidator()], null=True)
 
     def __unicode__(self):
         return "User %s from %s" %(self.user.first_name, self.company_name)

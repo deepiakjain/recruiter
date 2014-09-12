@@ -117,12 +117,13 @@ TEMPLATE_DIRS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 #EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # email settings
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mail.tradingowl@gmail.com'
-EMAIL_HOST_PASSWORD = 'shree'
+EMAIL_HOST_PASSWORD = 'Shreeya1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'mail.tradingowl@gmail.com'

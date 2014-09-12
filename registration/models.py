@@ -24,6 +24,10 @@ except ImportError:
 
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
+# Constants for user role.
+JOB_SEEKER = 1
+JOB_RECRUITER = 2
+
 
 class RegistrationManager(models.Manager):
     """
@@ -84,6 +88,8 @@ class RegistrationManager(models.Manager):
         new_user = User.objects.create_user(username, email, password)
         new_user.is_active = False
         new_user.save()
+
+        # create job seeker profile based on user_role
 
         registration_profile = self.create_profile(new_user)
 

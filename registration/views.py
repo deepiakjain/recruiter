@@ -32,6 +32,7 @@ class _RequestPassingFormView(FormView):
         form = self.get_form(form_class)
         if form.is_valid():
             # Pass request to form_valid.
+            import ipdb; ipdb.set_trace()
             return self.form_valid(request, form)
         else:
             return self.form_invalid(form)

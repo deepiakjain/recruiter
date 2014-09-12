@@ -12,6 +12,7 @@ you're using a custom model.
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from registration.models import JOB_SEEKER, JOB_RECRUITER
 
 
 class RegistrationForm(forms.Form):
@@ -38,7 +39,9 @@ class RegistrationForm(forms.Form):
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password (again)"))
-    
+    user_role = forms.CharField(widget=forms.HiddenInput(), initial=JOB_SEEKER,
+                                label=_("User Role"))
+
     def clean_username(self):
         """
         Validate that the username is alphanumeric and is not already
@@ -50,6 +53,15 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError(_("A user with that username already exists."))
         else:
             return self.cleaned_data['username']
+
+    def clean_user_role(self):
+        """
+        verify user role value
+        """
+        if int(self.cleaned_data['user_role']) not in [JOB_SEEKER, JOB_RECRUITER]:
+            raise forms.ValidationError(_("A user role doesn't exists."))
+        return self.cleaned_data['user_role']
+
 
     def clean(self):
         """
