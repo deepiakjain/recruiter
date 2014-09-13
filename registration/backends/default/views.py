@@ -74,15 +74,14 @@ class RegistrationView(BaseRegistrationView):
         class of this backend as the sender.
 
         """
-        username, email, password, role = cleaned_data['username'], cleaned_data['email'],\
+        email, password, role = cleaned_data['email'],\
                                           cleaned_data['password1'], cleaned_data['user_role']
 
         if Site._meta.installed:
             site = Site.objects.get_current()
         else:
             site = RequestSite(request)
-        new_user = RegistrationProfile.objects.create_inactive_user(username, email,
-                                                                    password, site)
+        new_user = RegistrationProfile.objects.create_inactive_user(email, password, site)
 
         # create job seeker or recruiter profile
         if int(cleaned_data['user_role']) == JOB_SEEKER:

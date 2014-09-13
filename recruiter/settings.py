@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'job_details',
 
     # Database migration tool
-    'south',
+    #'south',
 
     'registration',
 )

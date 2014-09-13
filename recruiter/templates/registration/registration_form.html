@@ -9,11 +9,11 @@
             {% csrf_token %}
             <div style="padding:5px;">{{form.user_role.errors.as_text}}</div>
             <div>
-                <div style="padding:5px;">
-                    <label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>
-                    {{form.username}}
-                    <div style="padding:5px;">{{form.username.errors.as_text}}</div>
-                </div>
+                <!--<div style="padding:5px;">-->
+                    <!--<label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>-->
+                    <!--{{form.username}}-->
+                    <!--<div style="padding:5px;">{{form.username.errors.as_text}}</div>-->
+                <!--</div>-->
                 <div style="padding:5px;">
                     <label id="{{form.email.id_for_label}}">{{form.email.label}}:</label>
                     {{form.email}}

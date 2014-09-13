@@ -21,6 +21,25 @@ class Qualification(models.Model):
         return self.name
 
 
+class Address(models.Model):
+    street = models.CharField(max_length=70)
+    city = models.CharField(max_length=30)
+    country = models.CharField(max_length=10)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.city, self.country)
+
+
+class CompanyProfile(models.Model):
+    name = models.CharField(max_length=70, null=True)
+    website = models.CharField(max_length=90, validators=[URLValidator()], null=True)
+    logo = models.ImageField(upload_to='logo/companies', null=True)
+    address = models.OneToOneField(Address)
+
+    def __unicode__(self):
+        return self.name
+
+
 class BaseProfile(models.Model):
     user = models.OneToOneField(User, editable=False)
     mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
@@ -46,8 +65,9 @@ class JobSeekerProfile(BaseProfile):
 # Recruiter Profile is always created by admin user on the request basis, show that
 # application admin can manage him / her info
 class RecruiterProfile(BaseProfile):
-    company_name = models.CharField(max_length=70, null=True)
-    website = models.CharField(max_length=90, validators=[URLValidator()], null=True)
+    company_email = models.EmailField(null=True)
+    company = models.ForeignKey(CompanyProfile, null=True)
+
 
     def __unicode__(self):
-        return "User %s from %s" %(self.user.first_name, self.company_name)
+        return "User %s from %s" % (self.user.first_name, self.company_name)
