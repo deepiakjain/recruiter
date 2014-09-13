@@ -1,0 +1,41 @@
+{% extends "accounts/profile_edit_wizard/base.html" %}
+{% load i18n %}
+
+
+{% block registration_title %}
+    <h1 class="heading32">
+        {% trans "Registration" %}: <span class="txt-red">{% trans "Basic information" %}</span>
+    </h1>
+{% endblock %}
+
+{% block form_elements %}
+    <div id="config_details" style="">
+        <div style="padding:5px;">
+            <label id="{{form.first_name.id_for_label}}">{{form.first_name.label}}:</label>
+            {{form.first_name}}
+            <div style="padding:5px;">{{form.first_name.errors.as_text}}</div>
+        </div>
+        <div style="padding:5px;">
+            <label id="{{form.last_name.id_for_label}}">{{form.last_name.label}}:</label>
+            {{form.last_name}}
+            <div style="padding:5px;">{{form.last_name.errors.as_text}}</div>
+        </div>
+        <div style="padding:5px;">
+            <label id="{{form.mobile_no.id_for_label}}">{{form.mobile_no.label}}:</label>
+            {{form.mobile_no}}
+            <div style="padding:5px;">{{form.mobile_no.errors.as_text}}</div>
+        </div>
+        <div style="padding:5px;">
+            <label id="{{form.profile_pic.id_for_label}}">{{form.profile_pic.label}}:</label>
+            {{form.profile_pic}}
+            <div style="padding:5px;">{{form.profile_pic.errors.as_text}}</div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block next-button %}
+  {% trans 'Education <strong class="extra-bold">Background</strong>' %}<i class="right-arrowred"></i>
+{% endblock %}
+

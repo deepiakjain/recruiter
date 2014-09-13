@@ -69,8 +69,10 @@ class JobSeeker(BaseProfile):
     address = models.OneToOneField(Address, null=True)
 
     def __unicode__(self):
-        return "User %s from %s" %(self.user.first_name)
+        return "User %s" %(self.user.first_name)
 
+    def is_empty(self):
+        return self.address is None
 
 class SeekerCompanyInfo(models.Model):
     company_name = models.CharField(max_length=70, null=True)
@@ -93,11 +95,10 @@ class JobSeekerProfile(models.Model):
     expected_ctc = models.CharField(max_length=30, help_text="Expected salary in INR", null=True)
     current_loc = models.CharField(max_length=30, verbose_name="current location", null=True)
     relocate = models.CharField(max_length=1, choices=YES_NO_CHOICES, verbose_name="Ready to re-locate in India")
-    free_time = models.CharField(max_length=12, verbose_name="Good time to contact you")
+    free_time = models.DateTimeField(verbose_name="Good time to contact you")
 
     def __unicode__(self):
-        return "User %s from %s" %(self.seeker.user.first_name)
-
+        return "User %s from %s" %(self.seeker.user.first_name, self.current_company.company_name)
 
 
 # Recruiter Profile is always created by admin user on the request basis, show that
@@ -105,7 +106,6 @@ class JobSeekerProfile(models.Model):
 class RecruiterProfile(BaseProfile):
     company_email = models.EmailField(max_length=90, null=True)
     company = models.ForeignKey(CompanyProfile, null=True)
-
 
     def __unicode__(self):
         return "User %s from %s" % (self.user.first_name, self.company_name)

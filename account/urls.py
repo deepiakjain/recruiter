@@ -10,3 +10,8 @@ urlpatterns = patterns('',
     #profile
     url(r'^profile/$', 'account.views.profile_edit', name='profile'),
 )
+
+urlpatterns += patterns('',
+            url(r'^profile/edit/$', 'account.views.profile_edit_wizard', name='profile_edit'),
+            url(r'^profile/complete/$', 'account.views.profile_complete', name='profile_complete'),
+    )

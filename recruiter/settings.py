@@ -137,3 +137,7 @@ EMAIL_HOST_PASSWORD = 'Shreeya1'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'mail.tradingowl@gmail.com'
+
+
+# temprary folder to store user data.
+TEMP_FOLDER = join(MEDIA_ROOT, 'temp')
