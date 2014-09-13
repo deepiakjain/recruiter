@@ -8,7 +8,7 @@ from registration.views import ActivationView as BaseActivationView
 from registration.views import RegistrationView as BaseRegistrationView
 
 # project import
-from account.models import JobSeekerProfile, RecruiterProfile
+from account.models import JobSeeker, RecruiterProfile
 
 
 class RegistrationView(BaseRegistrationView):
@@ -86,7 +86,7 @@ class RegistrationView(BaseRegistrationView):
         # create job seeker or recruiter profile
         if int(cleaned_data['user_role']) == JOB_SEEKER:
             # create job seeker for new user.
-            profile = JobSeekerProfile()
+            profile = JobSeeker()
         else:
             profile = RecruiterProfile()
 

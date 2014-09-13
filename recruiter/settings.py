@@ -10,7 +10,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from os.path import abspath, normpath, join, dirname
 import os
+
 gettext = lambda s: s
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -45,6 +47,7 @@ INSTALLED_APPS = (
     # Core apps
     'account',
     'job_details',
+    'files',
 
     # Database migration tool
     #'south',
@@ -113,6 +116,13 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, "templates"),
 )
 
+LOCAL_PATH = normpath(join(dirname(__file__), '..', '..'))
+
+MEDIA_ROOT = join(LOCAL_PATH, 'users_files')
+PROTECTED_FILES_ROOT = join(LOCAL_PATH, 'users_files_protected')
+PROTECTED_FILES_URL = '/users_files_protected/'
+MEDIA_URL = '/users_files/'
+USER_FILES_PATH = 'users'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 

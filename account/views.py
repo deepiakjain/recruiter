@@ -31,9 +31,9 @@ def get_user_profile_form(user, post_data, files):
     """
     Return user form
     """
-
-    if getattr(user, 'jobseekerprofile', None):
-        user_proile = getattr(user, 'jobseekerprofile')
+    import ipdb; ipdb.set_trace()
+    if getattr(user, 'jobseeker', None):
+        user_proile = getattr(user, 'jobseeker')
         form = JobSeekerProfileForm(post_data, files, instance=user_proile)
     else:
         user_proile = getattr(user, 'recruiterprofile')
