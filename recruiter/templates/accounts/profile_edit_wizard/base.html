@@ -1,0 +1,67 @@
+{% load i18n static %}
+
+{% block header_content %}
+	{% include 'accounts/profile_edit_wizard/breadcrumbs.html' %}
+{% endblock %}
+
+<div class="clear"></div>
+
+<section id="main-content" class="main-content-hldr">
+    <div class="container">
+	    {% block container %}
+            <div class="title row">
+                {% block registration_title %}
+                {% endblock %}
+            </div>
+		
+            <section class="block65 pull-left rt-mgn25">
+                {% block form_part %}
+                    <form action="{% url 'profile_edit' %}" method="post" id="edit_after_registration_form" enctype="multipart/form-data">
+                        <div class="wht-box">
+                            <div class="fxowl-content top-btm20">
+                            {% block registration_icon %}
+                            {% endblock %}
+                        </div>
+                        {% csrf_token %}
+                        {{ wizard.management_form }}
+                        {% block form_elements %}
+                            {% if wizard.form.forms %}
+                                {% for form in wizard.form.forms %}
+                                    {{ form }}
+                                {% endfor %}
+                            {% else %}
+                                {{ wizard.form }}
+                            {% endif %}
+                        {% endblock %}
+
+                        <div id="id-main-btns" class="bottom-btns">
+
+                            {% if wizard.steps.prev %}
+                                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}" class="arrow-btn">
+                                {% block prev-button %} {% endblock %}
+                                </button>
+                            {% endif %}
+
+                            <button id="submit_button" type="submit" class="arrow-btn txt-red pull-right ">
+                                {% block next-button %}{% endblock %}
+                            </button>
+                        </div>
+
+                        </div>
+
+                        {% block mid-content %}
+                        {% endblock %}
+                    </form>
+                {% endblock %}
+            </section>
+		    <div class="enlarge-image-cont" style="display: none;">
+		        <div class="popup-container">
+		            <a href="#" class="fxguru pop-close">&nbsp;</a>
+		            <img class="large-image">
+		        </div>
+		        <div class="popup-bg"></div>
+		    </div>
+	    {% endblock %}
+    </div>
+</section>
+

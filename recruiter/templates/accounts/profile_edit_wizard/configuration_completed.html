@@ -1,0 +1,28 @@
+{% extends "accounts/profile_edit_wizard/base.html" %}
+{% load i18n thumbnail %}
+
+{% block registration_title %}
+    <h1 class="heading32">
+        {% trans 'Registration' %}:<span class="txt-red">{% trans 'Account configuration' %}</span>
+    </h1>
+{% endblock %}
+
+
+<section class="block65 pull-left rt-mgn25">
+    {% block form_part %}
+        <div class="wht-box">
+            <div class="bottom-btns">
+                 <a href="{% url 'profile' %}" class="arrow-btn txt-red pull-right ">
+                 {% trans 'Go to <strong class="extra-bold">your account</strong>' %}
+                    <i class="fxguru right-arrowred"></i>
+                 </a>
+             </div>
+        </div>
+    {% endblock %}
+</section>
+
+{%block js %}
+    <script>
+        window.history.forward();
+    </script>
+{%endblock%}
