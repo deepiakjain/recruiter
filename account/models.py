@@ -53,7 +53,7 @@ class CompanyProfile(models.Model):
 
 
 class BaseProfile(models.Model):
-    user = models.OneToOneField(User, editable=False)
+    user = models.OneToOneField(User, editable=True)
     mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
     create_date = models.DateTimeField('Creation Date', auto_now_add=True)
 
@@ -65,14 +65,15 @@ class BaseProfile(models.Model):
 
 
 class JobSeeker(BaseProfile):
-    profile_pic = models.ImageField(upload_to='user/profile', null=True)
-    address = models.OneToOneField(Address, null=True)
+    profile_pic = models.ImageField(upload_to='user/profile', null=True, blank=True)
+    address = models.OneToOneField(Address, null=True, blank=True)
 
-    def __unicode__(self):
-        return "User %s" %(self.user.first_name)
+    # def __unicode__(self):
+    #     return "User %s" %(self.user.first_name)
 
     def is_empty(self):
         return self.address is None
+
 
 class SeekerCompanyInfo(models.Model):
     company_name = models.CharField(max_length=70, null=True)

@@ -86,7 +86,28 @@ class ProfileEditWizard(SessionWizardView):
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
+
+        if step not in ['seeker_advance_profile', 'seeker_expectation', 'seeker_company']:
+            user = self.request.user
+            kwargs['user'] = user
+
         return kwargs
+
+    def get_form_initial(self, step):
+        initial = self.initial_dict.get(step, {})
+        if step == 'seeker_profile':
+            initial.update({'first_name': self.request.user.first_name,
+                            'last_name': self.request.user.last_name})
+        else:
+            initial.update({'seeker': self.request.user.jobseeker})
+
+        return initial
+
+    def get_form_instance(self, step):
+        instance = self.instance_dict.get(step, None)
+        if step == 'seeker_profile':
+            instance = self.request.user.jobseeker
+        return instance
 
     def get_template_names(self):
         name = 'accounts/profile_edit_wizard/%s.html' % self.steps.current
@@ -130,10 +151,9 @@ def get_user_profile_form(user, post_data, files):
     """
     Return user form
     """
-    import ipdb; ipdb.set_trace()
+
     if getattr(user, 'jobseeker', None):
         user_proile = getattr(user, 'jobseeker')
-        form = JobSeekerProfileForm(post_data, files, instance=user_proile)
     else:
         user_proile = getattr(user, 'recruiterprofile')
         form = RecruiterProfileForm(post_data, files, instance=user_proile)

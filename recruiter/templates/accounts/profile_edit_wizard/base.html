@@ -1,5 +1,7 @@
+{% extends "base.html" %}
 {% load i18n static %}
 
+{% block content %}
 {% block header_content %}
 	{% include 'accounts/profile_edit_wizard/breadcrumbs.html' %}
 {% endblock %}
@@ -18,7 +20,7 @@
                 {% block form_part %}
                     <form action="{% url 'profile_edit' %}" method="post" id="edit_after_registration_form" enctype="multipart/form-data">
                         <div class="wht-box">
-                            <div class="fxowl-content top-btm20">
+                            <div class="content top-btm20">
                             {% block registration_icon %}
                             {% endblock %}
                         </div>
@@ -56,7 +58,7 @@
             </section>
 		    <div class="enlarge-image-cont" style="display: none;">
 		        <div class="popup-container">
-		            <a href="#" class="fxguru pop-close">&nbsp;</a>
+		            <a href="#" class="pop-close">&nbsp;</a>
 		            <img class="large-image">
 		        </div>
 		        <div class="popup-bg"></div>
@@ -65,3 +67,4 @@
     </div>
 </section>
 
+{% endblock %}
