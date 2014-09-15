@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 
 # project constant
-from account.constants import EXPERIENCE_CHOICES, YES_NO_CHOICES
+from account.constants import EXPERIENCE_CHOICES, YES_NO_CHOICES, GENDER_CHOICES
 
 
 class Qualification(models.Model):
@@ -54,6 +54,7 @@ class CompanyProfile(models.Model):
 
 class BaseProfile(models.Model):
     user = models.OneToOneField(User, editable=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, verbose_name="Gender")
     mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
     create_date = models.DateTimeField('Creation Date', auto_now_add=True)
 
@@ -96,7 +97,7 @@ class JobSeekerProfile(models.Model):
     expected_ctc = models.CharField(max_length=30, help_text="Expected salary in INR", null=True)
     current_loc = models.CharField(max_length=30, verbose_name="current location", null=True)
     relocate = models.CharField(max_length=1, choices=YES_NO_CHOICES, verbose_name="Ready to re-locate in India")
-    free_time = models.DateTimeField(verbose_name="Good time to contact you", null=True)
+    free_time = models.TimeField(verbose_name="Good time to contact you", null=True)
 
     def __unicode__(self):
         return "User %s from %s" %(self.seeker.user.first_name, self.seeker)

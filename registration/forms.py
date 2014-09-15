@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from registration.models import JOB_SEEKER, JOB_RECRUITER
+from account.constants import GENDER_CHOICES
 
 
 class RegistrationForm(forms.Form):
@@ -39,6 +40,7 @@ class RegistrationForm(forms.Form):
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password (again)"))
+    gender = forms.ChoiceField(widget=forms.RadioSelect(), choices=GENDER_CHOICES, label=_("How are you ?"))
     user_role = forms.CharField(widget=forms.HiddenInput(), initial=JOB_SEEKER,
                                 label=_("User Role"))
 

@@ -16,6 +16,11 @@
             <div style="padding:5px;">{{form.profile_header.errors.as_text}}</div>
         </div>
         <div style="padding:5px;">
+            <label id="{{form.resume.id_for_label}}">{{form.resume.label}}:</label>
+            {{form.resume}}
+            <div style="padding:5px;">{{form.resume.errors.as_text}}</div>
+        </div>
+        <div style="padding:5px;">
             <label id="{{form.qualification.id_for_label}}">{{form.qualification.label}}:</label>
             {{form.qualification}}
             <div style="padding:5px;">{{form.qualification.errors.as_text}}</div>

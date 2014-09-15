@@ -15,3 +15,6 @@ EXPERIENCE_CHOICES = (('0', 'Fresher'),
 YES_NO_CHOICES = (('Y', 'Yes'),
                     ('N', 'No')
                     )
+
+GENDER_CHOICES = (('F', 'Female'),
+                  ('M', 'Male'))

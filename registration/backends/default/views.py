@@ -91,6 +91,7 @@ class RegistrationView(BaseRegistrationView):
             profile = RecruiterProfile()
 
         profile.user = new_user
+        profile.gender = cleaned_data['gender']
         profile.save()
 
         signals.user_registered.send(sender=self.__class__,

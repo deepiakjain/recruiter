@@ -29,6 +29,11 @@
                     {{form.password2}}
                     <div style="padding:5px;">{{form.password2.errors.as_text}}</div>
                 </div>
+                <div style="padding:5px;">
+                    <label id="{{form.gender.id_for_label}}">{{form.gender.label}}:</label>
+                    {{form.gender}}
+                    <div style="padding:5px;">{{form.gender.errors.as_text}}</div>
+                </div>
                 {{form.user_role}}
             </div>
             <div style="width:100%;">

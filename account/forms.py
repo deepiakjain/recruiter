@@ -50,7 +50,7 @@ class JobSeekerFormStep1(ModelForm):
 class JobSeekerFormStep2(ModelForm):
     class Meta:
         model = JobSeekerProfile
-        fields = ('profile_header', 'qualification', 'technology', 'experience')
+        fields = ('profile_header', 'qualification', 'technology', 'experience', 'resume')
         exclude = ('seeker', )
 
 
