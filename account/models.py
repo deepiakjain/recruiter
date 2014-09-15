@@ -68,8 +68,8 @@ class JobSeeker(BaseProfile):
     profile_pic = models.ImageField(upload_to='user/profile', null=True, blank=True)
     address = models.OneToOneField(Address, null=True, blank=True)
 
-    # def __unicode__(self):
-    #     return "User %s" %(self.user.first_name)
+    def __unicode__(self):
+        return "User %s" %(self.user.first_name)
 
     def is_empty(self):
         return self.address is None
@@ -85,7 +85,7 @@ class SeekerCompanyInfo(models.Model):
 
 
 class JobSeekerProfile(models.Model):
-    seeker = models.OneToOneField(JobSeeker, null=True)
+    seeker = models.OneToOneField(JobSeeker)
     current_company = models.OneToOneField(SeekerCompanyInfo, null=True)
     resume = models.FileField(upload_to='user/resume', null=True)
     profile_header = models.CharField(max_length=130,
@@ -96,10 +96,10 @@ class JobSeekerProfile(models.Model):
     expected_ctc = models.CharField(max_length=30, help_text="Expected salary in INR", null=True)
     current_loc = models.CharField(max_length=30, verbose_name="current location", null=True)
     relocate = models.CharField(max_length=1, choices=YES_NO_CHOICES, verbose_name="Ready to re-locate in India")
-    free_time = models.DateTimeField(verbose_name="Good time to contact you")
+    free_time = models.DateTimeField(verbose_name="Good time to contact you", null=True)
 
     def __unicode__(self):
-        return "User %s from %s" %(self.seeker.user.first_name, self.current_company.company_name)
+        return "User %s from %s" %(self.seeker.user.first_name, self.seeker)
 
 
 # Recruiter Profile is always created by admin user on the request basis, show that

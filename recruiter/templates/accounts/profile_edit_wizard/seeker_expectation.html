@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block form_elements %}
+        {{form.errors}}
     <div id="config_details" style="">
         <div style="padding:5px;">
             <label id="{{form.expected_ctc.id_for_label}}">{{form.expected_ctc.label}}:</label>
@@ -30,6 +31,12 @@
             {{form.free_time}}
             <div style="padding:5px;">{{form.free_time.errors.as_text}}</div>
         </div>
+        <div>
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+        </div>
+
     </div>
 
 {% endblock %}

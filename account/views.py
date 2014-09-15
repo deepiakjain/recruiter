@@ -82,12 +82,16 @@ class ProfileEditWizard(SessionWizardView):
 
         context = super(ProfileEditWizard, self).get_context_data(form=form, **kwargs)
 
+        if self.steps.current == 'seeker_expectation':
+            form.initial = self.get_cleaned_data_for_step(self.get_prev_step())
+            form.initial.update({'seeker': self.request.user.jobseeker})
+
         return context
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
 
-        if step not in ['seeker_advance_profile', 'seeker_expectation', 'seeker_company']:
+        if step not in ['seeker_advance_profile', 'seeker_expectation']:
             user = self.request.user
             kwargs['user'] = user
 
@@ -98,8 +102,6 @@ class ProfileEditWizard(SessionWizardView):
         if step == 'seeker_profile':
             initial.update({'first_name': self.request.user.first_name,
                             'last_name': self.request.user.last_name})
-        else:
-            initial.update({'seeker': self.request.user.jobseeker})
 
         return initial
 
@@ -107,6 +109,7 @@ class ProfileEditWizard(SessionWizardView):
         instance = self.instance_dict.get(step, None)
         if step == 'seeker_profile':
             instance = self.request.user.jobseeker
+
         return instance
 
     def get_template_names(self):
@@ -116,7 +119,7 @@ class ProfileEditWizard(SessionWizardView):
     def done(self, form_list, **kwargs):
         redirect_to = 'profile_edit'
         for form in form_list:
-            if hasattr(form, 'save'):
+            if hasattr(form, 'save') and not isinstance(form, JobSeekerFormStep2):
                 form.save()
 
                 redirect_to = 'profile_complete'

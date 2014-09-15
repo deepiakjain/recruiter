@@ -51,18 +51,43 @@ class JobSeekerFormStep2(ModelForm):
     class Meta:
         model = JobSeekerProfile
         fields = ('profile_header', 'qualification', 'technology', 'experience')
+        exclude = ('seeker', )
 
 
 class JobSeekerFormStep3(ModelForm):
     class Meta:
         model = JobSeekerProfile
-        fields = ('expected_ctc', 'current_loc', 'relocate', 'free_time')
+        fields = ('expected_ctc', 'current_loc', 'relocate', 'free_time',
+                  'profile_header', 'qualification', 'technology', 'experience', 'seeker')
+
+        widgets = {'profile_header': forms.HiddenInput(),
+                   'qualification': forms.HiddenInput(),
+                   'technology': forms.HiddenInput(),
+                   'experience': forms.HiddenInput(),
+                   'seeker': forms.HiddenInput()
+                   }
 
 
 class JobSeekerFormStep4(ModelForm):
     class Meta:
         model = SeekerCompanyInfo
         fields = ('company_name', 'website', 'joining_date', 'notice_period', 'current_ctc', 'job_change')
+
+    def __init__(self, user, **kwargs):
+        """
+        set user in object to get instance
+        """
+        self.user = user
+        super(JobSeekerFormStep4, self).__init__(**kwargs)
+
+    def save(self, commit=True):
+
+        saved = super(JobSeekerFormStep4, self).save()
+
+        seeker = JobSeekerProfile.objects.get(seeker=self.user.jobseeker)
+        seeker.current_company = saved
+
+        seeker.save()
 
 
 class RecruiterProfileForm(ModelForm):
