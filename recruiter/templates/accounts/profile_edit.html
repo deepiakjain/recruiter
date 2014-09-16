@@ -7,29 +7,126 @@
     <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
         <form action='.' method='POST' enctype="multipart/form-data">
             {% csrf_token %}
-            {{form.errors}}
+            {{ form.seeker.management_form }}
+            {{ form.seeker_profile.management_form }}
             <div>
+                <span style="margin-right:35%">
+                    Basic Info: {{form.seeker_profile.0.instance.profile_header}} - {{request.user.get_full_name|title}}
+                </span>
                 <div style="padding:5px;">
-                    <label id="{{form.profile_header.id_for_label}}">{{form.profile_header.label}}:</label>
-                    {{form.profile_header}}
-                    <div style="padding:5px;">{{form.profile_header.errors.as_text}}</div>
+                    <label id="{{form.user.first_name.id_for_label}}">{{form.user.first_name.label}}:</label>
+                    {{form.user.first_name}}
+                    <div style="padding:5px;">{{form.user.first_name.errors.as_text}}</div>
                 </div>
                 <div style="padding:5px;">
-                    <label id="{{form.mobile_no.id_for_label}}">{{form.mobile_no.label}}:</label>
-                    {{form.mobile_no}}
-                    <div style="padding:5px;">{{form.mobile_no.errors.as_text}}</div>
+                    <label id="{{form.user.last_name.id_for_label}}">{{form.user.last_name.label}}:</label>
+                    {{form.user.last_name}}
+                    <div style="padding:5px;">{{form.user.last_name.errors.as_text}}</div>
                 </div>
                 <div style="padding:5px;">
-                    <label id="{{form.resume.id_for_label}}">{{form.resume.label}}:</label>
-                    {{form.resume}}
-                    <div style="padding:5px;">{{form.resume.errors.as_text}}</div>
+                    <label id="{{form.seeker.0.gender.id_for_label}}">{{form.seeker.0.gender.label}}:</label>
+                    {% ifequal form.seeker.0.instance.gender 'M' %} Male {% else %} Female {% endifequal %}
                 </div>
                 <div style="padding:5px;">
-                    <label id="{{form.qualification.id_for_label}}">{{form.qualification.label}}:</label>
-                    {{form.qualification}}
-                    <div style="padding:5px;">{{form.qualification.errors.as_text}}</div>
+                    <label id="{{form.seeker.0.mobile_no.id_for_label}}">{{form.seeker.0.mobile_no.label}}:</label>
+                    {{form.seeker.0.mobile_no}}
+                    <div style="padding:5px;">{{form.seeker.0.mobile_no.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.resume.id_for_label}}">{{form.seeker_profile.0.resume.label}}:</label>
+                    {{form.seeker_profile.0.resume}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.resume.errors.as_text}}</div>
+                </div>
+
+                <span style="margin-right:80%">
+                    Experience:
+                </span>
+
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.profile_header.id_for_label}}">
+                        {{form.seeker_profile.0.profile_header.label}}:</label>
+                    {{form.seeker_profile.0.profile_header}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.profile_header.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.expected_ctc.id_for_label}}">
+                        {{form.seeker_profile.0.expected_ctc.label}}:</label>
+                    {{form.seeker_profile.0.expected_ctc}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.expected_ctc.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.current_loc.id_for_label}}">
+                        {{form.seeker_profile.0.current_loc.label}}:</label>
+                    {{form.seeker_profile.0.current_loc}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.current_loc.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.relocate.id_for_label}}">
+                        {{form.seeker_profile.0.relocate.label}}:</label>
+                    {{form.seeker_profile.0.relocate}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.relocate.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.free_time.id_for_label}}">
+                        {{form.seeker_profile.0.free_time.label}}:</label>
+                    {{form.seeker_profile.0.free_time}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.free_time.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.technology.id_for_label}}">
+                        {{form.seeker_profile.0.technology.label}}:</label>
+                    {{form.seeker_profile.0.technology}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.technology.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_profile.0.experience.id_for_label}}">
+                        {{form.seeker_profile.0.experience.label}}:</label>
+                    {{form.seeker_profile.0.experience}}
+                    <div style="padding:5px;">{{form.seeker_profile.0.experience.errors.as_text}}</div>
+                </div>
+
+                <span style="margin-right:70%">
+                    Current Company :
+                </span>
+
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.company_name.id_for_label}}">
+                        {{form.seeker_company.company_name.label}}:</label>
+                    {{form.seeker_company.company_name}}
+                    <div style="padding:5px;">{{form.seeker_company.company_name.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.website.id_for_label}}">
+                        {{form.seeker_company.website.label}}:</label>
+                    {{form.seeker_company.website}}
+                    <div style="padding:5px;">{{form.seeker_company.website.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.joining_date.id_for_label}}">
+                        {{form.seeker_company.joining_date.label}}:</label>
+                    {{form.seeker_company.joining_date}}
+                    <div style="padding:5px;">{{form.seeker_company.joining_date.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.notice_period.id_for_label}}">
+                        {{form.seeker_company.notice_period.label}}:</label>
+                    {{form.seeker_company.notice_period}}
+                    <div style="padding:5px;">{{form.seeker_company.notice_period.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.current_ctc.id_for_label}}">
+                        {{form.seeker_company.current_ctc.label}}:</label>
+                    {{form.seeker_company.current_ctc}}
+                    <div style="padding:5px;">{{form.seeker_company.current_ctc.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.job_change.id_for_label}}">
+                        {{form.seeker_company.job_change.label}}:</label>
+                    {{form.seeker_company.job_change}}
+                    <div style="padding:5px;">{{form.seeker_company.job_change.errors.as_text}}</div>
                 </div>
             </div>
+
             <div style="width:100%;">
                 <span style="float:right">
                     <input type='submit' value="Update" />

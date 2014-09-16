@@ -6,10 +6,14 @@ Recruiter project.
 """
 import re
 from django import forms
+from django.contrib.auth.models import User
 from django.forms import ModelForm
+from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
 from account.models import JobSeekerProfile, RecruiterProfile, JobSeeker, SeekerCompanyInfo
+from utils.form_container import FormContainer
+from account.profile_forms import InlineUserForm, InlineJobSeekerForm, InlineSeekerCompanyForm
 
 
 class JobSeekerFormStep1(ModelForm):
@@ -64,14 +68,14 @@ class JobSeekerFormStep3(ModelForm):
                    'qualification': forms.HiddenInput(),
                    'technology': forms.HiddenInput(),
                    'experience': forms.HiddenInput(),
-                   'seeker': forms.HiddenInput()
+                   'seeker': forms.HiddenInput(),
+                   # 'resume': forms.HiddenInput(),
                    }
 
 
 class JobSeekerFormStep4(ModelForm):
     class Meta:
         model = SeekerCompanyInfo
-        fields = ('company_name', 'website', 'joining_date', 'notice_period', 'current_ctc', 'job_change')
 
     def __init__(self, user, **kwargs):
         """
@@ -89,6 +93,40 @@ class JobSeekerFormStep4(ModelForm):
 
         seeker.save()
 
+
+class SeekerProfileForm(FormContainer):
+
+    user = InlineUserForm
+    seeker = inlineformset_factory(User, JobSeeker, can_delete=False)
+    seeker_profile = inlineformset_factory(JobSeeker, JobSeekerProfile, form=InlineJobSeekerForm,
+                                           max_num=1, extra=1, can_delete=False)
+
+    seeker_company = InlineSeekerCompanyForm
+
+    def __init__(self, user, **kwargs):
+
+        self.user = user
+        super(SeekerProfileForm, self).__init__(**kwargs)
+
+    def get_form_kwargs(self, prefix, **kwargs):
+
+        company = None
+        if getattr(self.user.jobseeker.seeker, 'current_company'):
+            company = getattr(self.user.jobseeker.seeker, 'current_company')
+
+        instances = {
+            'user': self.user,
+            'seeker': self.user,
+            'seeker_profile': self.user.jobseeker,
+            'seeker_company': company,
+        }
+        kwargs['instance'] = instances[prefix]
+
+        return kwargs
+
+    # def is_valid(self):
+    #     import ipdb; ipdb.set_trace()
+    #     flag = self.forms['user'].is_valid()
 
 class RecruiterProfileForm(ModelForm):
     class Meta:

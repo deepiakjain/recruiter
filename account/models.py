@@ -24,15 +24,6 @@ class Qualification(models.Model):
         return self.name
 
 
-class Technology(models.Model):
-    """
-    """
-    name = models.CharField(max_length=70, unique=True)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Address(models.Model):
     street = models.CharField(max_length=70)
     city = models.CharField(max_length=30)
@@ -73,7 +64,7 @@ class JobSeeker(BaseProfile):
         return "User %s" %(self.user.first_name)
 
     def is_empty(self):
-        return self.address is None
+        return self.mobile_no is None
 
 
 class SeekerCompanyInfo(models.Model):
@@ -86,13 +77,13 @@ class SeekerCompanyInfo(models.Model):
 
 
 class JobSeekerProfile(models.Model):
-    seeker = models.OneToOneField(JobSeeker)
-    current_company = models.OneToOneField(SeekerCompanyInfo, null=True)
+    seeker = models.OneToOneField(JobSeeker, related_name='seeker')
+    current_company = models.OneToOneField(SeekerCompanyInfo, related_name='seeker_company', null=True)
     resume = models.FileField(upload_to='user/resume', null=True)
     profile_header = models.CharField(max_length=130,
                                       help_text="Shreeyansh Jain Python Developer", null=True)
     qualification = models.ForeignKey(Qualification, null=True)
-    technology = models.ForeignKey(Technology, null=True)
+    technology = models.CharField(max_length=200, help_text="Comma-separated technologies", null=True)
     experience = models.CharField(max_length=2, choices=EXPERIENCE_CHOICES)
     expected_ctc = models.CharField(max_length=30, help_text="Expected salary in INR", null=True)
     current_loc = models.CharField(max_length=30, verbose_name="current location", null=True)

@@ -14,9 +14,10 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
 from .forms import (JobSeekerFormStep1, JobSeekerFormStep2,
-                    JobSeekerFormStep3, JobSeekerFormStep4, RecruiterProfileForm)
+                    JobSeekerFormStep3, JobSeekerFormStep4, RecruiterProfileForm,
+                    SeekerProfileForm)
 
-from .models import JobSeeker, JobSeekerProfile
+from .models import JobSeeker
 
 
 class ProfileEditWizard(SessionWizardView):
@@ -34,13 +35,17 @@ class ProfileEditWizard(SessionWizardView):
             ('seeker_expectation', JobSeekerFormStep3),
             ('seeker_company', JobSeekerFormStep4),
 
-        )
+            # profile edit
+            ('profile_edit', SeekerProfileForm),
+           )
 
         condition_dict = {
             'seeker_profile': ProfileEditWizard.seeker_condition,
             'seeker_advance_profile': ProfileEditWizard.advance_profile_condition,
             'seeker_expectation': ProfileEditWizard.expectation_condition,
             'seeker_company': ProfileEditWizard.seeker_company_condition,
+
+            'profile_edit': ProfileEditWizard.seeker_profile_edit_condition,
         }
 
         return super(ProfileEditWizard, self).as_view(
@@ -65,6 +70,10 @@ class ProfileEditWizard(SessionWizardView):
     @staticmethod
     def seeker_company_condition(wizard):
         return wizard.user_is_seeker() and wizard.profile_is_empty()
+
+    @staticmethod
+    def seeker_profile_edit_condition(wizard):
+        return wizard.user_is_seeker() and not wizard.profile_is_empty()
 
     def user_is_seeker(self):
         return JobSeeker.objects.filter(user=self.request.user).exists()
@@ -141,9 +150,11 @@ def profile_edit(request):
     """
     based on login user get his profile
     """
-    form = get_user_profile_form(request.user, request.POST or None, request.FILES or None)
+    form = SeekerProfileForm(request.user)
+    # form = get_user_profile_form(request.user, request.POST or None, request.FILES or None)
 
     if request.method == 'POST':
+        import ipdb; ipdb.set_trace()
         if form.is_valid():
             form.save()
 
