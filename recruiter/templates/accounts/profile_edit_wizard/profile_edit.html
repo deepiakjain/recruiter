@@ -1,0 +1,144 @@
+{% extends "accounts/profile_edit_wizard/base.html" %}
+{% load i18n %}
+
+
+{% block registration_title %}
+    <h1 class="heading32">
+        {% trans "Profile" %}: <span class="txt-red">{% trans "Edit" %}</span>
+    </h1>
+{% endblock %}
+
+{% block form_elements %}
+        {{from.errors}}
+            <div>
+                <span style="margin-right:35%">
+                    Basic Info: {{form.seeker_profile.0.instance.profile_header}} - {{request.user.get_full_name|title}}
+                </span>
+                <div style="padding:5px;">
+                    <label id="{{form.user.first_name.id_for_label}}">{{form.user.first_name.label}}:</label>
+                    {{form.user.first_name}}
+                    <div style="padding:5px;">{{form.user.first_name.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.user.last_name.id_for_label}}">{{form.user.last_name.label}}:</label>
+                    {{form.user.last_name}}
+                    <div style="padding:5px;">{{form.user.last_name.errors.as_text}}</div>
+                </div>
+                {{ form.seeker.management_form }}
+                {% for seeker in form.seeker %}
+                    {{seeker.id}}
+                    <div style="padding:5px;">
+                        <label id="{{seeker.gender.id_for_label}}">{{seeker.gender.label}}:</label>
+                        {% ifequal seeker.instance.gender 'M' %} Male {% else %} Female {% endifequal %}
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{seeker.mobile_no.id_for_label}}">{{seeker.mobile_no.label}}:</label>
+                        {{seeker.mobile_no}}
+                        <div style="padding:5px;">{{seeker.mobile_no.errors.as_text}}</div>
+                    </div>
+                {% endfor %}
+
+                {{ form.seeker_profile.management_form }}
+                {% for profile in form.seeker_profile %}
+                    {{ profile.id }}
+                    <div style="padding:5px;">
+                        <label id="{{profile.resume.id_for_label}}">{{profile.resume.label}}:</label>
+                        {{profile.resume}}
+                        <div style="padding:5px;">{{profile.resume.errors.as_text}}</div>
+                    </div>
+
+                    <span style="margin-right:80%">
+                        Experience:
+                    </span>
+
+                    <div style="padding:5px;">
+                        <label id="{{profile.profile_header.id_for_label}}">
+                            {{profile.profile_header.label}}:</label>
+                        {{profile.profile_header}}
+                        <div style="padding:5px;">{{profile.profile_header.errors.as_text}}</div>
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{profile.expected_ctc.id_for_label}}">
+                            {{profile.expected_ctc.label}}:</label>
+                        {{profile.expected_ctc}}
+                        <div style="padding:5px;">{{profile.expected_ctc.errors.as_text}}</div>
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{profile.current_loc.id_for_label}}">
+                            {{profile.current_loc.label}}:</label>
+                        {{profile.current_loc}}
+                        <div style="padding:5px;">{{profile.current_loc.errors.as_text}}</div>
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{profile.relocate.id_for_label}}">
+                            {{profile.relocate.label}}:</label>
+                        {{profile.relocate}}
+                        <div style="padding:5px;">{{profile.relocate.errors.as_text}}</div>
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{profile.free_time.id_for_label}}">
+                            {{profile.free_time.label}}:</label>
+                        {{profile.free_time}}
+                        <div style="padding:5px;">{{profile.free_time.errors.as_text}}</div>
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{profile.technology.id_for_label}}">
+                            {{profile.technology.label}}:</label>
+                        {{profile.technology}}
+                        <div style="padding:5px;">{{profile.technology.errors.as_text}}</div>
+                    </div>
+                    <div style="padding:5px;">
+                        <label id="{{profile.experience.id_for_label}}">
+                            {{profile.experience.label}}:</label>
+                        {{profile.experience}}
+                        <div style="padding:5px;">{{profile.experience.errors.as_text}}</div>
+                    </div>
+                {% endfor %}
+                <span style="margin-right:70%">
+                    Current Company :
+                </span>
+
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.company_name.id_for_label}}">
+                        {{form.seeker_company.company_name.label}}:</label>
+                    {{form.seeker_company.company_name}}
+                    <div style="padding:5px;">{{form.seeker_company.company_name.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.website.id_for_label}}">
+                        {{form.seeker_company.website.label}}:</label>
+                    {{form.seeker_company.website}}
+                    <div style="padding:5px;">{{form.seeker_company.website.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.joining_date.id_for_label}}">
+                        {{form.seeker_company.joining_date.label}}:</label>
+                    {{form.seeker_company.joining_date}}
+                    <div style="padding:5px;">{{form.seeker_company.joining_date.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.notice_period.id_for_label}}">
+                        {{form.seeker_company.notice_period.label}}:</label>
+                    {{form.seeker_company.notice_period}}
+                    <div style="padding:5px;">{{form.seeker_company.notice_period.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.current_ctc.id_for_label}}">
+                        {{form.seeker_company.current_ctc.label}}:</label>
+                    {{form.seeker_company.current_ctc}}
+                    <div style="padding:5px;">{{form.seeker_company.current_ctc.errors.as_text}}</div>
+                </div>
+                <div style="padding:5px;">
+                    <label id="{{form.seeker_company.job_change.id_for_label}}">
+                        {{form.seeker_company.job_change.label}}:</label>
+                    {{form.seeker_company.job_change}}
+                    <div style="padding:5px;">{{form.seeker_company.job_change.errors.as_text}}</div>
+                </div>
+            </div>
+{% endblock %}
+
+
+
+{% block next-button %}
+  {% trans '<strong class="extra-bold">Save</strong>' %}<i class="right-arrowred"></i>
+{% endblock %}
