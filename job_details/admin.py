@@ -9,8 +9,7 @@ Model reflection in django admin panel...
 
 # Register your models here.
 from django.contrib import admin
-from job_details.models import Position, Technology, JobDetails
+from job_details.models import JobDetails
 
-admin.site.register(Position)
-admin.site.register(Technology)
+
 admin.site.register(JobDetails)

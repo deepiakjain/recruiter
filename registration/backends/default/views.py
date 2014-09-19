@@ -3,12 +3,9 @@ from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
 
 from registration import signals
-from registration.models import RegistrationProfile, JOB_SEEKER
+from registration.models import RegistrationProfile
 from registration.views import ActivationView as BaseActivationView
 from registration.views import RegistrationView as BaseRegistrationView
-
-# project import
-from account.models import JobSeeker, RecruiterProfile
 
 
 class RegistrationView(BaseRegistrationView):
@@ -82,17 +79,6 @@ class RegistrationView(BaseRegistrationView):
         else:
             site = RequestSite(request)
         new_user = RegistrationProfile.objects.create_inactive_user(email, password, site)
-
-        # create job seeker or recruiter profile
-        if int(cleaned_data['user_role']) == JOB_SEEKER:
-            # create job seeker for new user.
-            profile = JobSeeker()
-        else:
-            profile = RecruiterProfile()
-
-        profile.user = new_user
-        profile.gender = cleaned_data['gender']
-        profile.save()
 
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,

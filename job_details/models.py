@@ -8,8 +8,7 @@ Model used for job detail filled by user can be admin or Recruiter
 """
 
 from django.db import models
-from django.contrib.auth.models import User
-from account.models import JobSeekerProfile
+from account.models import JobSeeker, Recruiter
 
 # Constants
 STATUS = (
@@ -19,34 +18,22 @@ STATUS = (
 )
 
 
-class Position(models.Model):
-    """
-    Position which are pre populated or maintain by admin only.
-    """
-    name = models.CharField(max_length=30)
-
-    def __unicode__(self):
-        return "%s" % self.name
-
-
-class Technology(models.Model):
-    """
-    technology supports
-    """
-    name = models.CharField(max_length=30)
-
-    def __unicode__(self):
-        return "%s" % self.name
-
-
 class JobDetails(models.Model):
-    user = models.ForeignKey(User)
-    position = models.ForeignKey(Position, related_name="positions")
-    technology = models.ForeignKey(Technology, related_name="technologies")
-    experience_required = models.CharField(max_length=10)
-    description = models.TextField()
-    create_date = models.DateTimeField('Job creation date')
-    close_date = models.DateTimeField('Job close date', null=True, blank=True)
+    recruiter = models.ForeignKey(Recruiter)
+    job_title = models.CharField(max_length=30,blank=True,default=None)
+    designation = models.CharField(max_length=30,blank=False)
+    opening_date = models.DateField()
+    closing_date = models.DateField()
+    number_of_positions = models.CharField(max_length=30,blank=False)
+    job_opening_status = models.CharField(max_length=30,blank=False)
+    country = models.CharField(max_length=30,blank=True,default=None)
+    location_name = models.CharField(max_length=30,blank=True,default=None)
+    min_experience = models.CharField(max_length=30,blank=True,default=None)
+    max_experience = models.CharField(max_length=30,blank=True,default=None)
+    skill_set = models.TextField(blank=True,default=None)
+    roles_and_responsibilities = models.TextField(blank=True,default=None)
+    job_type = models.CharField(max_length=30,blank=False)
+    validity = models.CharField(max_length=30,blank=True,default=None)
     job_code = models.CharField(max_length=70)  # Mostly we do search based on this unique code will create internally.
 
     def __unicode__(self):
@@ -55,5 +42,5 @@ class JobDetails(models.Model):
 
 class Status(models.Model):
     job = models.ManyToManyField(JobDetails)
-    seeker = models.ManyToManyField(JobSeekerProfile)
+    seeker = models.ManyToManyField(JobSeeker)
     status = models.CharField(max_length=2, choices=STATUS)

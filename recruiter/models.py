@@ -6,6 +6,7 @@ Recruiter project.
 """
 
 from django.db.models.signals import class_prepared
+from account.models import JobSeeker, Recruiter
 
 
 def longer_username(sender, *args, **kwargs):
@@ -16,3 +17,14 @@ def longer_username(sender, *args, **kwargs):
         sender._meta.get_field("username").max_length = 75
 
 class_prepared.connect(longer_username)
+
+
+class Profiles:
+    PROFILE_NAMES = (
+        ("seeker", JobSeeker),
+        ("recruiter", Recruiter),
+    )
+
+    @classmethod
+    def profile(cls, profile_code):
+        return dict(cls.PROFILE_NAMES).get(profile_code)

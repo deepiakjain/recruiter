@@ -11,7 +11,7 @@ from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
-from account.models import JobSeekerProfile, RecruiterProfile, JobSeeker, SeekerCompanyInfo
+from account.models import JobSeeker, Recruiter, SeekerExperienceInfo
 from utils.form_container import FormContainer
 from account.profile_forms import InlineUserForm, InlineJobSeekerForm, InlineSeekerCompanyForm
 
@@ -53,29 +53,27 @@ class JobSeekerFormStep1(ModelForm):
 
 class JobSeekerFormStep2(ModelForm):
     class Meta:
-        model = JobSeekerProfile
-        fields = ('profile_header', 'qualification', 'technology', 'experience', 'resume')
-        exclude = ('seeker', )
+        model = JobSeeker
+        # fields = ('profile_header', 'qualification', 'technology', 'experience', 'resume')
 
 
 class JobSeekerFormStep3(ModelForm):
     class Meta:
-        model = JobSeekerProfile
-        fields = ('expected_ctc', 'current_loc', 'relocate', 'free_time',
-                  'profile_header', 'qualification', 'technology', 'experience', 'seeker')
-
-        widgets = {'profile_header': forms.HiddenInput(),
-                   'qualification': forms.HiddenInput(),
-                   'technology': forms.HiddenInput(),
-                   'experience': forms.HiddenInput(),
-                   'seeker': forms.HiddenInput(),
-                   # 'resume': forms.HiddenInput(),
-                   }
+        model = JobSeeker
+        # fields = ('relocate', 'free_time',
+        #           'profile_header', 'qualification', '', 'experience', 'seeker')
+        #
+        # widgets = {'profile_header': forms.HiddenInput(),
+        #            'qualification': forms.HiddenInput(),
+        #            'technology': forms.HiddenInput(),
+        #            'experience': forms.HiddenInput(),
+        #            # 'resume': forms.HiddenInput(),
+        #            }
 
 
 class JobSeekerFormStep4(ModelForm):
     class Meta:
-        model = SeekerCompanyInfo
+        model = SeekerExperienceInfo
 
     def __init__(self, user, **kwargs):
         """
@@ -88,7 +86,7 @@ class JobSeekerFormStep4(ModelForm):
 
         saved = super(JobSeekerFormStep4, self).save()
 
-        seeker = JobSeekerProfile.objects.get(seeker=self.user.jobseeker)
+        seeker = JobSeeker.objects.get(seeker=self.user.jobseeker)
         seeker.current_company = saved
 
         seeker.save()
@@ -98,7 +96,7 @@ class SeekerProfileForm(FormContainer):
 
     user = InlineUserForm
     seeker = inlineformset_factory(User, JobSeeker, can_delete=False)
-    seeker_profile = inlineformset_factory(JobSeeker, JobSeekerProfile, form=InlineJobSeekerForm,
+    seeker_profile = inlineformset_factory(SeekerExperienceInfo, JobSeeker, form=InlineJobSeekerForm,
                                            max_num=1, extra=1, can_delete=False)
 
     seeker_company = InlineSeekerCompanyForm
@@ -130,4 +128,4 @@ class SeekerProfileForm(FormContainer):
 
 class RecruiterProfileForm(ModelForm):
     class Meta:
-        model = RecruiterProfile
+        model = Recruiter

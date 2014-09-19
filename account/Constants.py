@@ -1,16 +1,24 @@
 
-EXPERIENCE_CHOICES = (('0', 'Fresher'),
-                      ('1', '1 year'),
-                      ('2', 'greater then 1, less then 2'),
-                      ('3', '2 year'),
-                      ('4', 'greater then 2, less then 3'),
-                      ('5', '3 year'),
-                      ('6', 'greater then 3, less then 4'),
-                      ('7', '4 Yrs'),
-                      ('8', 'greater then 4, less then 5'),
-                      ('9', '5 Yrs'),
-                      ('10', 'greater then 5 Yrs'),
-                     )
+# Constants for user role.
+JOB_SEEKER = 'seeker'
+RECRUITER = 'recruiter'
+
+EXPERIENCE_CHOICES = (('1', '1'),
+                      ('2', '2'),
+                      ('3', '3'),
+                      ('4', '4'),
+                      ('5', '5'),
+                      ('6', '6'),
+                      ('7', '7'),
+                      ('8', '8'),
+                      ('9', '9'),
+                      ('10', '10'),
+                      ('11', '11'),)
+
+YEAR_EXPERIENCE = tuple([('0', 'Fresher')] + list(EXPERIENCE_CHOICES))
+MONTH_EXPERIENCE = tuple([('0', 'Months')] + list(EXPERIENCE_CHOICES))
+
+CTC_RANGE = tuple([ ('%s' %x, '%s' %y) for x, y in enumerate(xrange(0, 100))])
 
 YES_NO_CHOICES = (('Y', 'Yes'),
                     ('N', 'No')

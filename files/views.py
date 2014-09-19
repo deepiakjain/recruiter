@@ -5,7 +5,7 @@ from files.models import UUIDFile
 from django.contrib.auth.decorators import login_required
 from recruiter import settings
 from django.views.static import serve
-from django.http.response import HttpResponse
+from django.http import HttpResponse
 
 
 def download_file(request, file_path, file_name, protected=False):

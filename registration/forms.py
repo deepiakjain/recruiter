@@ -12,8 +12,7 @@ you're using a custom model.
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from registration.models import JOB_SEEKER, JOB_RECRUITER
-from account.constants import GENDER_CHOICES
+from account.constants import GENDER_CHOICES, JOB_SEEKER, RECRUITER
 
 
 class RegistrationForm(forms.Form):
@@ -60,7 +59,7 @@ class RegistrationForm(forms.Form):
         """
         verify user role value
         """
-        if int(self.cleaned_data['user_role']) not in [JOB_SEEKER, JOB_RECRUITER]:
+        if self.cleaned_data['user_role'] not in [JOB_SEEKER, RECRUITER]:
             raise forms.ValidationError(_("A user role doesn't exists."))
         return self.cleaned_data['user_role']
 

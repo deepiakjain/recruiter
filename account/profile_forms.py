@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from account.models import JobSeekerProfile, SeekerCompanyInfo
+from account.models import JobSeeker, SeekerExperienceInfo
 
 
 class InlineUserForm(forms.ModelForm):
@@ -22,14 +22,14 @@ class InlineUserForm(forms.ModelForm):
 
 class InlineJobSeekerForm(forms.ModelForm):
     class Meta:
-        model = JobSeekerProfile
-        fields = ('expected_ctc', 'current_loc', 'relocate', 'free_time',
-                  'profile_header', 'technology', 'experience', 'resume')
+        model = JobSeeker
+        # fields = ('expected_ctc', 'current_loc', 'relocate', 'free_time',
+        #           'profile_header', 'technology', 'experience', 'resume')
 
 
 class InlineSeekerCompanyForm(forms.ModelForm):
     class Meta:
-        model = SeekerCompanyInfo
+        model = SeekerExperienceInfo
 
     def __init__(self, **kwargs):
         """
@@ -41,7 +41,7 @@ class InlineSeekerCompanyForm(forms.ModelForm):
 
         saved = super(InlineSeekerCompanyForm, self).save()
 
-        seeker = JobSeekerProfile.objects.get(seeker=self.user.jobseeker)
+        seeker = JobSeeker.objects.get(seeker=self.user.jobseeker)
         seeker.current_company = saved
 
         seeker.save()
