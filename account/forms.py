@@ -4,100 +4,154 @@ Author : Shreeyansh Jain, 13/09/2014
 
 Recruiter project.
 """
-import re
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from django.utils.translation import ugettext_lazy as _
 
 from account.models import JobSeeker, Recruiter, SeekerExperienceInfo
 from utils.form_container import FormContainer
-from account.profile_forms import InlineUserForm, InlineJobSeekerForm, InlineSeekerCompanyForm
+from account.profile_forms import InlineAddressForm, InlineSeekerCompanyForm, InlineBaseProfileForm,\
+    InlineEducationBackgroundForm, InlineResumeForm, InlineProfessionalDetailsForm, InlineCompanyProfileForm
 
 
-class JobSeekerFormStep1(ModelForm):
-    first_name = forms.CharField(max_length=30, label=_("First name"))
-    last_name = forms.CharField(max_length=30, label=_("Last name"))
-
-    class Meta:
-        model = JobSeeker
-        fields = ('first_name', 'last_name', 'profile_pic', 'mobile_no')
+class ContactDetailsForm(FormContainer):
+    profile = InlineBaseProfileForm
+    address = InlineAddressForm
 
     def __init__(self, user, **kwargs):
         """
         set user in object to get instance
         """
         self.user = user
-        super(JobSeekerFormStep1, self).__init__(**kwargs)
+        super(ContactDetailsForm, self).__init__(**kwargs)
 
-    def clean_mobile_no(self):
-        """
-        Check its length is 10 digit and all are numbers no string
-        """
+    def get_form_kwargs(self, prefix, **kwargs):
+        profile = None
 
-        rule = re.compile(r'^(?:\+?91)?[0-9]\d{9,9}$')
-        if not rule.search(str(self.cleaned_data['mobile_no'])):
-            raise forms.ValidationError(_("Please enter valid mobile no."))
-        return self.cleaned_data['mobile_no']
+        if getattr(self.user, 'jobseeker'):
+            profile = getattr(self.user, 'jobseeker')
+        elif getattr(self.user, 'recruiter'):
+            profile = getattr(self.user, 'jobseeker')
+
+        address = getattr(profile, 'address') if profile and getattr(profile, 'address') else None
+
+        instances = {'profile': self.user, 'address': address}
+        kwargs['instance'] = instances[prefix]
+
+        return kwargs
 
     def save(self, commit=True):
 
         user = self.user
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
+        # update user first and last name
+
+        user.first_name = self.profile.cleaned_data['first_name']
+        user.last_name = self.profile.cleaned_data['last_name']
+
         user.save()
 
-        super(JobSeekerFormStep1, self).save()
+        address = self.address.save()
+
+        # based based on login user
+        if getattr(user, 'jobseeker'):
+            profile = getattr(user, 'jobseeker')
+        elif getattr(user, 'recruiter'):
+            profile = getattr(user, 'recruiter')
+
+        profile.mobile_no = self.profile.cleaned_data['mobile_no']
+        profile.profile_pic = self.profile.cleaned_data['profile_pic']
+        profile.address = address
+
+        profile.save()
 
 
-class JobSeekerFormStep2(ModelForm):
+class SeekerDetailsForm(ModelForm):
     class Meta:
         model = JobSeeker
-        # fields = ('profile_header', 'qualification', 'technology', 'experience', 'resume')
-
-
-class JobSeekerFormStep3(ModelForm):
-    class Meta:
-        model = JobSeeker
-        # fields = ('relocate', 'free_time',
-        #           'profile_header', 'qualification', '', 'experience', 'seeker')
-        #
-        # widgets = {'profile_header': forms.HiddenInput(),
-        #            'qualification': forms.HiddenInput(),
-        #            'technology': forms.HiddenInput(),
-        #            'experience': forms.HiddenInput(),
-        #            # 'resume': forms.HiddenInput(),
-        #            }
-
-
-class JobSeekerFormStep4(ModelForm):
-    class Meta:
-        model = SeekerExperienceInfo
+        fields = ('profile_header', 'passport_number', 'preferred_loc', 'job_change', 'free_time',
+                  'experience_yrs', 'experience_month', 'skill_set')
 
     def __init__(self, user, **kwargs):
         """
         set user in object to get instance
         """
         self.user = user
-        super(JobSeekerFormStep4, self).__init__(**kwargs)
+        super(SeekerDetailsForm, self).__init__(**kwargs)
 
-    def save(self, commit=True):
 
-        saved = super(JobSeekerFormStep4, self).save()
+class EducationDetailsForm(FormContainer):
+    qualification = InlineEducationBackgroundForm
+    resume_file = InlineResumeForm
 
-        seeker = JobSeeker.objects.get(seeker=self.user.jobseeker)
-        seeker.current_company = saved
+    def __init__(self, user, **kwargs):
+        """
+        set user in object to get instance
+        """
+        self.user = user
+        super(EducationDetailsForm, self).__init__(**kwargs)
 
-        seeker.save()
+    def get_form_kwargs(self, prefix, **kwargs):
+
+        instances = {'qualification': self.user.jobseeker.qualification,
+                     'resume_file': self.user.jobseeker
+                     }
+
+        kwargs['instance'] = instances[prefix]
+
+        return kwargs
+
+
+class ProfessionalDetailsForm(FormContainer):
+    company = InlineCompanyProfileForm
+    extra_info = InlineSeekerCompanyForm
+
+    def __init__(self, user, **kwargs):
+        """
+        set user in object to get instance
+        """
+        self.user = user
+        super(ProfessionalDetailsForm, self).__init__(**kwargs)
+
+    def get_form_kwargs(self, prefix, **kwargs):
+
+        company = getattr(self.user.jobseeker.company_experience, 'company', None)
+
+        instances = {'profession': self.user.jobseeker,
+                     'company': company,
+                     'extra_info': self.user.jobseeker.company_experience
+                     }
+
+        kwargs['instance'] = instances[prefix]
+
+        return kwargs
+
+
+class JobExpectationsForm(FormContainer):
+    profession = InlineProfessionalDetailsForm
+
+    def __init__(self, user, **kwargs):
+        """
+        set user in object to get instance
+        """
+        self.user = user
+        super(JobExpectationsForm, self).__init__(**kwargs)
+
+    def get_form_kwargs(self, prefix, **kwargs):
+
+        instances = {'profession': self.user.jobseeker}
+
+        kwargs['instance'] = instances[prefix]
+
+        return kwargs
 
 
 class SeekerProfileForm(FormContainer):
 
-    user = InlineUserForm
+    user = InlineBaseProfileForm
     seeker = inlineformset_factory(User, JobSeeker, can_delete=False)
-    seeker_profile = inlineformset_factory(SeekerExperienceInfo, JobSeeker, form=InlineJobSeekerForm,
-                                           max_num=1, extra=1, can_delete=False)
+    # seeker_profile = inlineformset_factory(SeekerExperienceInfo, JobSeeker, form=InlineJobSeekerForm,
+    #                                        max_num=1, extra=1, can_delete=False)
 
     seeker_company = InlineSeekerCompanyForm
 

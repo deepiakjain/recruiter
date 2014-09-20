@@ -82,7 +82,7 @@ class DefaultBackendViewTests(TestCase):
         resp = self.client.get(reverse('registration_register'))
         self.assertEqual(200, resp.status_code)
         self.assertTemplateUsed(resp,
-                                'registration/registration_form.html')
+                                'registration/user.html')
         self.failUnless(isinstance(resp.context['form'],
                         RegistrationForm))
 

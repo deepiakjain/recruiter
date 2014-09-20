@@ -19,7 +19,7 @@ class RegistrationWizard(NamedUrlSessionWizardView):
     @classonlymethod
     def as_view(self, *args, **kwargs):
         form_list = (
-            ('registration_form', RegistrationFormUniqueEmail),
+            ('user', RegistrationFormUniqueEmail),
         )
         return super(RegistrationWizard, self).as_view(form_list, *args, **kwargs)
 
@@ -44,12 +44,12 @@ class RegistrationWizard(NamedUrlSessionWizardView):
 
     #@atomic
     def done(self, form_list, **kwargs):
-        cd = form_list[self.get_step_index('registration_form')].cleaned_data
+        cd = form_list[self.get_step_index('user')].cleaned_data
         email, password = cd['email'], cd['password1']
         site = Site.objects.get_current()
 
         new_user = RegistrationProfile.objects.create_inactive_user(email, password, site)
-        import ipdb; ipdb.set_trace()
+
         profile = self.profile(cd['user_role'])(user=new_user)
         profile.gender = cd['gender']
         profile.save()

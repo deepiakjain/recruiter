@@ -1,0 +1,49 @@
+{% extends "accounts/profile_edit_wizard/base.html" %}
+{% load i18n %}
+
+
+{% block registration_title %}
+    <h1 class="heading32">
+        {% trans "Registration" %}: <span class="txt-red">{% trans "Looking For" %}</span>
+    </h1>
+{% endblock %}
+
+{% block form_elements %}
+        {{form.errors}}
+    <div id="config_details" style="">
+        <div style="padding:5px;">
+            <label id="{{form.profession.expected_ctc_lac.id_for_label}}">
+                {{form.profession.expected_ctc_lac.label}}:</label>
+            {{form.profession.expected_ctc_lac}}
+            {{form.profession.expected_ctc_thousand}}
+            <div style="padding:5px;">
+                {{form.extra_info.profession.expected_ctc_lac.errors.as_text}}
+                {{form.extra_info.profession.expected_ctc_lac.errors.as_text}}
+                {{form.extra_info.profession.expected_ctc_thousand.errors.as_text}}
+            </div>
+        </div>
+        <div style="padding:5px;">
+            <label id="{{form.profession.relocate.id_for_label}}">{{form.profession.relocate.label}}:</label>
+            {{form.profession.relocate}}
+            <div style="padding:5px;">{{form.extra_info.profession.relocate.errors.as_text}}</div>
+        </div>
+        <div>
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block prev-button %}
+  {% blocktrans %}Looking for{% endblocktrans %} <i class="left-arrowd"></i>
+{% endblock %}
+
+
+{% block next-button %}
+  {% trans '<strong class="extra-bold">Save</strong>' %}<i class="right-arrowred"></i>
+{% endblock %}
+

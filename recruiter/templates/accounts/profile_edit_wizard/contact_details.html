@@ -1,0 +1,62 @@
+{% extends "accounts/profile_edit_wizard/base.html" %}
+{% load i18n %}
+
+
+{% block registration_title %}
+    <h1 class="heading32">
+        {% trans "Registration" %}: <span class="txt-red">{% trans "Basic information" %}</span>
+    </h1>
+{% endblock %}
+
+{% block form_elements %}
+    <div id="config_details" style="width:100%;">
+        <div style="float:left; width:50%">
+            {{ form.profile.management_form }}
+            <div style="padding:5px;">
+                <label id="{{form.profile.first_name.id_for_label}}">{{form.profile.first_name.label}}:</label>
+                {{form.profile.first_name}}
+                <div style="padding:5px;">{{form.profile.first_name.errors.as_text}}</div>
+            </div>
+            <div style="padding:5px;">
+                <label id="{{form.profile.last_name.id_for_label}}">{{form.profile.last_name.label}}:</label>
+                {{form.profile.last_name}}
+                <div style="padding:5px;">{{form.profile.last_name.errors.as_text}}</div>
+            </div>
+            <div style="padding:5px;">
+                <label id="{{form.profile.mobile_no.id_for_label}}">{{form.profile.mobile_no.label}}:</label>
+                {{form.profile.mobile_no}}
+                <div style="padding:5px;">{{form.profile.mobile_no.errors.as_text}}</div>
+            </div>
+            <div style="padding:5px;">
+                <label id="{{form.profile.profile_pic.id_for_label}}">{{form.profile.profile_pic.label}}:</label>
+                {{form.profile.profile_pic}}
+                <div style="padding:5px;">{{form.profile.profile_pic.errors.as_text}}</div>
+            </div>
+        </div>
+        <div style="float:left; width:50%">
+            {{ form.address.management_form }}
+            <div style="padding:5px;">
+                <label id="{{form.address.street.id_for_label}}">{{form.address.street.label}}:</label>
+                {{form.address.street}}
+                <div style="padding:5px;">{{form.address.street.errors.as_text}}</div>
+            </div>
+            <div style="padding:5px;">
+                <label id="{{form.address.city.id_for_label}}">{{form.address.city.label}}:</label>
+                {{form.address.city}}
+                <div style="padding:5px;">{{form.address.city.errors.as_text}}</div>
+            </div>
+            <div style="padding:5px;">
+                <label id="{{form.address.country.id_for_label}}">{{form.address.country.label}}:</label>
+                {{form.address.country}}
+                <div style="padding:5px;">{{form.address.country.errors.as_text}}</div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block next-button %}
+  {% trans 'Education <strong class="extra-bold">Background</strong>' %}<i class="right-arrowred"></i>
+{% endblock %}
+

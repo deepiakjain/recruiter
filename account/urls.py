@@ -20,8 +20,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns(
                         'account.registration_wizard',
                             url(r'^register/complete/$', 'registration_complete', name='registration_complete'),
-                            url(r'^register/(?:(?P<step>[\w-]+)/)?$', 'registration_wizard', name='registration_register'),
-                            #url(r'^register/(?P<profile>\w+)/(?:(?P<step>[\w-]+)/)?$', 'registration_wizard', name='register'),
+                            url(r'^register/(?:(?P<step>[\w-]+)/)?$', 'registration_wizard',
+                                name='registration_register'),
                         )
 
 urlpatterns += patterns(

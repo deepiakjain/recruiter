@@ -13,11 +13,11 @@ from django.utils.decorators import classonlymethod
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
-from .forms import (JobSeekerFormStep1, JobSeekerFormStep2,
-                    JobSeekerFormStep3, JobSeekerFormStep4, RecruiterProfileForm,
-                    SeekerProfileForm)
+from .forms import (ContactDetailsForm, EducationDetailsForm,
+                    ProfessionalDetailsForm, JobExpectationsForm, RecruiterProfileForm,
+                    SeekerProfileForm, SeekerDetailsForm)
 
-from .models import JobSeeker
+from .models import JobSeeker, Recruiter
 
 
 class ProfileEditWizard(SessionWizardView):
@@ -27,25 +27,29 @@ class ProfileEditWizard(SessionWizardView):
     def as_view(self, *args, **kwargs):
         form_list = (
 
-            # seeker info
-            ('seeker_profile', JobSeekerFormStep1),
+            # Will be common for both seeker and recruiter
+            ('contact_details', ContactDetailsForm),
 
             # seeker profile info
-            ('seeker_advance_profile', JobSeekerFormStep2),
-            ('seeker_expectation', JobSeekerFormStep3),
-            ('seeker_company', JobSeekerFormStep4),
+            ('seeker_details', SeekerDetailsForm),
+            ('education_details', EducationDetailsForm),
+            ('professional_details', ProfessionalDetailsForm),
+            ('job_expectations', JobExpectationsForm),
 
             # profile edit
             ('profile_edit', SeekerProfileForm),
            )
 
         condition_dict = {
-            'seeker_profile': ProfileEditWizard.seeker_condition,
-            'seeker_advance_profile': ProfileEditWizard.advance_profile_condition,
-            'seeker_expectation': ProfileEditWizard.expectation_condition,
-            'seeker_company': ProfileEditWizard.seeker_company_condition,
+            # It should be common for both type user
+            'contact_details': ProfileEditWizard.contact_condition,
 
-            'profile_edit': ProfileEditWizard.seeker_profile_edit_condition,
+            'seeker_details': ProfileEditWizard.seeker_profile_condition,
+            'education_details': ProfileEditWizard.seeker_profile_condition,
+            'professional_details': ProfileEditWizard.seeker_profile_condition,
+            'job_expectations': ProfileEditWizard.seeker_profile_condition,
+
+            'profile_edit': ProfileEditWizard.seeker_profile_condition,
         }
 
         return super(ProfileEditWizard, self).as_view(
@@ -56,68 +60,65 @@ class ProfileEditWizard(SessionWizardView):
         )
 
     @staticmethod
-    def seeker_condition(wizard):
+    def contact_condition(wizard):
+        return wizard.profile_is_empty() or True
+
+    @staticmethod
+    def seeker_profile_condition(wizard):
         return wizard.user_is_seeker() and wizard.profile_is_empty()
 
     @staticmethod
-    def advance_profile_condition(wizard):
-        return wizard.user_is_seeker() and wizard.profile_is_empty()
-
-    @staticmethod
-    def expectation_condition(wizard):
-        return wizard.user_is_seeker() and wizard.profile_is_empty()
-
-    @staticmethod
-    def seeker_company_condition(wizard):
-        return wizard.user_is_seeker() and wizard.profile_is_empty()
-
-    @staticmethod
-    def seeker_profile_edit_condition(wizard):
-        return wizard.user_is_seeker() and not wizard.profile_is_empty()
+    def recruiter_profile_condition(wizard):
+        return wizard.user_is_recruiter() and wizard.profile_is_empty()
 
     def user_is_seeker(self):
         return JobSeeker.objects.filter(user=self.request.user).exists()
 
-    def profile_is_empty(self):
+    def user_is_recruiter(self):
+        return Recruiter.objects.filter(user=self.request.user).exists()
+
+    def get_profile(self):
         user = self.request.user
-        role = None
-
         if self.user_is_seeker():
-            role = JobSeeker.objects.get(user=user)
+            profile = JobSeeker.objects.get(user=user)
+        else:
+            profile = Recruiter.objects.get(user=user)
+        return profile
 
+    def profile_is_empty(self):
+        role = self.get_profile()
         return role is None or role.is_empty()
 
     def get_context_data(self, form, **kwargs):
 
         context = super(ProfileEditWizard, self).get_context_data(form=form, **kwargs)
 
-        if self.steps.current == 'seeker_expectation':
+        if self.steps.current in ['job_expectations', 'professional_details']:
             form.initial = self.get_cleaned_data_for_step(self.get_prev_step())
-            form.initial.update({'seeker': self.request.user.jobseeker})
 
         return context
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
+        print self.steps.current
 
-        if step not in ['seeker_advance_profile', 'seeker_expectation']:
-            user = self.request.user
-            kwargs['user'] = user
-
+        user = self.request.user
+        kwargs['user'] = user
         return kwargs
 
     def get_form_initial(self, step):
         initial = self.initial_dict.get(step, {})
-        if step == 'seeker_profile':
-            initial.update({'first_name': self.request.user.first_name,
-                            'last_name': self.request.user.last_name})
+        if step == 'contact_details':
+            profile = self.get_profile()
+            initial.update({'mobile_no': profile.mobile_no,
+                            'profile_pic': profile.profile_pic})
 
         return initial
 
     def get_form_instance(self, step):
         instance = self.instance_dict.get(step, None)
-        if step == 'seeker_profile':
-            instance = self.request.user.jobseeker
+        if step == 'contact_details':
+            instance = self.get_profile()
 
         return instance
 
