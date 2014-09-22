@@ -11,12 +11,15 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 from django.shortcuts import render, redirect
 from django.utils.decorators import classonlymethod
 from django.core.files.storage import FileSystemStorage
+from django.core.urlresolvers import reverse
+from django.template import RequestContext
+from django.shortcuts import render_to_response
 from django.conf import settings
 
 from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetailsForm,
                     JobExpectationsForm, SeekerDetailsForm, RecruiterProfileForm)
 
-from .models import JobSeeker, Recruiter
+from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
 
 
 class ProfileEditWizard(SessionWizardView):
@@ -35,8 +38,6 @@ class ProfileEditWizard(SessionWizardView):
             ('professional_details', ProfessionalDetailsForm),
             ('job_expectations', JobExpectationsForm),
 
-            # profile edit
-            #('profile_edit', SeekerProfileForm),
            )
 
         condition_dict = {
@@ -47,8 +48,6 @@ class ProfileEditWizard(SessionWizardView):
             'education_details': ProfileEditWizard.seeker_profile_condition,
             'professional_details': ProfileEditWizard.seeker_profile_condition,
             'job_expectations': ProfileEditWizard.seeker_profile_condition,
-
-           # 'profile_edit': ProfileEditWizard.seeker_profile_condition,
         }
 
         return super(ProfileEditWizard, self).as_view(
@@ -64,28 +63,14 @@ class ProfileEditWizard(SessionWizardView):
 
     @staticmethod
     def seeker_profile_condition(wizard):
-        return wizard.user_is_seeker() #and wizard.profile_is_empty()
+        return user_is_seeker(wizard.request.user) #and wizard.profile_is_empty()
 
     @staticmethod
     def recruiter_profile_condition(wizard):
-        return wizard.user_is_recruiter() and wizard.profile_is_empty()
-
-    def user_is_seeker(self):
-        return JobSeeker.objects.filter(user=self.request.user).exists()
-
-    def user_is_recruiter(self):
-        return Recruiter.objects.filter(user=self.request.user).exists()
-
-    def get_profile(self):
-        user = self.request.user
-        if self.user_is_seeker():
-            profile = JobSeeker.objects.get(user=user)
-        else:
-            profile = Recruiter.objects.get(user=user)
-        return profile
+        return user_is_recruiter(wizard.request.user) and wizard.profile_is_empty()
 
     def profile_is_empty(self):
-        role = self.get_profile()
+        role = get_profile(self.request.user)
         return role is None or role.is_empty()
 
     def get_context_data(self, form, **kwargs):
@@ -99,7 +84,6 @@ class ProfileEditWizard(SessionWizardView):
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
-
         user = self.request.user
         kwargs['user'] = user
         return kwargs
@@ -107,15 +91,14 @@ class ProfileEditWizard(SessionWizardView):
     def get_form_initial(self, step):
         initial = self.initial_dict.get(step, {})
         if step == 'contact_details':
-            profile = self.get_profile()
+            profile = get_profile(self.request.user)
             initial.update({'mobile_no': profile.mobile_no,
                             'profile_pic': profile.profile_pic})
 
         return initial
 
     def get_form_instance(self, step):
-        # instance = self.instance_dict.get(step, None)
-        instance = self.get_profile()
+        instance = get_profile(self.request.user)
 
         return instance
 
@@ -141,3 +124,24 @@ def profile_complete(request):
 
 profile_edit_wizard = ProfileEditWizard.as_view()
 profile_edit_wizard = login_required(profile_edit_wizard)
+
+
+def user_profile(request):
+    """
+    profile which will identify login user, display its data.
+    identify if profile is empty the redirect to respective edit page.
+
+    :param request:
+    :return:
+    """
+    profile = get_profile(request.user)
+
+    if profile.is_empty():
+        return redirect(reverse('profile_edit'))
+
+    # check user is seeker or recruiter
+    is_seeker = user_is_seeker(request.user)
+    template = 'accounts/profile/user_profile.html'
+
+    return render_to_response(template, {'profile': profile, 'is_seeker': is_seeker},
+                              context_instance=RequestContext(request))

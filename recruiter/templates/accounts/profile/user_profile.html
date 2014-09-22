@@ -1,0 +1,12 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %} Profile Edit {% endblock %}
+
+{% block content%}
+    {% if is_seeker %}
+        {% include 'accounts/profile/profile_seeker.html' with profile=profile %}
+    {% else %}
+        {% include 'accounts/profile/profile_recruiter.html' with profile=profile %}
+    {% endif %}
+{% endblock %}

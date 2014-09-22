@@ -1,0 +1,16 @@
+<div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
+    <span>Profile Header : {{profile.profile_header}}</span>
+    <div>
+        <span> Name : {{profile.user.get_full_name}}</span>
+        <span> Contact No. : {{profile.mobile_no}}</span>
+        <span> Passport : {{profile.passport_number}}</span>
+        <div><br />
+            <span style="float:left;">Address :</span><br />
+            <span> Street No. : {{profile.address.street}}</span> <br />
+            <span> City : {{profile.address.city}}</span><br />
+            <span> Country : {{profile.address.country}}</span><br />
+        </div>
+
+
+    </div>
+</div>
