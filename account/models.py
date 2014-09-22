@@ -11,6 +11,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 
+#phone field application
+from phonenumber_field.modelfields import PhoneNumberField
+
 # project constant
 from account.constants import YEAR_EXPERIENCE, MONTH_EXPERIENCE, YES_NO_CHOICES, GENDER_CHOICES, CTC_RANGE
 
@@ -57,7 +60,9 @@ class BaseProfile(models.Model):
     user = models.OneToOneField(User, editable=True)
     create_date = models.DateTimeField('Creation Date', auto_now_add=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, verbose_name="Gender")
-    mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
+    #mobile_no = models.PositiveIntegerField(max_length=11, null=True)  # Put form validation.
+    mobile_no = PhoneNumberField(null=True)
+
     profile_pic = models.ImageField(upload_to='user/profile', null=True, blank=True)
     address = models.OneToOneField(Address, null=True, blank=True)
 

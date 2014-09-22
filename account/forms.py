@@ -12,7 +12,8 @@ from django.forms.models import inlineformset_factory
 from account.models import JobSeeker, Recruiter, SeekerExperienceInfo
 from utils.form_container import FormContainer
 from account.profile_forms import InlineAddressForm, InlineSeekerCompanyForm, InlineBaseProfileForm,\
-    InlineEducationBackgroundForm, InlineResumeForm, InlineProfessionalDetailsForm, InlineCompanyProfileForm
+    InlineEducationBackgroundForm, InlineResumeForm, InlineProfessionalDetailsForm, InlineCompanyProfileForm,\
+    InlineSeekerDetailsForm
 
 
 class ContactDetailsForm(FormContainer):
@@ -45,13 +46,13 @@ class ContactDetailsForm(FormContainer):
 
         user = self.user
         # update user first and last name
-
-        user.first_name = self.profile.cleaned_data['first_name']
-        user.last_name = self.profile.cleaned_data['last_name']
+        profile_data = self.forms['profile'].cleaned_data
+        user.first_name = profile_data['first_name']
+        user.last_name = profile_data['last_name']
 
         user.save()
 
-        address = self.address.save()
+        address = self.forms['address'].save()
 
         # based based on login user
         if getattr(user, 'jobseeker'):
@@ -59,18 +60,15 @@ class ContactDetailsForm(FormContainer):
         elif getattr(user, 'recruiter'):
             profile = getattr(user, 'recruiter')
 
-        profile.mobile_no = self.profile.cleaned_data['mobile_no']
-        profile.profile_pic = self.profile.cleaned_data['profile_pic']
+        profile.mobile_no = profile_data['mobile_no']
+        profile.profile_pic = profile_data['profile_pic']
         profile.address = address
 
         profile.save()
 
 
-class SeekerDetailsForm(ModelForm):
-    class Meta:
-        model = JobSeeker
-        fields = ('profile_header', 'passport_number', 'preferred_loc', 'job_change', 'free_time',
-                  'experience_yrs', 'experience_month', 'skill_set')
+class SeekerDetailsForm(FormContainer):
+    seeker_info = InlineSeekerDetailsForm
 
     def __init__(self, user, **kwargs):
         """
@@ -78,6 +76,14 @@ class SeekerDetailsForm(ModelForm):
         """
         self.user = user
         super(SeekerDetailsForm, self).__init__(**kwargs)
+
+    def get_form_kwargs(self, prefix, **kwargs):
+
+        instances = {'seeker_info': self.user.jobseeker}
+
+        kwargs['instance'] = instances[prefix]
+
+        return kwargs
 
 
 class EducationDetailsForm(FormContainer):
@@ -101,6 +107,16 @@ class EducationDetailsForm(FormContainer):
 
         return kwargs
 
+    def save(self, commit=True):
+        seeker = self.user.jobseeker
+        # save company data first
+        qualification = self.forms['qualification'].save()
+
+        # update seeker
+        seeker.qualification = qualification
+
+        seeker.save()
+
 
 class ProfessionalDetailsForm(FormContainer):
     company = InlineCompanyProfileForm
@@ -115,16 +131,32 @@ class ProfessionalDetailsForm(FormContainer):
 
     def get_form_kwargs(self, prefix, **kwargs):
 
-        company = getattr(self.user.jobseeker.company_experience, 'company', None)
+        extra_info = getattr(self.user.jobseeker, 'company_experience', None)
+        company = getattr(self.user.jobseeker.company_experience, 'company', None) if extra_info else None
 
-        instances = {'profession': self.user.jobseeker,
-                     'company': company,
-                     'extra_info': self.user.jobseeker.company_experience
+        instances = {'company': company,
+                     'extra_info': extra_info
                      }
 
         kwargs['instance'] = instances[prefix]
 
         return kwargs
+
+    def save(self, commit=True):
+
+        # map with seeker profile
+        seeker = self.user.jobseeker
+
+        # save company data first
+        company = self.forms['company'].save()
+
+        # save extra info
+        extra_info = self.forms['extra_info'].save()
+        extra_info.company = company
+        extra_info.save()
+
+        seeker.company_experience = extra_info
+        seeker.save()
 
 
 class JobExpectationsForm(FormContainer):
@@ -146,6 +178,7 @@ class JobExpectationsForm(FormContainer):
         return kwargs
 
 
+
 class SeekerProfileForm(FormContainer):
 
     user = InlineBaseProfileForm
@@ -163,8 +196,8 @@ class SeekerProfileForm(FormContainer):
     def get_form_kwargs(self, prefix, **kwargs):
 
         company = None
-        if getattr(self.user.jobseeker.seeker, 'current_company'):
-            company = getattr(self.user.jobseeker.seeker, 'current_company')
+        # if getattr(self.user.jobseeker, 'current_company'):
+        #     company = getattr(self.user.jobseeker, 'current_company')
 
         instances = {
             'user': self.user,

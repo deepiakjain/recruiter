@@ -13,9 +13,8 @@ from django.utils.decorators import classonlymethod
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
-from .forms import (ContactDetailsForm, EducationDetailsForm,
-                    ProfessionalDetailsForm, JobExpectationsForm, RecruiterProfileForm,
-                    SeekerProfileForm, SeekerDetailsForm)
+from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetailsForm,
+                    JobExpectationsForm, SeekerDetailsForm, RecruiterProfileForm)
 
 from .models import JobSeeker, Recruiter
 
@@ -37,7 +36,7 @@ class ProfileEditWizard(SessionWizardView):
             ('job_expectations', JobExpectationsForm),
 
             # profile edit
-            ('profile_edit', SeekerProfileForm),
+            #('profile_edit', SeekerProfileForm),
            )
 
         condition_dict = {
@@ -49,7 +48,7 @@ class ProfileEditWizard(SessionWizardView):
             'professional_details': ProfileEditWizard.seeker_profile_condition,
             'job_expectations': ProfileEditWizard.seeker_profile_condition,
 
-            'profile_edit': ProfileEditWizard.seeker_profile_condition,
+           # 'profile_edit': ProfileEditWizard.seeker_profile_condition,
         }
 
         return super(ProfileEditWizard, self).as_view(
@@ -65,7 +64,7 @@ class ProfileEditWizard(SessionWizardView):
 
     @staticmethod
     def seeker_profile_condition(wizard):
-        return wizard.user_is_seeker() and wizard.profile_is_empty()
+        return wizard.user_is_seeker() #and wizard.profile_is_empty()
 
     @staticmethod
     def recruiter_profile_condition(wizard):
@@ -93,14 +92,13 @@ class ProfileEditWizard(SessionWizardView):
 
         context = super(ProfileEditWizard, self).get_context_data(form=form, **kwargs)
 
-        if self.steps.current in ['job_expectations', 'professional_details']:
+        if self.steps.current in ['job_expectations']:
             form.initial = self.get_cleaned_data_for_step(self.get_prev_step())
 
         return context
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
-        print self.steps.current
 
         user = self.request.user
         kwargs['user'] = user
@@ -116,9 +114,8 @@ class ProfileEditWizard(SessionWizardView):
         return initial
 
     def get_form_instance(self, step):
-        instance = self.instance_dict.get(step, None)
-        if step == 'contact_details':
-            instance = self.get_profile()
+        # instance = self.instance_dict.get(step, None)
+        instance = self.get_profile()
 
         return instance
 
@@ -129,7 +126,7 @@ class ProfileEditWizard(SessionWizardView):
     def done(self, form_list, **kwargs):
         redirect_to = 'profile_edit'
         for form in form_list:
-            if hasattr(form, 'save') and not isinstance(form, JobSeekerFormStep2):
+            if hasattr(form, 'save'):
                 form.save()
 
                 redirect_to = 'profile_complete'
@@ -144,34 +141,3 @@ def profile_complete(request):
 
 profile_edit_wizard = ProfileEditWizard.as_view()
 profile_edit_wizard = login_required(profile_edit_wizard)
-
-
-@login_required
-def profile_edit(request):
-    """
-    based on login user get his profile
-    """
-    import ipdb; ipdb.set_trace()
-    form = SeekerProfileForm(request.user)
-    # form = get_user_profile_form(request.user, request.POST or None, request.FILES or None)
-
-    if request.method == 'POST':
-        import ipdb; ipdb.set_trace()
-        if form.is_valid():
-            form.save()
-
-    return render(request, 'accounts/profile_edit.html', {'form': form})
-
-
-def get_user_profile_form(user, post_data, files):
-    """
-    Return user form
-    """
-
-    if getattr(user, 'jobseeker', None):
-        user_proile = getattr(user, 'jobseeker')
-    else:
-        user_proile = getattr(user, 'recruiter')
-        form = RecruiterProfileForm(post_data, files, instance=user_proile)
-
-    return form

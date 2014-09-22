@@ -72,6 +72,14 @@ class InlineProfessionalDetailsForm(forms.ModelForm):
         fields = ('expected_ctc_lac', 'expected_ctc_thousand', 'relocate')
 
 
+class InlineSeekerDetailsForm(forms.ModelForm):
+
+    class Meta:
+        model = JobSeeker
+        fields = ('profile_header', 'passport_number', 'preferred_loc', 'job_change', 'free_time',
+                  'experience_yrs', 'experience_month', 'skill_set')
+
+
 class InlineCompanyProfileForm(forms.ModelForm):
 
     class Meta:
@@ -83,17 +91,3 @@ class InlineSeekerCompanyForm(forms.ModelForm):
         model = SeekerExperienceInfo
         exclude = ('company', )
 
-    def __init__(self, **kwargs):
-        """
-        set user in object to get instance
-        """
-        super(InlineSeekerCompanyForm, self).__init__(**kwargs)
-
-    def save(self, commit=True):
-
-        saved = super(InlineSeekerCompanyForm, self).save()
-
-        seeker = JobSeeker.objects.get(seeker=self.user.jobseeker)
-        seeker.current_company = saved
-
-        seeker.save()

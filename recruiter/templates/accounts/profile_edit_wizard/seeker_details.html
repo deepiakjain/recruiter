@@ -11,50 +11,50 @@
 {% block form_elements %}
     <div id="config_details" style="">
         <div style="padding:5px;">
-            <label id="{{form.profile_header.id_for_label}}">
-                {{form.profile_header.label}}:
+            <label id="{{form.seeker_info.profile_header.id_for_label}}">
+                {{form.seeker_info.profile_header.label}}:
             </label>
-            {{form.profile_header}}
-            <div style="padding:5px;">{{form.profile_header.errors.as_text}}</div>
+            {{form.seeker_info.profile_header}}
+            <div style="padding:5px;">{{form.seeker_info.profile_header.errors.as_text}}</div>
         </div>
         <div style="padding:5px;">
-            <label id="{{form.passport_number.id_for_label}}">
-                {{form.passport_number.label}}:</label>
-            {{form.passport_number}}
-            <div style="padding:5px;">{{form.passport_number.errors.as_text}}</div>
+            <label id="{{form.seeker_info.passport_number.id_for_label}}">
+                {{form.seeker_info.passport_number.label}}:</label>
+            {{form.seeker_info.passport_number}}
+            <div style="padding:5px;">{{form.seeker_info.passport_number.errors.as_text}}</div>
         </div>
         <div style="padding:5px;">
-            <label id="{{form.skill_set.id_for_label}}">
-                {{form.skill_set.label}}:</label>
-            {{form.skill_set}}
-            <div style="padding:5px;">{{form.skill_set.errors.as_text}}</div>
+            <label id="{{form.seeker_info.skill_set.id_for_label}}">
+                {{form.seeker_info.skill_set.label}}:</label>
+            {{form.seeker_info.skill_set}}
+            <div style="padding:5px;">{{form.seeker_info.skill_set.errors.as_text}}</div>
         </div>
         <div style="padding:5px;">
-            <label id="{{form.preferred_loc.id_for_label}}">
-                {{form.preferred_loc.label}}:</label>
-            {{form.preferred_loc}}
-            <div style="padding:5px;">{{form.preferred_loc.errors.as_text}}</div>
+            <label id="{{form.seeker_info.preferred_loc.id_for_label}}">
+                {{form.seeker_info.preferred_loc.label}}:</label>
+            {{form.seeker_info.preferred_loc}}
+            <div style="padding:5px;">{{form.seeker_info.preferred_loc.errors.as_text}}</div>
         </div>
         <div style="padding:5px;">
-            <label id="{{form.job_change.id_for_label}}">{{form.job_change.label}}:</label>
-            {{form.job_change}}
-            <div style="padding:5px;">{{form.job_change.errors.as_text}}</div>
+            <label id="{{form.seeker_info.job_change.id_for_label}}">{{form.seeker_info.job_change.label}}:</label>
+            {{form.seeker_info.job_change}}
+            <div style="padding:5px;">{{form.seeker_info.job_change.errors.as_text}}</div>
         </div>
         <div style="padding:5px;">
-            <label id="{{form.free_time.id_for_label}}">
-                {{form.free_time.label}}:</label>
-            {{form.free_time}}
-            <div style="padding:5px;">{{form.free_time.errors.as_text}}</div>
+            <label id="{{form.seeker_info.free_time.id_for_label}}">
+                {{form.seeker_info.free_time.label}}:</label>
+            {{form.seeker_info.free_time}}
+            <div style="padding:5px;">{{form.seeker_info.free_time.errors.as_text}}</div>
         </div>
         <div style="padding:5px; clear:both;">
-            <label id="{{form.experience_yrs.id_for_label}}"> Experience: </label>
+            <label id="{{form.seeker_info.experience_yrs.id_for_label}}"> Experience: </label>
             <div style="width:30%;">
-                <div style="float:left; width:50%">{{form.experience_yrs}}</div>
-                <div style="float:left; width:50%">{{form.experience_month}}</div>
+                <div style="float:left; width:50%">{{form.seeker_info.experience_yrs}}</div>
+                <div style="float:left; width:50%">{{form.seeker_info.experience_month}}</div>
             </div>
             <div style="padding:5px; clear:both;">
-                {{form.experience_yrs.errors.as_text}}
-                {{form.experience_month.errors.as_text}}
+                {{form.seeker_info.experience_yrs.errors.as_text}}
+                {{form.seeker_info.experience_month.errors.as_text}}
             </div>
         </div>
     </div>
