@@ -63,11 +63,11 @@ class ProfileEditWizard(SessionWizardView):
 
     @staticmethod
     def seeker_profile_condition(wizard):
-        return user_is_seeker(wizard.request.user) # and wizard.profile_is_empty()
+        return user_is_seeker(wizard.request.user)
 
     @staticmethod
     def recruiter_profile_condition(wizard):
-        return user_is_recruiter(wizard.request.user) # and wizard.profile_is_empty()
+        return user_is_recruiter(wizard.request.user)
 
     def profile_is_empty(self):
         role = get_profile(self.request.user)
