@@ -4,16 +4,13 @@ Author : Shreeyansh Jain, 13/09/2014
 
 Recruiter project.
 """
-from django import forms
-from django.contrib.auth.models import User
-from django.forms import ModelForm
-from django.forms.models import inlineformset_factory
 
-from account.models import JobSeeker, Recruiter, SeekerExperienceInfo
 from utils.form_container import FormContainer
 from account.profile_forms import InlineAddressForm, InlineSeekerCompanyForm, InlineBaseProfileForm,\
     InlineEducationBackgroundForm, InlineResumeForm, InlineProfessionalDetailsForm, InlineCompanyProfileForm,\
-    InlineSeekerDetailsForm
+    InlineSeekerDetailsForm, InlineRecruiterDetailsForm
+
+from utils.utilities import get_profile
 
 
 class ContactDetailsForm(FormContainer):
@@ -28,14 +25,10 @@ class ContactDetailsForm(FormContainer):
         super(ContactDetailsForm, self).__init__(**kwargs)
 
     def get_form_kwargs(self, prefix, **kwargs):
-        profile = None
 
-        if getattr(self.user, 'jobseeker'):
-            profile = getattr(self.user, 'jobseeker')
-        elif getattr(self.user, 'recruiter'):
-            profile = getattr(self.user, 'jobseeker')
+        profile = get_profile(self.user)
 
-        address = getattr(profile, 'address') if profile and getattr(profile, 'address') else None
+        address = getattr(profile, 'address') if profile and getattr(profile, 'address', None) else None
 
         instances = {'profile': self.user, 'address': address}
         kwargs['instance'] = instances[prefix]
@@ -55,9 +48,9 @@ class ContactDetailsForm(FormContainer):
         address = self.forms['address'].save()
 
         # based based on login user
-        if getattr(user, 'jobseeker'):
+        if hasattr(user, 'jobseeker'):
             profile = getattr(user, 'jobseeker')
-        elif getattr(user, 'recruiter'):
+        else:
             profile = getattr(user, 'recruiter')
 
         profile.mobile_no = profile_data['mobile_no']
@@ -178,41 +171,44 @@ class JobExpectationsForm(FormContainer):
         return kwargs
 
 
-
-class SeekerProfileForm(FormContainer):
-
-    user = InlineBaseProfileForm
-    seeker = inlineformset_factory(User, JobSeeker, can_delete=False)
-    # seeker_profile = inlineformset_factory(SeekerExperienceInfo, JobSeeker, form=InlineJobSeekerForm,
-    #                                        max_num=1, extra=1, can_delete=False)
-
-    seeker_company = InlineSeekerCompanyForm
+class RecruiterDetailsForm(FormContainer):
+    recruiter_info = InlineRecruiterDetailsForm
+    company = InlineCompanyProfileForm
+    company_address = InlineAddressForm
 
     def __init__(self, user, **kwargs):
-
+        """
+        set user in object to get instance
+        """
         self.user = user
-        super(SeekerProfileForm, self).__init__(**kwargs)
+        super(RecruiterDetailsForm, self).__init__(**kwargs)
 
     def get_form_kwargs(self, prefix, **kwargs):
 
-        company = None
-        # if getattr(self.user.jobseeker, 'current_company'):
-        #     company = getattr(self.user.jobseeker, 'current_company')
+        recruiter = self.user.recruiter
+        company = getattr(recruiter, 'company', None)
+        company_address = getattr(company, 'address', None) if company else None
 
-        instances = {
-            'user': self.user,
-            'seeker': self.user,
-            'seeker_profile': self.user.jobseeker,
-            'seeker_company': company,
-        }
+        instances = {'company': company,
+                     'recruiter_info': recruiter,
+                     'company_address': company_address,
+                     }
+
         kwargs['instance'] = instances[prefix]
 
         return kwargs
 
-    # def is_valid(self):
-    #     import ipdb; ipdb.set_trace()
-    #     flag = self.forms['user'].is_valid()
+    def save(self, commit=True):
 
-class RecruiterProfileForm(ModelForm):
-    class Meta:
-        model = Recruiter
+        # map with seeker profile
+        recruiter = self.user.recruiter
+
+        # save company data first
+        company = self.forms['company'].save()
+        company_address = self.forms['company_address'].save()
+
+        company.address = company_address
+        company.save()
+
+        recruiter.company = company
+        recruiter.save()

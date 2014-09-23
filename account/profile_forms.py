@@ -4,7 +4,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from account.models import JobSeeker, SeekerExperienceInfo, Address, EducationBackground, CompanyProfile
+from account.models import JobSeeker, SeekerExperienceInfo, Address,\
+    EducationBackground, CompanyProfile, Recruiter
 
 
 class InlineBaseProfileForm(forms.ModelForm):
@@ -78,6 +79,15 @@ class InlineSeekerDetailsForm(forms.ModelForm):
         model = JobSeeker
         fields = ('profile_header', 'passport_number', 'preferred_loc', 'job_change', 'free_time',
                   'experience_yrs', 'experience_month', 'skill_set')
+
+
+class InlineRecruiterDetailsForm(forms.ModelForm):
+
+    class Meta:
+        model = Recruiter
+        fields = ('company_email',)
+        exclude = ('company', )
+
 
 
 class InlineCompanyProfileForm(forms.ModelForm):

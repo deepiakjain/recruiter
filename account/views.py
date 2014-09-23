@@ -17,7 +17,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 
 from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetailsForm,
-                    JobExpectationsForm, SeekerDetailsForm, RecruiterProfileForm)
+                    JobExpectationsForm, SeekerDetailsForm, RecruiterDetailsForm)
 
 from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
 
@@ -27,28 +27,28 @@ class ProfileEditWizard(SessionWizardView):
 
     @classonlymethod
     def as_view(self, *args, **kwargs):
-        form_list = (
+        form_list = (  # Will be common for both seeker and recruiter
+                    ('contact_details', ContactDetailsForm),
 
-            # Will be common for both seeker and recruiter
-            ('contact_details', ContactDetailsForm),
+                    ('seeker_details', SeekerDetailsForm),  # seeker profile info
+                    ('education_details', EducationDetailsForm),
+                    ('professional_details', ProfessionalDetailsForm),
+                    ('job_expectations', JobExpectationsForm),
+                    ('job_expectations', JobExpectationsForm),
+                    ('recruiter_details', RecruiterDetailsForm),
+                    )
 
-            # seeker profile info
-            ('seeker_details', SeekerDetailsForm),
-            ('education_details', EducationDetailsForm),
-            ('professional_details', ProfessionalDetailsForm),
-            ('job_expectations', JobExpectationsForm),
+        condition_dict = {  # It should be common for both type user
+                            'contact_details': ProfileEditWizard.contact_condition,
 
-           )
+                            'seeker_details': ProfileEditWizard.seeker_profile_condition,
+                            'education_details': ProfileEditWizard.seeker_profile_condition,
+                            'professional_details': ProfileEditWizard.seeker_profile_condition,
+                            'job_expectations': ProfileEditWizard.seeker_profile_condition,
 
-        condition_dict = {
-            # It should be common for both type user
-            'contact_details': ProfileEditWizard.contact_condition,
-
-            'seeker_details': ProfileEditWizard.seeker_profile_condition,
-            'education_details': ProfileEditWizard.seeker_profile_condition,
-            'professional_details': ProfileEditWizard.seeker_profile_condition,
-            'job_expectations': ProfileEditWizard.seeker_profile_condition,
-        }
+                            # recruiter profile
+                            'recruiter_details': ProfileEditWizard.recruiter_profile_condition,
+                         }
 
         return super(ProfileEditWizard, self).as_view(
             form_list=form_list,
@@ -63,11 +63,11 @@ class ProfileEditWizard(SessionWizardView):
 
     @staticmethod
     def seeker_profile_condition(wizard):
-        return user_is_seeker(wizard.request.user) #and wizard.profile_is_empty()
+        return user_is_seeker(wizard.request.user) # and wizard.profile_is_empty()
 
     @staticmethod
     def recruiter_profile_condition(wizard):
-        return user_is_recruiter(wizard.request.user) and wizard.profile_is_empty()
+        return user_is_recruiter(wizard.request.user) # and wizard.profile_is_empty()
 
     def profile_is_empty(self):
         role = get_profile(self.request.user)
