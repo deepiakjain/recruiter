@@ -13,9 +13,7 @@ class JobDetailsForm(forms.ModelForm):
     class Meta:
         model = JobDetails
         exclude = ('job_code',)
-        widgets = {
-                    'recruiter': forms.HiddenInput(),
-                  }
+        widgets = {'recruiter': forms.HiddenInput(), }
 
     def save(self, commit=True):
         """
@@ -23,7 +21,8 @@ class JobDetailsForm(forms.ModelForm):
         """
         job_detail = super(JobDetailsForm, self).save()
 
-        job_code = 'JC%s%s' % (job_detail.id, job_detail.recruiter.id)  # value of job id and recruiter id
+        if not getattr(job_detail, 'job_code', None):
+            job_code = 'JC%s%s' % (job_detail.id, job_detail.recruiter.id)  # value of job id and recruiter id
 
-        job_detail.job_code = job_code
-        job_detail.save()
+            job_detail.job_code = job_code
+            job_detail.save()

@@ -1,0 +1,14 @@
+{% load i18n %}
+<div>
+    <div> Job Details </div>
+    <div>Job Title: <a href="{% url 'job-detail' job.job_code %}">{{job.job_title}}</a> </div>
+    <div>designation: {{job.designation}}</div>
+    <div>Looking for skill set: {{job.skill_set}}</div>
+    <div>Your roles and responsibilities are: <br\>{{job.roles_and_responsibilities}}</div>
+    <div>Job type is :{{job.job_type}}</div>
+    <div>
+        {% if is_seeker %}
+            <input type='button' value="Apply for" onclick="#"/>
+        {% endif %}
+    </div>
+</div>
