@@ -8,12 +8,11 @@ Recruiter project.
 # python imports
 from django.contrib.auth.decorators import login_required
 from django.contrib.formtools.wizard.views import SessionWizardView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.utils.decorators import classonlymethod
 from django.core.files.storage import FileSystemStorage
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from django.shortcuts import render_to_response
 from django.conf import settings
 
 from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetailsForm,

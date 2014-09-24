@@ -9,38 +9,34 @@ Model used for job detail filled by user can be admin or Recruiter
 
 from django.db import models
 from account.models import JobSeeker, Recruiter
-
-# Constants
-STATUS = (
-    ('AP', 'Applied'),
-    ('AC', 'Accept'),
-    ('NF', 'Not Fit'),
-)
+from account.constants import STATUS, JOB_STATUS, JOB_TYPE
 
 
 class JobDetails(models.Model):
     recruiter = models.ForeignKey(Recruiter)
     job_title = models.CharField(max_length=30,blank=True,default=None)
     designation = models.CharField(max_length=30,blank=False)
-    opening_date = models.DateField()
-    closing_date = models.DateField()
-    number_of_positions = models.CharField(max_length=30,blank=False)
-    job_opening_status = models.CharField(max_length=30,blank=False)
-    country = models.CharField(max_length=30,blank=True,default=None)
-    location_name = models.CharField(max_length=30,blank=True,default=None)
-    min_experience = models.CharField(max_length=30,blank=True,default=None)
-    max_experience = models.CharField(max_length=30,blank=True,default=None)
-    skill_set = models.TextField(blank=True,default=None)
-    roles_and_responsibilities = models.TextField(blank=True,default=None)
-    job_type = models.CharField(max_length=30,blank=False)
-    validity = models.CharField(max_length=30,blank=True,default=None)
+    opening_date = models.DateField(auto_now_add=True)
+    closing_date = models.DateField(blank=True, null=True)
+    number_of_positions = models.PositiveIntegerField(max_length=2, blank=False, default=1)
+    job_opening_status = models.CharField(max_length=2, choices=JOB_STATUS, default='OP')
+    country = models.CharField(max_length=30, blank=True)
+    location_name = models.CharField(max_length=30, blank=True)
+    min_experience = models.CharField(max_length=30, blank=True)
+    max_experience = models.CharField(max_length=30, blank=True)
+    skill_set = models.TextField(blank=True)
+    roles_and_responsibilities = models.TextField(blank=True)
+    job_type = models.CharField(max_length=2, choices=JOB_TYPE, default='PJ')
     job_code = models.CharField(max_length=70)  # Mostly we do search based on this unique code will create internally.
 
     def __unicode__(self):
-        return "User %s from %s" %(self.user.first_name, self.job_code)
+        return "User %s from %s" % (self.recruiter.user.first_name, self.job_code)
 
 
 class Status(models.Model):
     job = models.ManyToManyField(JobDetails)
     seeker = models.ManyToManyField(JobSeeker)
     status = models.CharField(max_length=2, choices=STATUS)
+
+    def __unicode__(self):
+        return "User: %s job: %s status: %s" % (self.seeker.user.username, self.job.job_title, self.status)

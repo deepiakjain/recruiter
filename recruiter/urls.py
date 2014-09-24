@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # account logout request
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('account.urls')),
+    url(r'^jobs/', include('job_details.urls')),
     url(r'^files/', include('files.urls')),
 
 )

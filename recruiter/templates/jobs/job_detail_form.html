@@ -1,0 +1,21 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %}Job Creation Form{% endblock %}
+
+{% block content%}
+    <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
+        <form action=""{% url 'job-create' %}" method='POST'>
+            {% csrf_token %}
+            <div>
+                {{form.as_p}}
+            </div>
+            <div style="width:100%;">
+                <span style="float:right">
+                    <input type='submit' value="Submit" />
+                    <input type='button' value="cancel" onclick="window.location.href='{% url 'home' %}';"/>
+                </span>
+            </div>
+        </form>
+    </div>
+{% endblock %}

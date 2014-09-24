@@ -26,3 +26,17 @@ YES_NO_CHOICES = (('Y', 'Yes'),
 
 GENDER_CHOICES = (('F', 'Female'),
                   ('M', 'Male'))
+
+STATUS = (
+    ('AP', 'Applied'),
+    ('AC', 'Accept'),
+    ('NF', 'Not Fit'),
+)
+
+JOB_STATUS = (('OP', 'Open'),
+              ('CL', 'Close'),
+              ('OH', 'On Hold'),
+              )
+
+JOB_TYPE = (('PJ', 'Permanent'),
+            ('CJ', 'Contract'))
