@@ -45,6 +45,7 @@ def job_list(request):
 
 def job_detail(request, job_code):
     """
+    Job detail which will display two all users
     """
     job = get_object_or_404(JobDetails, job_code=job_code)
 

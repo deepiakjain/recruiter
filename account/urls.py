@@ -14,13 +14,18 @@ urlpatterns = patterns('',
                        url(r'^profile/$', 'account.views.user_profile', name='profile'),
                        url(r'^profile/edit/$', 'account.views.profile_edit_wizard', name='profile_edit'),
                        url(r'^profile/complete/$', 'account.views.profile_complete', name='profile_complete'),
+
+                       # user list
+                       url(r'^seekers/', 'account.views.seeker_list', name='seeker-list'),
+                       url(r'^recruiters/', 'account.views.recruiter_list', name='recruiter-list'),
+
                        url(r'^activate/complete/$',
                            TemplateView.as_view(template_name='registration/activation_complete.html'),
                            name='registration_activation_complete'),
 
                        url(r'^activate/(?P<activation_key>\w+)/$',
                            ActivationView.as_view(), name='registration_activate'),
-                           )
+                       )
 
 urlpatterns += patterns('account.registration_wizard',
                         url(r'^register/complete/$', 'registration_complete', name='registration_complete'),

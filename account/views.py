@@ -18,6 +18,8 @@ from django.conf import settings
 from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetailsForm,
                     JobExpectationsForm, SeekerDetailsForm, RecruiterDetailsForm)
 
+from account.models import JobSeeker, Recruiter
+
 from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
 
 
@@ -143,4 +145,33 @@ def user_profile(request):
     template = 'accounts/profile/user_profile.html'
 
     return render_to_response(template, {'profile': profile, 'is_seeker': is_seeker},
+                              context_instance=RequestContext(request))
+
+
+def seeker_list(request):
+    """
+    Will list all jobs based on created or open date.
+    """
+
+    seekers = JobSeeker.objects.all().exclude(mobile_no=None).\
+        exclude(resume=None).exclude(user__username=request.user.username)\
+        .order_by('user__first_name')
+
+    template = 'accounts/user_list.html'
+    context = {'users': seekers, 'is_seeker': True}
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+def recruiter_list(request):
+    """
+    Will list all jobs based on created or open date.
+    """
+
+    recruiters = Recruiter.objects.all().exclude(mobile_no=None).\
+        exclude(user__username=request.user.username).order_by('user__first_name')
+
+    template = 'accounts/user_list.html'
+    context = {'users': recruiters, 'is_seeker': False}
+    return render_to_response(template, context,
                               context_instance=RequestContext(request))

@@ -1,0 +1,18 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %} Profile Edit {% endblock %}
+
+{% block content%}
+    {% if users %}
+        {% for user in users %}
+            {%if is_seeker %}
+                {% include 'accounts/profile/profile_seeker.html' with profile=user %}
+            {% else %}
+                {% include 'accounts/profile/profile_recruiter.html' with profile=user %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        No record found
+    {% endif %}
+{% endblock %}
