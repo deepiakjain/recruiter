@@ -8,7 +8,7 @@ Recruiter project.
 # python imports
 from django.contrib.auth.decorators import login_required
 from django.contrib.formtools.wizard.views import SessionWizardView
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.utils.decorators import classonlymethod
 from django.core.files.storage import FileSystemStorage
 from django.core.urlresolvers import reverse
@@ -173,5 +173,37 @@ def recruiter_list(request):
 
     template = 'accounts/user_list.html'
     context = {'users': recruiters, 'is_seeker': False}
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+def seeker_details(request, profile_id):
+    """
+    Will list all jobs based on created or open date.
+    """
+
+    seeker = get_object_or_404(JobSeeker, id=profile_id)
+
+    is_recruiter = user_is_recruiter(request.user) if not request.user.is_anonymous() else False
+
+    template = 'accounts/seeker_details.html'
+    context = {'users': seeker, 'is_recruiter': is_recruiter}
+    # based on is_recruiter value will show one button to express interest in the use
+    # user profile.
+
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+def recruiter_details(request, profile_id):
+    """
+    Will list all jobs based on created or open date.
+    """
+
+    recruiter = get_object_or_404(Recruiter, id=profile_id)
+
+    template = 'accounts/recruiter_details.html'
+    context = {'users': recruiter}
+
     return render_to_response(template, context,
                               context_instance=RequestContext(request))

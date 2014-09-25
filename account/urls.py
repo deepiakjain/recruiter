@@ -19,6 +19,10 @@ urlpatterns = patterns('',
                        url(r'^seekers/', 'account.views.seeker_list', name='seeker-list'),
                        url(r'^recruiters/', 'account.views.recruiter_list', name='recruiter-list'),
 
+                       url(r'^seeker/(?P<profile_id>\d+)/', 'account.views.seeker_details', name='seeker-details'),
+                       url(r'^recruiter/(?P<profile_id>\d+)/', 'account.views.recruiter_details',
+                           name='recruiter-details'),
+
                        url(r'^activate/complete/$',
                            TemplateView.as_view(template_name='registration/activation_complete.html'),
                            name='registration_activation_complete'),
