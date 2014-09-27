@@ -30,8 +30,13 @@ GENDER_CHOICES = (('F', 'Female'),
 STATUS = (
     ('AP', 'Applied'),
     ('AC', 'Accept'),
+    ('OH', 'On Hold')
     ('NF', 'Not Fit'),
 )
+
+INTEREST = (('PM', 'Perfect Match'),
+            ('OH', 'On Hold')
+            )
 
 JOB_STATUS = (('OP', 'Open'),
               ('CL', 'Close'),

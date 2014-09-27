@@ -6,7 +6,7 @@ Recruiter project.
 """
 
 from django import forms
-from job_details.models import JobDetails
+from job_details.models import JobDetails, InterestingResume
 
 
 class JobDetailsForm(forms.ModelForm):
@@ -26,3 +26,11 @@ class JobDetailsForm(forms.ModelForm):
 
             job_detail.job_code = job_code
             job_detail.save()
+
+
+class InterestingResumeForm(forms.ModelForm):
+
+    class Meta:
+        model = InterestingResume
+        widgets = {'seeker': forms.HiddenInput(),
+                   'recruiter': forms.HiddenInput()}

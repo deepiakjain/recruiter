@@ -9,7 +9,7 @@ Model used for job detail filled by user can be admin or Recruiter
 
 from django.db import models
 from account.models import JobSeeker, Recruiter
-from account.constants import STATUS, JOB_STATUS, JOB_TYPE
+from account.constants import STATUS, JOB_STATUS, JOB_TYPE, INTEREST
 
 
 class JobDetails(models.Model):
@@ -38,5 +38,19 @@ class Status(models.Model):
     seeker = models.ManyToManyField(JobSeeker)
     status = models.CharField(max_length=2, choices=STATUS)
 
+    class Meta:
+        unique_together = ('job', 'seeker',)
+
     def __unicode__(self):
         return "User: %s job: %s status: %s" % (self.seeker.user.username, self.job.job_title, self.status)
+
+
+class InterestingResume(models.Model):
+    recruiter = models.ManyToManyField(Recruiter)
+    job = models.ManyToManyField(JobDetails)
+    seeker = models.ManyToManyField(JobSeeker)
+    interest = models.CharField(max_length=2, choices=INTEREST)
+
+    def __unicode__(self):
+        return "User: %s like profile: %s for job: %s" % (self.recruiter.user.username,
+                                                  self.seeker.user.username, self.job.job_code)
