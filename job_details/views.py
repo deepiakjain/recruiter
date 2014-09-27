@@ -111,13 +111,14 @@ def apply_for_job(request, job_code):
         # redirect with message don't have access to perform this operation.
         return redirect(reverse('home'))
 
-    # get job object
-    job_obj = get_object_or_404(JobDetails, job_code=job_code)
 
     #check Status object exists or not.
-    if Status.objects.filter(job=job_obj, seeker=request.user.jobseeker):
+    if Status.objects.filter(job__job_code=job_code, seeker=request.user.jobseeker):
         # redirect with message don't have access to perform this operation.
         return redirect(reverse('home'))
+
+    # get job object
+    job_obj = get_object_or_404(JobDetails, job_code=job_code)
 
     status = Status(job=job_obj, seeker=request.user.jobseeker, status='AP')
     status.save()
@@ -127,7 +128,7 @@ def apply_for_job(request, job_code):
 
 
 @login_required()
-def update_job_status(request, status, job_code):
+def update_job_status(request, status, job_code, seeker_id):
     """
     Update job status by recruiter.
     """
@@ -135,11 +136,8 @@ def update_job_status(request, status, job_code):
         # redirect with message don't have access to perform this operation.
         return redirect(reverse('home'))
 
-    # get job object
-    job_obj = get_object_or_404(JobDetails, job_code=job_code)
-
     # get status
-    status_obj = get_object_or_404(Status, job=job_obj)
+    status_obj = get_object_or_404(Status, job__job_code=job_code, seeker__id=seeker_id)
 
     status_obj.status = get_constant_dict(STATUS)[status]
     status_obj.save()

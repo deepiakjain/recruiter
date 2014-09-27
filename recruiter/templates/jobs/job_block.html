@@ -8,7 +8,7 @@
     <div>Job type is :{{job.job_type}}</div>
     <div>
         {% if is_seeker %}
-            <input type='button' value="Apply for" onclick="#"/>
+            <input type='button' value="Apply for" onclick="{% url 'apply-for-job' %}"/>
         {% endif %}
     </div>
 </div>
