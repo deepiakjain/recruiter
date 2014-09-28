@@ -1,15 +1,33 @@
-{%load i18n %}
+{% load i18n %}
 
-<div id="footer" style="width: 100%; background-color: lavender; border-radius: 5px;">
-    <div style="height: 40px; position: relative; top: 10px; padding-left: 10px;">
-        <div style="float:left; width:70%">
-            <span> <a href="{% url 'home' %}">{% trans "Home" %}</a> </span> |
-            <span><a href="#">{% trans "About Us" %}</a></span> | <span><a href="#">{% trans "Contact Us" %}</a></span>
-        </div>
-
-        <div style="width:30%; float:right;">
-            <span id="Facebook" style="width:45%"> {% trans 'facebook page' %} </span> |
-            <span id="twitter" style="width:45%"> {% trans 'twitter page' %}</span>
+<footer>
+    <div class="left-section">
+        <nav>
+            <a href="{% url 'home' %}" title="Home">{% trans 'Home' %}</a>
+            <a href="javascript:void(0);" title="Home">{% trans 'About Us' %}</a>
+            <a href="javascript:void(0);" title="Home">{% trans 'Contact Us' %}</a>
+            {% if request.user.is_anonymous%}
+                <a href="{% url 'auth_login' %}" title="Home">{% trans 'Login' %}</a>
+            {% else %}
+                <a href="{% url 'auth_logout' %}" title="Home">{% trans 'Logout' %}</a>
+            {% endif %}
+            <a href="javascript:void(0);" title="Home">{% trans 'Leave Feedback' %}</a>
+        </nav>
+        <div class="company-tieups">
+            <label>{% trans 'Our Tie ups with:' %}</label>
+            <a href="javascript:void(0);" title="Company Name">{% trans 'Company Name' %}</a>
+            <a href="javascript:void(0);" title="Company Name">{% trans 'Company Name' %}</a>
+            <a href="javascript:void(0);" title="Company Name">{% trans 'Company Name' %}</a>
         </div>
     </div>
-</div>
+    <div class="right-section">
+        <div class="logo"></div>
+        <span class="copyrights">{% trans 'Copyrights 2014-2015. All rights reserved.' %}</span>
+        <div class="social-links">
+            <label>{% trans 'Follow us on:' %}</label>
+            <a href="javascript:void(0);" class="facebook" title="Facebook">{% trans 'Facebook' %}</a>
+            <a href="javascript:void(0);" class="twitter" title="Twitter">{% trans 'Twitter' %}</a>
+            <a href="javascript:void(0);" class="youtube" title="You Tube">{% trans 'You Tube' %}</a>
+        </div>
+    </div>
+</footer>

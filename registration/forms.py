@@ -39,7 +39,7 @@ class RegistrationForm(forms.Form):
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput,
                                 label=_("Password (again)"))
-    gender = forms.ChoiceField(widget=forms.RadioSelect(), choices=GENDER_CHOICES, label=_("How are you ?"))
+    gender = forms.ChoiceField(widget=forms.RadioSelect(), choices=GENDER_CHOICES, label=_("Who are you"))
     user_role = forms.CharField(widget=forms.HiddenInput(), initial=JOB_SEEKER,
                                 label=_("User Role"))
 

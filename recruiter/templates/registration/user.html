@@ -4,44 +4,55 @@
 {% block title %}Registration{% endblock %}
 
 {% block content%}
-    <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
-        <form action='.' method='POST'>
+
+    <div class="form-layout single">
+        <form action='.' method='POST' id="registration" name="registration">
             {% csrf_token %}
             {{ wizard.management_form }}
-            <div style="padding:5px;">{{form.user_role.errors.as_text}}</div>
-            <div>
-                <!--<div style="padding:5px;">-->
-                    <!--<label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>-->
-                    <!--{{form.username}}-->
-                    <!--<div style="padding:5px;">{{form.username.errors.as_text}}</div>-->
-                <!--</div>-->
-                <div style="padding:5px;">
-                    <label id="{{form.email.id_for_label}}">{{form.email.label}}:</label>
+
+            <div class="row">
+                <label id="{{form.email.id_for_label}}">{{form.email.label}}:</label>
+                <div class="form-elements">
                     {{form.email}}
-                    <div style="padding:5px;">{{form.email.errors.as_text}}</div>
+                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    <div>{{form.email.errors.as_text}}</div>
                 </div>
-                <div style="padding:5px;">
-                    <label id="{{form.password.id_for_label}}">{{form.password1.label}}:</label>
-                    {{form.password1}}
-                    <div style="padding:5px;">{{form.password1.errors.as_text}}</div>
-                </div>
-                <div style="padding:5px;">
-                    <label id="{{form.password2.id_for_label}}">{{form.password2.label}}:</label>
-                    {{form.password2}}
-                    <div style="padding:5px;">{{form.password2.errors.as_text}}</div>
-                </div>
-                <div style="padding:5px;">
-                    <label id="{{form.gender.id_for_label}}">{{form.gender.label}}:</label>
-                    {{form.gender}}
-                    <div style="padding:5px;">{{form.gender.errors.as_text}}</div>
-                </div>
-                {{form.user_role}}
             </div>
-            <div style="width:100%;">
-                <span style="float:right">
-                    <input type='submit' value="Register" />
-                    <input type='button' value="cancel" onclick="window.location.href='{% url 'home' %}';"/>
-                </span>
+
+            <div class="row">
+                <label id="{{form.password1.id_for_label}}">{{form.password1.label}}:</label>
+                <div class="form-elements">
+                    {{form.password1}}
+                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    <div>{{form.password1.errors.as_text}}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label id="{{form.password2.id_for_label}}">{{form.password2.label}}:</label>
+                <div class="form-elements">
+                    {{form.password2}}
+                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    <div>{{form.password2.errors.as_text}}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label id="{{form.gender.id_for_label}}">{{form.gender.label}}:</label>
+                <div class="form-elements">
+                    {{form.gender}}
+                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    <div>{{form.gender.errors.as_text}}</div>
+                </div>
+            </div>
+            {{form.user_role}}
+
+            <div class="button-container">
+                <input type="button" name="register" id="register_id"
+                       value="Submit" onClick="$('#registration').submit();"/>
+
+                <input type="button" name="cancel" id="cancel_id"
+                       value="Cancel" onClick="window.location.href='{% url 'auth_login' %}'" />
             </div>
         </form>
     </div>
