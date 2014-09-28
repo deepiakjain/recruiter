@@ -27,12 +27,10 @@ YES_NO_CHOICES = (('Y', 'Yes'),
 GENDER_CHOICES = (('F', 'Female'),
                   ('M', 'Male'))
 
-STATUS = (
-    ('AP', 'Applied'),
-    ('AC', 'Accept'),
-    ('OH', 'On Hold')
-    ('NF', 'Not Fit'),
-)
+STATUS = (('AP', 'Applied'),
+          ('AC', 'Accept'),
+          ('OH', 'On Hold'),
+          ('NF', 'Not Fit'))
 
 INTEREST = (('PM', 'Perfect Match'),
             ('OH', 'On Hold')

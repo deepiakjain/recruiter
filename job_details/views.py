@@ -103,6 +103,18 @@ def job_detail(request, job_code):
 
 
 @login_required()
+def seeker_job_detail(request, job_code, seeker_id):
+    job = get_object_or_404(JobDetails, job_code=job_code)
+
+    is_recruiter = user_is_seeker(request.user)
+
+    template = 'jobs/job_detail.html'
+    context = {'job': job, 'is_recruiter': is_recruiter, 'seeker_id': seeker_id}
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+@login_required()
 def apply_for_job(request, job_code):
     """
     Apply for job this functionality is available only for seeker no for recruiter.
@@ -110,7 +122,6 @@ def apply_for_job(request, job_code):
     if user_is_recruiter(request.user):
         # redirect with message don't have access to perform this operation.
         return redirect(reverse('home'))
-
 
     #check Status object exists or not.
     if Status.objects.filter(job__job_code=job_code, seeker=request.user.jobseeker):

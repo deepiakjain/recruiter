@@ -8,6 +8,10 @@ Model used for job detail filled by user can be admin or Recruiter
 """
 
 from django.db import models
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
+from django.db.utils import IntegrityError
+
 from account.models import JobSeeker, Recruiter
 from account.constants import STATUS, JOB_STATUS, JOB_TYPE, INTEREST
 
@@ -37,9 +41,6 @@ class Status(models.Model):
     job = models.ManyToManyField(JobDetails)
     seeker = models.ManyToManyField(JobSeeker)
     status = models.CharField(max_length=2, choices=STATUS)
-
-    class Meta:
-        unique_together = ('job', 'seeker',)
 
     def __unicode__(self):
         return "User: %s job: %s status: %s" % (self.seeker.user.username, self.job.job_title, self.status)
