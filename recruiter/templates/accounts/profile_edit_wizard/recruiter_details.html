@@ -9,49 +9,69 @@
 {% endblock %}
 
 {% block form_elements %}
-        {{form.errors}}
-    <div id="config_details" style="width:100%;">
-        <div style="width: 50%; float:left;">
-            <div style="padding:5px;">
-                <label id="{{form.recruiter_info.company_email.id_for_label}}">
-                    {{form.recruiter_info.company_email.label}}:</label>
-                {{form.recruiter_info.company_email}}
-                <div style="padding:5px;">{{form.recruiter_info.company_email.errors.as_text}}</div>
-            </div>
-            <div style="padding:5px;">
-                <label id="{{form.company.name.id_for_label}}">{{form.company.name.label}}:</label>
-                {{form.company.name}}
-                <div style="padding:5px;">{{form.company.name.errors.as_text}}</div>
-            </div>
-            <div style="padding:5px;">
-                <label id="{{form.company.website.id_for_label}}">{{form.company.website.label}}:</label>
-                {{form.company.website}}
-                <div style="padding:5px;">{{form.company.website.errors.as_text}}</div>
-            </div>
-            <div style="padding:5px;">
-                <label id="{{form.company.logo.id_for_label}}">{{form.company.logo.label}}:</label>
-                {{form.company.logo}}
-                <div style="padding:5px;">{{form.company.logo.errors.as_text}}</div>
-            </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.recruiter_info.company_email.id_for_label}}">
+            {{form.recruiter_info.company_email.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.recruiter_info.company_email}}
+            {{form.recruiter_info.company_email.errors.as_text}}
         </div>
-        <div style="width: 50%; float:left;">
-            <div style="padding:5px;">
-                <label id="{{form.company_address.street.id_for_label}}">{{form.company_address.street.label}}:</label>
-                {{form.company_address.street}}
-                <div style="padding:5px;">{{form.company_address.street.errors.as_text}}</div>
-            </div>
-            <div style="padding:5px;">
-                <label id="{{form.company_address.city.id_for_label}}">{{form.company_address.city.label}}:</label>
-                {{form.company_address.city}}
-                <div style="padding:5px;">{{form.company_address.city.errors.as_text}}</div>
-            </div>
-            <div style="padding:5px;">
-                <label id="{{form.company_address.country.id_for_label}}">{{form.company_address.country.label}}:</label>
-                {{form.company_address.country}}
-                <div style="padding:5px;">{{form.company_address.country.errors.as_text}}</div>
-            </div>
+        <label class="mandatory" id="{{form.company.name.id_for_label}}">
+            {{form.company.name.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company.name}}
+            {{form.company.name.errors.as_text}}
         </div>
     </div>
+
+
+    <div class="row">
+        <label class="mandatory" id="{{form.company.website.id_for_label}}">
+            {{form.company.website.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company.website}}
+            {{form.company.website.errors.as_text}}
+        </div>
+        <label class="mandatory" id="{{form.company.logo.id_for_label}}">
+            {{form.company.logo.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company.logo}}
+            {{form.company.logo.errors.as_text}}
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.company_address.street.id_for_label}}">
+            {{form.company_address.street.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company_address.street}}
+            {{form.company_address.street.errors.as_text}}
+        </div>
+        <label class="mandatory" id="{{form.company_address.city.id_for_label}}">
+            {{form.company_address.city.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company_address.city}}
+            {{form.company_address.city.errors.as_text}}
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.company_address.country.id_for_label}}">
+            {{form.company_address.country.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company_address.country}}
+            {{form.company_address.country.errors.as_text}}
+        </div>
+    </div>
+
 
 {% endblock %}
 
