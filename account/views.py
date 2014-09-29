@@ -35,7 +35,7 @@ class ProfileEditWizard(SessionWizardView):
                     ('education_details', EducationDetailsForm),
                     ('professional_details', ProfessionalDetailsForm),
                     ('job_expectations', JobExpectationsForm),
-                    ('job_expectations', JobExpectationsForm),
+
                     ('recruiter_details', RecruiterDetailsForm),
                     )
 

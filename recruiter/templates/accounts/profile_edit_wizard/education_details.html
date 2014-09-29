@@ -9,42 +9,55 @@
 {% endblock %}
 
 {% block form_elements %}
-    <div id="config_details" style="">
-        <div style="padding:5px;">
-            <label id="{{form.qualification.qualification.id_for_label}}">
-                {{form.qualification.qualification.label}}:
-            </label>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.qualification.qualification.id_for_label}}">
+            {{form.qualification.qualification.label}}:
+        </label>
+        <div class="form-elements">
             {{form.qualification.qualification}}
-            <div style="padding:5px;">{{form.qualification.qualification.errors.as_text}}</div>
+            {{form.qualification.qualification.errors.as_text}}
         </div>
-        <div style="padding:5px;">
-            <label id="{{form.qualification.institute_name.id_for_label}}">
-                {{form.qualification.institute_name.label}}:</label>
-            {{form.qualification.institute_name}}
-            <div style="padding:5px;">{{form.qualification.institute_name.errors.as_text}}</div>
-        </div>
-        <div style="padding:5px;">
-            <label id="{{form.qualification.year_of_passing.id_for_label}}">
-                {{form.qualification.year_of_passing.label}}:</label>
-            {{form.qualification.year_of_passing}}
-            <div style="padding:5px;">{{form.qualification.year_of_passing.errors.as_text}}</div>
-        </div>
-        <div style="padding:5px;">
-            <label id="{{form.qualification.percentage.id_for_label}}">{{form.qualification.percentage.label}}:</label>
-            {{form.qualification.percentage}}
-            <div style="padding:5px;">{{form.qualification.percentage.errors.as_text}}</div>
-        </div>
-        <div style="padding:5px;">
-            <label id="{{form.qualification.special_achievement.id_for_label}}">
-                {{form.qualification.special_achievement.label}}:</label>
-            {{form.qualification.special_achievement}}
-            <div style="padding:5px;">{{form.qualification.special_achievement.errors.as_text}}</div>
-        </div>
-        <div style="padding:5px;">
-            <label id="{{form.resume_file.resume.id_for_label}}">
-                {{form.resume_file.resume.label}}:</label>
+        <label class="mandatory" id="{{form.resume_file.resume.id_for_label}}">
+            {{form.resume_file.resume.label}}:
+        </label>
+        <div class="form-elements">
             {{form.resume_file.resume}}
-            <div style="padding:5px;">{{form.resume_file.resume.errors.as_text}}</div>
+            {{form.resume_file.resume.errors.as_text}}
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.qualification.institute_name.id_for_label}}">
+            {{form.qualification.institute_name.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.qualification.institute_name}}
+            {{form.qualification.institute_name.errors.as_text}}
+        </div>
+        <label class="mandatory" id="{{form.qualification.year_of_passing.id_for_label}}">
+            {{form.qualification.year_of_passing.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.qualification.year_of_passing}}
+            {{form.qualification.year_of_passing.errors.as_text}}
+        </div>
+    </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.qualification.percentage.id_for_label}}">
+            {{form.qualification.percentage.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.qualification.percentage}}
+            {{form.qualification.percentage.errors.as_text}}
+        </div>
+        <label class="" id="{{form.qualification.special_achievement.id_for_label}}">
+            {{form.qualification.special_achievement.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.qualification.special_achievement}}
+            {{form.qualification.special_achievement.errors.as_text}}
         </div>
     </div>
 
@@ -52,7 +65,7 @@
 
 
 {% block prev-button %}
-  {% blocktrans %}Basic information{% endblocktrans %} <i class="left-arrowd"></i>
+  {% blocktrans %}information{% endblocktrans %} <i class="left-arrowd"></i>
 {% endblock %}
 
 

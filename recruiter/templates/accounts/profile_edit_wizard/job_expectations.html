@@ -9,30 +9,33 @@
 {% endblock %}
 
 {% block form_elements %}
-    <div id="config_details" style="">
-        <div style="padding:5px;">
-            <label id="{{form.profession.expected_ctc_lac.id_for_label}}">
-                {{form.profession.expected_ctc_lac.label}}:</label>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.profession.expected_ctc_lac.id_for_label}}">
+            {{form.profession.expected_ctc_lac.label}}:
+        </label>
+        <div class="form-elements">
             {{form.profession.expected_ctc_lac}}
             {{form.profession.expected_ctc_thousand}}
-            <div style="padding:5px;">
-                {{form.extra_info.profession.expected_ctc_lac.errors.as_text}}
-                {{form.extra_info.profession.expected_ctc_lac.errors.as_text}}
-                {{form.extra_info.profession.expected_ctc_thousand.errors.as_text}}
-            </div>
-        </div>
-        <div style="padding:5px;">
-            <label id="{{form.profession.relocate.id_for_label}}">{{form.profession.relocate.label}}:</label>
-            {{form.profession.relocate}}
-            <div style="padding:5px;">{{form.extra_info.profession.relocate.errors.as_text}}</div>
-        </div>
-        <div>
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-        </div>
 
+            {{form.extra_info.profession.expected_ctc_lac.errors.as_text}}
+            {{form.extra_info.profession.expected_ctc_thousand.errors.as_text}}
+        </div>
+        <label class="mandatory" id="{{form.profession.relocate.id_for_label}}">
+            {{form.profession.relocate.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.profession.relocate}}
+            {{form.profession.relocate.errors.as_text}}
+        </div>
     </div>
+
+    <div>
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+    </div>
+
 
 {% endblock %}
 

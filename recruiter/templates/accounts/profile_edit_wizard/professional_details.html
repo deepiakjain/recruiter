@@ -9,36 +9,51 @@
 {% endblock %}
 
 {% block form_elements %}
-    <div id="config_details" style="">
-        <div style="padding:5px;">
-            <label id="{{form.company.name.id_for_label}}">{{form.company.name.label}}:</label>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.company.name.id_for_label}}">
+            {{form.company.name.label}}:
+        </label>
+        <div class="form-elements">
             {{form.company.name}}
-            <div style="padding:5px;">{{form.company.name.errors.as_text}}</div>
+            {{form.company.name.errors.as_text}}
         </div>
-        <div style="padding:5px;">
-            <label id="{{form.company.website.id_for_label}}">{{form.company.website.label}}:</label>
-            {{form.company.website}}
-            <div style="padding:5px;">{{form.company.website.errors.as_text}}</div>
-        </div>
-        <div style="padding:5px;">
-            <label id="{{form.extra_info.joining_date.id_for_label}}">{{form.extra_info.joining_date.label}}:</label>
+        <label class="mandatory" id="{{form.extra_info.joining_date.id_for_label}}">
+            {{form.extra_info.joining_date.label}}:
+        </label>
+        <div class="form-elements">
             {{form.extra_info.joining_date}}
-            <div style="padding:5px;">{{form.extra_info.joining_date.errors.as_text}}</div>
+            {{form.extra_info.joining_date.errors.as_text}}
         </div>
-        <div style="padding:5px;">
-            <label id="{{form.extra_info.notice_period.id_for_label}}">{{form.extra_info.notice_period.label}}:</label>
+    </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.company.website.id_for_label}}">
+            {{form.company.website.label}}:
+        </label>
+        <div class="form-elements">
+            {{form.company.website}}
+            {{form.company.website.errors.as_text}}
+        </div>
+        <label class="mandatory" id="{{form.extra_info.notice_period.id_for_label}}">
+            {{form.extra_info.notice_period.label}}:
+        </label>
+        <div class="form-elements">
             {{form.extra_info.notice_period}}
-            <div style="padding:5px;">{{form.extra_info.notice_period.errors.as_text}}</div>
+            {{form.extra_info.notice_period.errors.as_text}}
         </div>
-        <div style="padding:5px;">
-            <label id="{{form.extra_info.current_ctc_lac.id_for_label}}">
-                {{form.extra_info.current_ctc_lac.label}}:</label>
+    </div>
+
+    <div class="row">
+        <label class="mandatory" id="{{form.extra_info.current_ctc_lac.id_for_label}}">
+            {{form.extra_info.current_ctc_lac.label}}:
+        </label>
+        <div class="form-elements">
             {{form.extra_info.current_ctc_lac}}
             {{form.extra_info.current_ctc_thousand}}
-            <div style="padding:5px;">
-                {{form.extra_info.current_ctc_lac.errors.as_text}}
-                {{form.extra_info.current_ctc_thousand.errors.as_text}}
-            </div>
+
+            {{form.extra_info.current_ctc_lac.errors.as_text}}
+            {{form.extra_info.current_ctc_thousand.errors.as_text}}
         </div>
     </div>
 

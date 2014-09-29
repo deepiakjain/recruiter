@@ -1,29 +1,21 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-{% block content %}
-{% block header_content %}
-	{% include 'accounts/profile_edit_wizard/breadcrumbs.html' %}
+{% block section_header %}
+    {% include 'accounts/profile_edit_wizard/breadcrumbs.html' %}
+
+    {% block registration_title %}
+    {% endblock %}
+
 {% endblock %}
 
-<div class="clear"></div>
-
-<section id="main-content" class="main-content-hldr">
-    <div class="container">
-	    {% block container %}
-            <div class="title row">
-                {% block registration_title %}
-                {% endblock %}
-            </div>
-		
-            <section class="block65 pull-left rt-mgn25">
-                {% block form_part %}
-                    <form action="{% url 'profile_edit' %}" method="post" id="edit_after_registration_form" enctype="multipart/form-data">
-                        <div class="wht-box">
-                            <div class="content top-btm20">
-                            {% block registration_icon %}
-                            {% endblock %}
-                        </div>
+{% block content %}
+    {% block container %}
+        <section>
+            {% block form_part %}
+                <form action="{% url 'profile_edit' %}" method="post" id="edit_after_registration_form"
+                      enctype="multipart/form-data">
+                    <div class="form-layout double">
                         {% csrf_token %}
                         {{ wizard.management_form }}
                         {% block form_elements %}
@@ -36,8 +28,7 @@
                             {% endif %}
                         {% endblock %}
 
-                        <div id="id-main-btns" class="bottom-btns">
-
+                        <div id="id-main-btns" class="button-container">
                             {% if wizard.steps.prev %}
                                 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}" class="arrow-btn">
                                 {% block prev-button %} {% endblock %}
@@ -48,23 +39,9 @@
                                 {% block next-button %}{% endblock %}
                             </button>
                         </div>
-
-                        </div>
-
-                        {% block mid-content %}
-                        {% endblock %}
-                    </form>
-                {% endblock %}
-            </section>
-		    <div class="enlarge-image-cont" style="display: none;">
-		        <div class="popup-container">
-		            <a href="#" class="pop-close">&nbsp;</a>
-		            <img class="large-image">
-		        </div>
-		        <div class="popup-bg"></div>
-		    </div>
-	    {% endblock %}
-    </div>
-</section>
-
+                    </div>
+                </form>
+            {% endblock %}
+        </section>
+    {% endblock %}
 {% endblock %}
