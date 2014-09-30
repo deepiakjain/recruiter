@@ -4,8 +4,8 @@
     <div class="left-section">
         <nav>
             <a href="{% url 'home' %}" title="Home">{% trans 'Home' %}</a>
-            <a href="javascript:void(0);" title="Home">{% trans 'About Us' %}</a>
-            <a href="javascript:void(0);" title="Home">{% trans 'Contact Us' %}</a>
+            <a href="{% url 'about' %}" title="About Us">{% trans 'About Us' %}</a>
+            <a href="{% url 'contact-us' %}" title="Contact Us">{% trans 'Contact Us' %}</a>
             {% if request.user.is_anonymous%}
                 <a href="{% url 'auth_login' %}" title="Home">{% trans 'Login' %}</a>
             {% else %}
