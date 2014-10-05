@@ -4,6 +4,13 @@
 {% block title %} Profile Edit {% endblock %}
 
 {% block content%}
+
+    {%if is_seeker %}
+        <form action="{% url 'seeker-list' %}" method="POST">
+            {% include 'navigation/search_form.html' with form=form %}
+        </form>
+    {% endif %}
+
     {% if users %}
         {% for user in users %}
             {%if is_seeker %}

@@ -5,6 +5,10 @@
 
 {% block content%}
     <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
+    <form action="{% url 'job-list' %}" method="POST">
+        {% include 'navigation/search_form.html' with form=form %}
+    </form>
+
     {% for job in jobs %}
         {% include 'jobs/job_block.html' with job=job is_seeker=is_seeker %}
     {% endfor %}
