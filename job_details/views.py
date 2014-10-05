@@ -7,18 +7,21 @@ Recruiter project.
 Url for job related functionality
 """
 
+from django.db.models import Q
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
 # project imports
-from utils.utilities import user_is_recruiter, user_is_seeker
 from account.models import JobSeeker
+from account.forms import Search
+from account.constants import STATUS
+
 from job_details.models import JobDetails, Status
 from job_details.forms import JobDetailsForm, InterestingResumeForm
-from account.constants import STATUS
-from utils.utilities import get_constant_dict
+
+from utils.utilities import get_constant_dict, user_is_recruiter, user_is_seeker
 
 # TODO: need to work on it
 @login_required()
@@ -73,17 +76,47 @@ def create_job(request, job_code=None):
                               context_instance=RequestContext(request))
 
 
-def job_list(request):
-    """
-    Will list all jobs based on created or open date.
-    """
+# def job_list(request):
+#     """
+#     Will list all jobs based on created or open date.
+#     """
+#
+#     jobs = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
+#
+#     is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
+#
+#     template = 'jobs/jobs_list.html'
+#     context = {'jobs': jobs, 'is_seeker': is_seeker}
+#     return render_to_response(template, context,
+#                               context_instance=RequestContext(request))
 
-    jobs = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
+
+def job_list(request):
 
     is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
 
+    context = {'form': Search(), 'is_seeker': is_seeker}
     template = 'jobs/jobs_list.html'
-    context = {'jobs': jobs, 'is_seeker': is_seeker}
+
+    results = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
+
+    if request.method == 'POST':
+        search = request.POST.get('search', None)
+        if search:
+            results = results.filter(Q(skill_set__icontains=search)|Q(roles_and_responsibilities__icontains=search))
+
+        experience = request.POST.get('experience', None)
+        if experience:
+            results = results.filter(min_experience__gte=experience)
+
+        location = request.POST.get('location', None)
+        if location:
+            results = results.filter(location_name__icontains=location)
+
+        context.update({'form': Search(request.POST)})
+
+    context.update({'jobs': results})
+
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 

@@ -5,12 +5,14 @@ Author : Shreeyansh Jain, 13/09/2014
 Recruiter project.
 """
 
+from django import forms
 from utils.form_container import FormContainer
 from account.profile_forms import InlineAddressForm, InlineSeekerCompanyForm, InlineBaseProfileForm,\
     InlineEducationBackgroundForm, InlineResumeForm, InlineProfessionalDetailsForm, InlineCompanyProfileForm,\
     InlineSeekerDetailsForm, InlineRecruiterDetailsForm
 
 from utils.utilities import get_profile
+from account.constants import YEAR_EXPERIENCE
 
 
 class ContactDetailsForm(FormContainer):
@@ -212,3 +214,9 @@ class RecruiterDetailsForm(FormContainer):
 
         recruiter.company = company
         recruiter.save()
+
+
+class Search(forms.Form):
+    search = forms.CharField(max_length=100, required=False)
+    location = forms.CharField(max_length=100, required=False)
+    experience = forms.ChoiceField(choices=YEAR_EXPERIENCE)

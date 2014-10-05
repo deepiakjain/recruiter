@@ -6,6 +6,7 @@ Recruiter project.
 """
 
 # python imports
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.formtools.wizard.views import SessionWizardView
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
@@ -21,6 +22,7 @@ from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetail
 from account.models import JobSeeker, Recruiter
 
 from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
+from .forms import Search
 
 
 class ProfileEditWizard(SessionWizardView):
@@ -148,19 +150,19 @@ def user_profile(request):
                               context_instance=RequestContext(request))
 
 
-def seeker_list(request):
-    """
-    Will list all jobs based on created or open date.
-    """
-
-    seekers = JobSeeker.objects.all().exclude(mobile_no=None).\
-        exclude(resume=None).exclude(user__username=request.user.username)\
-        .order_by('user__first_name')
-
-    template = 'accounts/user_list.html'
-    context = {'users': seekers, 'is_seeker': True}
-    return render_to_response(template, context,
-                              context_instance=RequestContext(request))
+# def seeker_list(request):
+#     """
+#     Will list all jobs based on created or open date.
+#     """
+#
+#     seekers = JobSeeker.objects.all().exclude(mobile_no=None).\
+#         exclude(resume=None).exclude(user__username=request.user.username)\
+#         .order_by('user__first_name')
+#
+#     template = 'accounts/user_list.html'
+#     context = {'users': seekers, 'is_seeker': True}
+#     return render_to_response(template, context,
+#                               context_instance=RequestContext(request))
 
 
 def recruiter_list(request):
@@ -205,5 +207,35 @@ def recruiter_details(request, profile_id):
     template = 'accounts/recruiter_details.html'
     context = {'users': recruiter}
 
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+def seeker_list(request):
+
+    context = {'form': Search(), 'is_seeker': True}
+    template = 'accounts/user_list.html'
+
+    results = JobSeeker.objects.all().exclude(mobile_no=None).\
+        exclude(resume=None).exclude(user__username=request.user.username)\
+        .order_by('user__first_name')
+
+    if request.method == 'POST':
+
+        search = request.POST.get('search', None)
+        if search:
+            results = results.filter(Q(skill_set__icontains=search)|Q(qualification__qualification__icontains=search))
+
+        experience = request.POST.get('experience', None)
+        if experience:
+            results = results.filter(experience_yrs__gte=experience)
+
+        location = request.POST.get('location', None)
+        if location:
+            results = results.filter(preferred_loc__icontains=location)
+
+        context.update({'form': Search(request.POST)})
+
+    context.update({'users': results})
     return render_to_response(template, context,
                               context_instance=RequestContext(request))

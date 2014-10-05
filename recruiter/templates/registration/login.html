@@ -24,15 +24,28 @@
                 <div id="candidate" class="tabs">{% trans 'Search Candidate' %}</div>
             </div>
             <div class="search-form job-content">
-                Form for searching jobs..
+                <form action="{% url 'job-list' %}" method="POST">
+                    {% csrf_token %}
+                    {{search_form.search}}
+                    {{search_form.location}}
+                    {{search_form.experience}}
+                    <input type="submit" value="Search" title="Search" class="search-btn" />
+                </form>
             </div>
             <div class="search-form candidate-content">
-                <input type="text" name="" id="" value="" placeholder="Enter Skills, Designation" />
-                <input type="text" name="" id="" value="" placeholder="Enter Location" />
-                <select>
-                    <option>Experience</option>
-                </select>
-                <input type="button" name="" id="" value="Search" title="Search" class="search-btn" />
+                <form action="{% url 'seeker-list' %}" method="POST">
+                    {% csrf_token %}
+                    {{search_form.search}}
+                    {{search_form.location}}
+                    {{search_form.experience}}
+                    <input type="submit" value="Search" title="Search" class="search-btn" />
+                </form>
+                <!--<input type="text" name="" id="" value="" placeholder="Enter Skills, Designation" />-->
+                <!--<input type="text" name="" id="" value="" placeholder="Enter Location" />-->
+                <!--<select>-->
+                    <!--<option>Experience</option>-->
+                <!--</select>-->
+                <!--<input type="button" name="" id="" value="Search" title="Search" class="search-btn" />-->
             </div>
         </div>
 
