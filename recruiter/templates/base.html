@@ -36,5 +36,15 @@
     <script src="{{ STATIC_URL }}script/jquery-1.11.1.min.js" language="javascript" type="text/javascript"></script>
     <script src="{{ STATIC_URL }}script/script.js" language="javascript" type="text/javascript"></script>
     {% block js %}
+    <script>
+        function apply_for_job(url){
+            $.ajax({
+                url: url
+            }).done(function(response) {
+                alert(response.url);
+                window.location.href = response.url;
+            });
+        }
+    </script>
     {% endblock %}
 </html>

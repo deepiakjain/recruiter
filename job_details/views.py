@@ -7,7 +7,10 @@ Recruiter project.
 Url for job related functionality
 """
 
+import json
+
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -115,7 +118,15 @@ def job_list(request):
 
         context.update({'form': Search(request.POST)})
 
-    context.update({'jobs': results})
+    # update results for following function
+    for result in results:
+        result.applied = result.applied_by_seeker(request.user)
+        if result.applied:
+            #need to get correct name of status
+            result.status = result.status_set.get(seeker__user=request.user).status
+
+
+    context.update({'jobs': results, 'user': request.user})
 
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
@@ -126,6 +137,12 @@ def job_detail(request, job_code):
     Job detail which will display two all users
     """
     job = get_object_or_404(JobDetails, job_code=job_code)
+
+    job.applied = job.applied_by_seeker(request.user)
+
+    if job.applied:
+        #need to get correct name of status
+        job.status = job.status_set.get(seeker__user=request.user).status
 
     is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
 
@@ -152,23 +169,27 @@ def apply_for_job(request, job_code):
     """
     Apply for job this functionality is available only for seeker no for recruiter.
     """
+
     if user_is_recruiter(request.user):
         # redirect with message don't have access to perform this operation.
-        return redirect(reverse('home'))
+        return HttpResponse(json.dumps({'url': reverse('home')}), content_type="application/json")
 
     #check Status object exists or not.
     if Status.objects.filter(job__job_code=job_code, seeker=request.user.jobseeker):
         # redirect with message don't have access to perform this operation.
-        return redirect(reverse('home'))
+        return HttpResponse(json.dumps({'url': reverse('home')}), content_type="application/json")
 
     # get job object
     job_obj = get_object_or_404(JobDetails, job_code=job_code)
 
-    status = Status(job=job_obj, seeker=request.user.jobseeker, status='AP')
+    status = Status(status='AP')
     status.save()
 
-    #TODO: need to change with ajax call.
-    return redirect(reverse('home'))
+    # add many to many fields
+    status.job.add(job_obj)
+    status.seeker.add(request.user.jobseeker)
+
+    return HttpResponse(json.dumps({'url': reverse('job-detail', args=[job_code])}), content_type="application/json")
 
 
 @login_required()

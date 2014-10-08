@@ -36,14 +36,17 @@ class JobDetails(models.Model):
     def __unicode__(self):
         return "User %s from %s" % (self.recruiter.user.first_name, self.job_code)
 
+    def applied_by_seeker(self, seeker):
+        """
+        Check status object exist for user and job.
+        """
+        return Status.objects.filter(job=self, seeker__user=seeker).exists()
+
 
 class Status(models.Model):
     job = models.ManyToManyField(JobDetails)
     seeker = models.ManyToManyField(JobSeeker)
     status = models.CharField(max_length=2, choices=STATUS)
-
-    def __unicode__(self):
-        return "User: %s job: %s status: %s" % (self.seeker.user.username, self.job.job_title, self.status)
 
 
 class InterestingResume(models.Model):
