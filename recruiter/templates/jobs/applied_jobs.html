@@ -1,0 +1,26 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %}Jobs{% endblock %}
+
+{% block content%}
+    <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
+        <div> Job Details </div>
+        {% for status in job_status %}
+            <div>Job Title: <a href="{% url 'job-detail' status.job.all.0.job_code %}">{{status.job.all.0.job_title}}</a> </div>
+            <div>designation: {{status.job.all.0.designation}}</div>
+            <div>Looking for skill set: {{status.job.all.0.skill_set}}</div>
+            <div>Your roles and responsibilities are: <br\>{{status.job.all.0.roles_and_responsibilities}}</div>
+            <div>Job type is :{{status.job.all.0.job_type}}</div>
+            {% if is_seeker %}
+                Status : {{status.status}}
+            {% else %}
+                <div>
+                    <input type='button' value="Not Fit" onclick="apply_for_job('{% url 'update-job-status' 'NF' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
+                    <input type='button' value="On Hold" onclick="apply_for_job('{% url 'update-job-status' 'OH' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
+                    <input type='button' value="Accept" onclick="apply_for_job('{% url 'update-job-status' 'AC' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

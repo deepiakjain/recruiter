@@ -199,16 +199,15 @@ def update_job_status(request, status, job_code, seeker_id):
     """
     if user_is_seeker(request.user):
         # redirect with message don't have access to perform this operation.
-        return redirect(reverse('home'))
+        return HttpResponse(json.dumps({'url': reverse('home')}), content_type="application/json")
 
     # get status
     status_obj = get_object_or_404(Status, job__job_code=job_code, seeker__id=seeker_id)
 
-    status_obj.status = get_constant_dict(STATUS)[status]
+    status_obj.status = status
     status_obj.save()
 
-    #TODO: need to change with ajax call.
-    return redirect(reverse('home'))
+    return HttpResponse(json.dumps({'url': reverse('job-detail', args=[job_code])}), content_type="application/json")
 
 
 @login_required()
@@ -231,6 +230,37 @@ def interesting_resume(request, seeker_id):
 
     context = {'form': form}
     template = 'jobs/interesting_resume.html'
+
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+@login_required()
+def job_status(request):
+    """
+    """
+    if user_is_seeker(request.user):
+        # redirect with message don't have access to perform this operation.
+        return redirect(reverse('home'))
+
+    applied_jobs = Status.objects.filter(job__recruiter__user=request.user)
+
+    context = {'job_status': applied_jobs}
+    template = 'jobs/applied_jobs.html'
+
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+
+def applied_job_list(request):
+    if user_is_recruiter(request.user):
+        # redirect with message don't have access to perform this operation.
+        return redirect(reverse('home'))
+
+    status = Status.objects.filter(seeker__user=request.user)
+
+    context = {'job_status': status, 'is_seeker': True}
+    template = 'jobs/applied_jobs.html'
 
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
