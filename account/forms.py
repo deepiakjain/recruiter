@@ -13,6 +13,7 @@ from account.profile_forms import InlineAddressForm, InlineSeekerCompanyForm, In
 
 from utils.utilities import get_profile
 from account.constants import YEAR_EXPERIENCE
+from files.models import UUIDFile
 
 
 class ContactDetailsForm(FormContainer):

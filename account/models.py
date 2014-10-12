@@ -16,6 +16,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 # project constant
 from account.constants import YEAR_EXPERIENCE, MONTH_EXPERIENCE, YES_NO_CHOICES, GENDER_CHOICES, CTC_RANGE
+from files.utils import make_uuid
+from django.dispatch.dispatcher import receiver
+from django.db.models.signals import post_save
 
 
 class Address(models.Model):
@@ -77,8 +80,8 @@ class BaseProfile(models.Model):
 
 class JobSeeker(BaseProfile):
 
-    #TODO: profile pic and resume should store at one folder named user.
     resume = models.FileField(upload_to='user/resume', null=True)
+    file_uuid = models.CharField(max_length=36, editable=False, db_index=True, unique=True)
     passport_number = models.CharField(max_length=30, null=True, blank=True)
     profile_header = models.CharField(max_length=130, help_text="Python Developer", null=True)
 
@@ -109,6 +112,14 @@ class JobSeeker(BaseProfile):
 
     def __unicode__(self):
         return "User %s" % (self.user.first_name)
+
+
+@receiver(post_save, sender=JobSeeker)
+def generate_file_uuid(sender, **kwargs):
+    if kwargs['created']:
+        saved_file = kwargs['instance']
+        saved_file.file_uuid = make_uuid()
+        saved_file.save()
 
 
 # Recruiter Profile is always created by admin user on the request basis, show that

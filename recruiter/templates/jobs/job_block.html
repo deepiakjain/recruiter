@@ -13,12 +13,6 @@
             {% else %}
                 {{job.status}}
             {%endif%}
-        {% else %}
-            {% if is_recruiter and seeker_id %}
-                <input type='button' value="Not Fit" onclick="{% url 'job-status' 'NF' job.job_code seeker_id %}"/>
-                <input type='button' value="On Hold" onclick="{% url 'job-status' 'OH' job.job_code seeker_id %}"/>
-                <input type='button' value="Accept" onclick="{% url 'job-status' 'AC' job.job_code seeker_id %}"/>
-            {% endif %}
         {% endif %}
     </div>
 </div>

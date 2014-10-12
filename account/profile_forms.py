@@ -60,6 +60,7 @@ class InlineEducationBackgroundForm(forms.ModelForm):
 
 
 class InlineResumeForm(forms.ModelForm):
+    #resume = forms.FileField(label='Resume')
 
     class Meta:
         model = JobSeeker

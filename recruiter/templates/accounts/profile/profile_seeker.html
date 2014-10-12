@@ -12,7 +12,9 @@
             <span> City : {{profile.address.city}}</span><br />
             <span> Country : {{profile.address.country}}</span><br />
         </div>
-
+        <div>
+            <a href="{% url 'download_uuid_file' profile.file_uuid %}" >Resume </a>
+        </div>
 
     </div>
 </div>

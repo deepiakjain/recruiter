@@ -129,6 +129,7 @@ TEMPLATE_DIRS = (
 )
 
 LOCAL_PATH = normpath(join(dirname(__file__), '..', '..'))
+ENABLE_ACCEL_REDIRECT = False
 
 MEDIA_ROOT = join(LOCAL_PATH, 'users_files')
 PROTECTED_FILES_ROOT = join(LOCAL_PATH, 'users_files_protected')

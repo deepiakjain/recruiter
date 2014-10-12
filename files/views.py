@@ -1,7 +1,7 @@
 import logging
 import posixpath
 from django.shortcuts import get_object_or_404
-from files.models import UUIDFile
+from account.models import JobSeeker
 from django.contrib.auth.decorators import login_required
 from recruiter import settings
 from django.views.static import serve
@@ -17,12 +17,12 @@ def download_file(request, file_path, file_name, protected=False):
         # from url
         file_path = posixpath.join(file_path, file_name)
 
-    if protected:
-        root = settings.PROTECTED_FILES_ROOT
-        url = settings.PROTECTED_FILES_URL
-    else:
-        root = settings.MEDIA_ROOT
-        url = settings.MEDIA_URL
+    # if protected:
+    #     root = settings.PROTECTED_FILES_ROOT
+    #     url = settings.PROTECTED_FILES_URL
+    # else:
+    root = settings.MEDIA_ROOT
+    url = settings.MEDIA_URL
 
     if not settings.ENABLE_ACCEL_REDIRECT:
             response = serve(request, file_path, root)
@@ -40,5 +40,5 @@ def download_file(request, file_path, file_name, protected=False):
 @login_required
 def download_uuid_file(request, file_uuid):
 
-    uuid_file = get_object_or_404(UUIDFile, file_uuid=file_uuid)
-    return download_file(request, uuid_file.file_path, '', True)
+    uuid_file = get_object_or_404(JobSeeker, file_uuid=file_uuid)
+    return download_file(request, uuid_file.resume.name, '', True)
