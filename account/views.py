@@ -150,21 +150,6 @@ def user_profile(request):
                               context_instance=RequestContext(request))
 
 
-# def seeker_list(request):
-#     """
-#     Will list all jobs based on created or open date.
-#     """
-#
-#     seekers = JobSeeker.objects.all().exclude(mobile_no=None).\
-#         exclude(resume=None).exclude(user__username=request.user.username)\
-#         .order_by('user__first_name')
-#
-#     template = 'accounts/user_list.html'
-#     context = {'users': seekers, 'is_seeker': True}
-#     return render_to_response(template, context,
-#                               context_instance=RequestContext(request))
-
-
 def recruiter_list(request):
     """
     Will list all jobs based on created or open date.

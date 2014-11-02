@@ -19,12 +19,14 @@ from django.template import RequestContext
 # project imports
 from account.models import JobSeeker
 from account.forms import Search
+from account.profile_forms import InlineResumeForm
 from account.constants import STATUS
 
 from job_details.models import JobDetails, Status
 from job_details.forms import JobDetailsForm, InterestingResumeForm
 
 from utils.utilities import get_constant_dict, user_is_recruiter, user_is_seeker
+
 
 # TODO: need to work on it
 @login_required()
@@ -34,7 +36,28 @@ def upload_resume(request):
     2. navigate to upload resume page of respective user.
     3. delete older copy and store newer one in that place.
     """
-    return render
+
+    # get login user and verify it as will
+    user = request.user
+
+    # check is recruiter or not
+    if user_is_recruiter(user):
+        # redirect with message don't have access to perform this operation.
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        form = InlineResumeForm(request.POST, request.FILES, instance=user.jobseeker)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('profile'))
+    else:
+        form = InlineResumeForm(instance=user.jobseeker)
+
+    template = 'accounts/profile/seeker_resume_form.html'
+
+    context = {'form': form}
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
 
 
 @login_required()

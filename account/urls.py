@@ -32,6 +32,8 @@ urlpatterns = patterns('',
 
                        url(r'^activate/(?P<activation_key>\w+)/$',
                            ActivationView.as_view(), name='registration_activate'),
+
+                       url(r'^upload-resume/$', 'job_details.views.upload_resume', name='upload-resume'),
                        )
 
 urlpatterns += patterns('account.registration_wizard',

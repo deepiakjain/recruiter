@@ -30,6 +30,5 @@ urlpatterns = patterns('',
 
     url(r'^interest/(?P<seeker_id>\w+)$', 'job_details.views.interesting_resume', name='interesting-resume'),
 
-    url(r'^', 'job_details.views.job_list', name='job-list'),
-    url(r'^upload-resume/$', 'job_details.views.upload_resume', name='upload-resume'),
+    url(r'^', 'job_details.views.job_list', name='job-list')
 )
