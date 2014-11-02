@@ -11,7 +11,10 @@
                 <li>{% trans 'Fill up the simple form' %}</li>
                 <li>{% trans 'Register with us' %}</li>
                 <li>{% trans 'Find your suitable job' %}</li>
-                <li><input type="button" name="upload_resume" id="upload_resume" value="" title="Upload Resume" /></li>
+                <li>
+                    <input type="button" name="upload_resume" id="upload_resume"
+                           onclick="window.location='{% url 'upload-resume' %}'" title="Upload Resume" />
+                </li>
             </ul>
         </div>
     </section>
