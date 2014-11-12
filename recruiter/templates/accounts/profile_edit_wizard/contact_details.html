@@ -1,43 +1,66 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
 {% load i18n %}
 
-
-{% block registration_title %}
+{% block section_header %}
     <h1 class="heading32">
-        {% trans "Registration" %}: <span class="txt-red">{% trans "Basic information" %}</span>
+        <span class="txt-red">{% trans "Personal information" %}</span>
     </h1>
 {% endblock %}
 
 {% block form_elements %}
 
-        {{ form.profile.management_form }}
-        {{ form.address.management_form }}
+    {{ form.profile.management_form }}
+    {{ form.address.management_form }}
 
-        <div class="row">
+    <div class="form-container">
+        <div class="column-left">
+            <label class="mandatory" id="{{form.profile.profile_pic.id_for_label}}">
+                {{form.profile.profile_pic.label}}
+            </label>
+            <div class="form-elements display-pic">
+                {{form.profile.profile_pic}}
+                {{form.profile.profile_pic.errors.as_text}}
+            </div>
+            <!--<div class="form-elements display-pic">-->
+                <!--<img src="{{ STATIC_URL }}images/user-profile-pic.png" />-->
+                <!--<input type="button" value="Browse" class="browse-btn" />-->
+            <!--</div>-->
+
             <label class="mandatory" id="{{form.profile.first_name.id_for_label}}">
-                {{form.profile.first_name.label}}:
+                {{form.profile.first_name.label}}
             </label>
             <div class="form-elements">
+                <!--<input type="text" name="" id="" value="" placeholder="First Name" />-->
                 {{form.profile.first_name}}
                 {{form.profile.first_name.errors.as_text}}
             </div>
-            <label class="mandatory" id="{{form.address.street.id_for_label}}">
-                {{form.address.street.label}}:
-            </label>
-            <div class="form-elements">
-                {{form.address.street}}
-                {{form.address.street.errors.as_text}}
-            </div>
-        </div>
 
-        <div class="row">
             <label class="mandatory" id="{{form.profile.last_name.id_for_label}}">
-                {{form.profile.last_name.label}}:
+                {{form.profile.last_name.label}}
             </label>
             <div class="form-elements">
                 {{form.profile.last_name}}
                 {{form.profile.last_name.errors.as_text}}
             </div>
+            <label class="mandatory" id="{{form.profile.mobile_no.id_for_label}}">
+                {{form.profile.mobile_no.label}}
+            </label>
+            <div class="form-elements">
+                <!--<input type="text" name="" id="" value="" placeholder="+91 - XXXXXXXXXX" />-->
+                {{form.profile.mobile_no}}
+                {{form.profile.mobile_no.errors.as_text}}
+            </div>
+        </div>
+        <div class="column-right">
+
+            <label class="mandatory" id="{{form.address.street.id_for_label}}">
+                Address
+            </label>
+            <div class="form-elements address">
+                {{form.address.street}}
+                {{form.address.street.errors.as_text}}
+            </div>
+
             <label class="mandatory" id="{{form.address.city.id_for_label}}">
                 {{form.address.city.label}}:
             </label>
@@ -45,38 +68,37 @@
                 {{form.address.city}}
                 {{form.address.city.errors.as_text}}
             </div>
-        </div>
 
-        <div class="row">
-            <label class="mandatory" id="{{form.profile.mobile_no.id_for_label}}">
-                {{form.profile.mobile_no.label}}:
-            </label>
-            <div class="form-elements">
-                {{form.profile.mobile_no}}
-                {{form.profile.mobile_no.errors.as_text}}
-            </div>
+            <!--<label class="mandatory">Country</label>-->
+            <!--<div class="form-elements">-->
+                <!--<select>-->
+                    <!--<option>Select Country</option>-->
+                <!--</select>-->
+            <!--</div>-->
+
             <label class="mandatory" id="{{form.address.country.id_for_label}}">
-                {{form.address.country.label}}:
+                {{form.address.country.label}}
             </label>
             <div class="form-elements">
                 {{form.address.country}}
                 {{form.address.country.errors.as_text}}
             </div>
         </div>
-
-        <div class="row">
-            <label class="mandatory" id="{{form.profile.profile_pic.id_for_label}}">
-                {{form.profile.profile_pic.label}}:
-            </label>
-            <div class="form-elements">
-                {{form.profile.profile_pic}}
-                {{form.profile.profile_pic.errors.as_text}}
-            </div>
-        </div>
-
+    </div>
 {% endblock %}
 
 {% block next-button %}
-  {% trans 'Education <strong class="extra-bold">Background</strong>' %}<i class="right-arrowred"></i>
+  {% trans 'Company <strong class="extra-bold">Info</strong>' %}<i class="right-arrowred"></i>
 {% endblock %}
+
+
+    <!--<div class="row">-->
+        <!--<label class="mandatory" id="{{form.profile.profile_pic.id_for_label}}">-->
+            <!--{{form.profile.profile_pic.label}}:-->
+        <!--</label>-->
+        <!--<div class="form-elements">-->
+            <!--{{form.profile.profile_pic}}-->
+            <!--{{form.profile.profile_pic.errors.as_text}}-->
+        <!--</div>-->
+    <!--</div>-->
 
