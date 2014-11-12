@@ -2,81 +2,109 @@
 {% load i18n %}
 
 
-{% block registration_title %}
-    <h1 class="heading32">
-        {% trans "Profile" %}: <span class="txt-red">{% trans "Recruiter Detail" %}</span>
-    </h1>
-{% endblock %}
-
 {% block form_elements %}
 
-    <div class="row">
-        <label class="mandatory" id="{{form.recruiter_info.company_email.id_for_label}}">
-            {{form.recruiter_info.company_email.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.recruiter_info.company_email}}
-            {{form.recruiter_info.company_email.errors.as_text}}
+    <div class="form-container">
+        <div class="column-left">
+            <label class="mandatory" id="{{form.company.name.id_for_label}}">
+                {% trans 'Name of Company' %}
+            </label>
+            <div class="form-elements">
+                {{form.company.name}}
+                {{form.company.name.errors.as_text}}
+            </div>
+
+            <!--<label class="mandatory">Name of Company</label>-->
+            <!--<div class="form-elements">-->
+                <!--<input type="text" name="" id="" value="" placeholder="Enter Company Name" />-->
+            <!--</div>-->
+
+            <!--<label class="mandatory">Company Email</label>-->
+            <!--<div class="form-elements">-->
+                <!--<input type="text" name="" id="" value="" placeholder="Email Id" />-->
+            <!--</div>-->
+
+            <label class="mandatory" id="{{form.recruiter_info.company_email.id_for_label}}">
+                {{form.recruiter_info.company_email.label}}
+            </label>
+            <div class="form-elements">
+                {{form.recruiter_info.company_email}}
+                {{form.recruiter_info.company_email.errors.as_text}}
+            </div>
+
+            <!--<label class="mandatory">Address</label>-->
+            <!--<div class="form-elements address">-->
+                <!--<textarea></textarea>-->
+            <!--</div>-->
+
+            <label class="mandatory" id="{{form.company_address.street.id_for_label}}">
+                {% trans 'Address' %}
+            </label>
+            <div class="form-elements address">
+                {{form.company_address.street}}
+                {{form.company_address.street.errors.as_text}}
+            </div>
         </div>
-        <label class="mandatory" id="{{form.company.name.id_for_label}}">
-            {{form.company.name.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company.name}}
-            {{form.company.name.errors.as_text}}
+        <div class="column-right">
+            <!--<label class="mandatory">City</label>-->
+            <!--<div class="form-elements">-->
+                <!--<input type="text" name="" id="" value="" placeholder="Enter City" />-->
+            <!--</div>-->
+
+            <label class="mandatory" id="{{form.company_address.city.id_for_label}}">
+                {{form.company_address.city.label}}
+            </label>
+            <div class="form-elements">
+                {{form.company_address.city}}
+                {{form.company_address.city.errors.as_text}}
+            </div>
+
+            <!--<label>Country</label>-->
+            <!--<div class="form-elements">-->
+                <!--<select>-->
+                    <!--<option>Select Country</option>-->
+                <!--</select>-->
+            <!--</div>-->
+
+            <label class="mandatory" id="{{form.company_address.country.id_for_label}}">
+                {{form.company_address.country.label}}
+            </label>
+            <div class="form-elements">
+                {{form.company_address.country}}
+                {{form.company_address.country.errors.as_text}}
+            </div>
+
+            <!--<label class="mandatory">Website</label>-->
+            <!--<div class="form-elements">-->
+                <!--<input type="text" name="" id="" value="" placeholder="http://" />-->
+            <!--</div>-->
+
+            <label class="mandatory" id="{{form.company.website.id_for_label}}">
+                {{form.company.website.label}}
+            </label>
+            <div class="form-elements">
+                {{form.company.website}}
+                {{form.company.website.errors.as_text}}
+            </div>
+
+            <label class="mandatory" id="{{form.company.logo.id_for_label}}">
+                {{form.company.logo.label}}
+            </label>
+            <div class="form-elements">
+                {{form.company.logo}}
+                {{form.company.logo.errors.as_text}}
+            </div>
+
         </div>
     </div>
 
 
-    <div class="row">
-        <label class="mandatory" id="{{form.company.website.id_for_label}}">
-            {{form.company.website.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company.website}}
-            {{form.company.website.errors.as_text}}
-        </div>
-        <label class="mandatory" id="{{form.company.logo.id_for_label}}">
-            {{form.company.logo.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company.logo}}
-            {{form.company.logo.errors.as_text}}
-        </div>
-    </div>
-
-    <div class="row">
-        <label class="mandatory" id="{{form.company_address.street.id_for_label}}">
-            {{form.company_address.street.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company_address.street}}
-            {{form.company_address.street.errors.as_text}}
-        </div>
-        <label class="mandatory" id="{{form.company_address.city.id_for_label}}">
-            {{form.company_address.city.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company_address.city}}
-            {{form.company_address.city.errors.as_text}}
-        </div>
-    </div>
-
-    <div class="row">
-        <label class="mandatory" id="{{form.company_address.country.id_for_label}}">
-            {{form.company_address.country.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company_address.country}}
-            {{form.company_address.country.errors.as_text}}
-        </div>
-    </div>
 
 
 {% endblock %}
 
 {% block prev-button %}
-  {% blocktrans %}Education background{% endblocktrans %} <i class="left-arrowd"></i>
+  {% blocktrans %}Personal Info{% endblocktrans %} <i class="left-arrowd"></i>
 {% endblock %}
 
 

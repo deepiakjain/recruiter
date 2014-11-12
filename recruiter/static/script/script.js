@@ -9,4 +9,14 @@ $(document).ready(function(){
 		$(".search-area .search-form").hide();
 		$("."+getTabId+"-content").show();
 	});
+	
+	$(".toggle-btns input").click(function(){
+		//$(".toggle-btns input").removeClass("active");
+		$(this).toggleClass("active");
+		if($(this).hasClass("active")){
+			$(this).attr("value", "Unlike Profile");
+		}else{
+			$(this).attr("value", "Like Profile");
+		}
+	});
 });

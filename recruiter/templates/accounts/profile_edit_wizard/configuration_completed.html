@@ -8,18 +8,19 @@
 {% endblock %}
 
 
-<section class="block65 pull-left rt-mgn25">
-    {% block form_part %}
-        <div class="wht-box">
-            <div class="bottom-btns">
-                 <a href="{% url 'profile_edit' %}" class="arrow-btn txt-red pull-right ">
-                 {% trans 'Go to <strong class="extra-bold">your account</strong>' %}
-                    <i class="fxguru right-arrowred"></i>
+
+{% block form_part %}
+    <section class="content-area edit-profile">
+        <div class="form-container">
+            <div class="success-message">
+                <h1>Your profile has been updated successfully!</h1>
+                 <a href="{% url 'profile' %}" class="arrow-btn txt-red pull-right ">
+                    {% trans 'Go to <strong class="extra-bold">your account</strong>' %}
                  </a>
-             </div>
+            </div>
         </div>
-    {% endblock %}
-</section>
+    </section>
+{% endblock %}
 
 {%block js %}
     <script>
