@@ -1,23 +1,38 @@
 {% load i18n %}
-<section class="registration-steps">
-	<ul>
-        <li class="{% ifequal wizard.steps.current 'seeker_profile' %} active {%endifequal %}">
-            <a><small>1</small> {% trans 'Basic information' %} <i class="steps"></i></a>
-        </li>
-        <li class="{% ifequal wizard.steps.current 'seeker_advance_profile' %} active {% endifequal %}">
-            <a><small>2</small> {% trans 'Education background' %} <i class="steps"></i></a>
-        </li>
-        <li class="{% ifequal wizard.steps.current 'seeker_expectation' %} active {% endifequal %}">
-            <a><small>3</small> {% trans 'Looking for' %} <i class="steps"></i></a>
-        </li>
-        <li class="{% ifequal wizard.steps.current 'seeker_company' %} active {% endifequal %}">
-            <a><small>4</small> {% trans 'Current company' %} <i class="steps"></i></a>
-        </li>
-        <li class="{% if 'complete' in request.path %}active{% endif %}">
-            <a><small>5</small> {% trans 'Congratulations' %} <i class="steps"></i></a>
-        </li>
-    </ul>
-</section>
+    <div class="steps-indicators">
+        <div class="step {% ifequal wizard.steps.current 'contact_details' %} active {%endifequal %}">
+            <span>1</span>
+            <label>{% trans 'Personal Info' %}</label>
+        </div>
+        <div class="step {% ifequal wizard.steps.current 'recruiter_details' %} active {%endifequal %}">
+            <span>2</span>
+            <label> {% trans 'Company Info' %} </label>
+        </div>
+        <div class="step {% ifequal wizard.steps.current 'completed' %} active {%endifequal %}">
+            <span>3</span>
+            <label> {% trans 'Summary' %} </label>
+        </div>
+    </div>
+
+<!--<section class="registration-steps">-->
+	<!--<ul>-->
+        <!--<li class="{% ifequal wizard.steps.current 'seeker_profile' %} active {%endifequal %}">-->
+            <!--<a><small>1</small> {% trans 'Basic information' %} <i class="steps"></i></a>-->
+        <!--</li>-->
+        <!--<li class="{% ifequal wizard.steps.current 'seeker_advance_profile' %} active {% endifequal %}">-->
+            <!--<a><small>2</small> {% trans 'Education background' %} <i class="steps"></i></a>-->
+        <!--</li>-->
+        <!--<li class="{% ifequal wizard.steps.current 'seeker_expectation' %} active {% endifequal %}">-->
+            <!--<a><small>3</small> {% trans 'Looking for' %} <i class="steps"></i></a>-->
+        <!--</li>-->
+        <!--<li class="{% ifequal wizard.steps.current 'seeker_company' %} active {% endifequal %}">-->
+            <!--<a><small>4</small> {% trans 'Current company' %} <i class="steps"></i></a>-->
+        <!--</li>-->
+        <!--<li class="{% if 'complete' in request.path %}active{% endif %}">-->
+            <!--<a><small>5</small> {% trans 'Congratulations' %} <i class="steps"></i></a>-->
+        <!--</li>-->
+    <!--</ul>-->
+<!--</section>-->
 
 
 
