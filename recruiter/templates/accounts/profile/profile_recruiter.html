@@ -1,0 +1,78 @@
+{% load i18n %}
+
+<span class="top-bar">Last updated on 04 Nov, 2014</span>
+<section class="section-box purple">
+    <div class="inner">
+        <div class="profile-pic">
+            {% if profile.profile_pic %}
+                <img src="{{profile.profile_pic}}" />
+            {% else %}
+                <img src="{{STATIC_URL}}images/user-profile-pic.png" />
+            {% endif %}
+            <label>{{ profile.user.get_full_name }}</label>
+        </div>
+        <div class="basic-info">
+            <div class="row">
+                <label class="form-label">Mobile:</label>
+                <span class="form-label-value">{{profile.mobile_no}}</span>
+            </div>
+            <div class="row">
+                <label class="form-label">Email:</label>
+                <span class="form-label-value">
+                    <a href="mailto:user321@gmail.com">{{profile.user.email}}</a>
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">Address:</label>
+                <span class="form-label-value">{{profile.address.street}}</span>
+            </div>
+            <div class="row">
+                <label class="form-label">City:</label>
+                <span class="form-label-value">{{profile.address.city}}</span>
+            </div>
+            <div class="row">
+                <label class="form-label">Country:</label>
+                <span class="form-label-value">{{profile.address.country}}</span>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-box green">
+    <h1>Company Info</h1>
+    <div class="inner">
+        <div class="row">
+            <label class="form-label">Company Name:</label>
+            <span class="form-label-value">{{profile.company.name}}</span>
+        </div>
+        <div class="row">
+            <label class="form-label">Company Email:</label>
+            <span class="form-label-value">
+                <a href="mailto:{{profile.company_email}}">{{profile.company_email}}</a>
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">Address:</label>
+            <span class="form-label-value">
+                {{ profile.company.address.street }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">City:</label>
+            <span class="form-label-value">
+                {{ profile.company.address.city }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">Country:</label>
+            <span class="form-label-value">
+                {{ profile.company.address.country }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">Website:</label>
+            <span class="form-label-value">
+                {{ profile.company.website }}
+            </span>
+        </div>
+    </div>
+</section>
