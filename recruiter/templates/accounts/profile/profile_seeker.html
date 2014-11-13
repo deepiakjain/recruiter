@@ -1,20 +1,218 @@
 {% load i18n %}
 
-<div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
-    <span>Profile Header : <a href="{% url 'seeker-details' profile.id %}">{{profile.profile_header}}</a> </span>
-    <div>
-        <span> Name : {{profile.user.get_full_name}}</span>
-        <span> Contact No. : {{profile.mobile_no}}</span>
-        <span> Passport : {{profile.passport_number}}</span>
-        <div><br />
-            <span style="float:left;">Address :</span><br />
-            <span> Street No. : {{profile.address.street}}</span> <br />
-            <span> City : {{profile.address.city}}</span><br />
-            <span> Country : {{profile.address.country}}</span><br />
-        </div>
-        <div>
-            <a href="{% url 'download_uuid_file' profile.file_uuid %}" >Resume </a>
-        </div>
+<!--<div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">-->
+    <!--<span>Profile Header : <a href="{% url 'seeker-details' profile.id %}">{{profile.profile_header}}</a> </span>-->
+    <!--<div>-->
+        <!--<span> Name : {{profile.user.get_full_name}}</span>-->
+        <!--<span> Contact No. : {{profile.mobile_no}}</span>-->
+        <!--<span> Passport : {{profile.passport_number}}</span>-->
+        <!--<div><br />-->
+            <!--<span style="float:left;">Address :</span><br />-->
+            <!--<span> Street No. : {{profile.address.street}}</span> <br />-->
+            <!--<span> City : {{profile.address.city}}</span><br />-->
+            <!--<span> Country : {{profile.address.country}}</span><br />-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<a href="{% url 'download_uuid_file' profile.file_uuid %}" >Resume </a>-->
+        <!--</div>-->
 
+    <!--</div>-->
+<!--</div>-->
+<span class="top-bar">{% trans 'Last updated on' %} {{profile.user.last_login}}</span>
+<section class="section-box purple">
+    <div class="inner">
+        <div class="profile-pic">
+            <img src="{{ STATIC_URL }}images/user-profile-pic.png" />
+            <label>{{profile.user.get_full_name}}</label>
+        </div>
+        <div class="basic-info">
+            <div class="row">
+                <label class="form-label">{% trans 'Mobile:' %}</label>
+                <span class="form-label-value">{{profile.mobile_no}}</span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Email:' %}</label>
+                <span class="form-label-value">
+                    <a href="mailto:{{profile.user.email}}">{{profile.user.email}}</a>
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Address:' %}</label>
+                <span class="form-label-value">
+                    {{profile.address.street}}
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'City:' %}</label>
+                <span class="form-label-value">{{profile.address.city}}</span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Country:' %}</label>
+                <span class="form-label-value">{{profile.address.country}}</span>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+<section class="section-box green">
+    <h1>{% trans 'Education Background' %}</h1>
+    <div class="inner">
+        <div class="row">
+            <label class="form-label">{% trans 'Qualification:' %}</label>
+            <span class="form-label-value">
+                {{ profile.qualification.qualification }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Name of Institute:' %}</label>
+            <span class="form-label-value">
+                {{ profile.qualification.institute_name }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Passing Year:' %}</label>
+            <span class="form-label-value">
+                {{ profile.qualification.year_of_passing }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Percentage:' %}</label>
+            <span class="form-label-value">
+                {{ profile.qualification.percentage }} %
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Special Achievement:' %}</label>
+            <span class="form-label-value">
+                {{ profile.qualification.special_achievement }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Website:' %}</label>
+            <span class="form-label-value">
+                {#{ profile.qualification.website }#}
+            </span>
+        </div>
+    </div>
+</section>
+{% if profile.company_experience %}
+    <section class="section-box orange">
+        <h1>{% trans 'Company Details' %}</h1>
+        <div class="inner">
+            <div class="row">
+                <label class="form-label">{% trans 'Name of Company:' %}</label>
+                <span class="form-label-value">
+                    {{ profile.company_experience.company.name }}
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Date of Joining:' %}</label>
+                <span class="form-label-value">
+                    {{ profile.company_experience.joining_date }}
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Current CTC:' %}</label>
+                <span class="form-label-value">
+                    {%if profile.company_experience.current_ctc_lac %}
+                        {{ profile.company_experience.current_ctc_lac }} Lacks
+                    {% endif %}
+
+                    {%if profile.company_experience.current_ctc_thousand %}
+                        {{ profile.company_experience.current_ctc_thousand }} Thousand
+                    {% endif %}
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Notice Period:' %}</label>
+                <span class="form-label-value">
+                    {{ profile.company_experience.notice_period }} {% trans 'Days' %}
+                </span>
+            </div>
+            <div class="row">
+                <label class="form-label">{% trans 'Website:' %}</label>
+                <span class="form-label-value">
+                    {{ profile.company_experience.company.website }}
+                </span>
+            </div>
+            {% if profile.company_experience.company.addres %}
+                <div class="row">
+                    <label class="form-label">{% trans 'Address:' %}</label>
+                    <span class="form-label-value">
+                        {{profile.company_experience.company.address.street}}
+                    </span>
+                </div>
+                <div class="row">
+                    <label class="form-label">{% trans 'City:' %}</label>
+                    <span class="form-label-value">{{profile.company_experience.company.address.city}}</span>
+                </div>
+                <div class="row">
+                    <label class="form-label">{% trans 'Country:' %}</label>
+                    <span class="form-label-value">{{profile.company_experience.company.address.country}}</span>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endif %}
+<section class="section-box blue">
+    <h1>{% trans 'Job Preference' %}</h1>
+    <div class="inner">
+        <div class="row">
+            <label class="form-label">{% trans 'Profile Header:' %}</label>
+            <span class="form-label-value">
+                <b>{{profile.profile_header}}</b>
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Skills:' %}</label>
+            <span class="form-label-value">
+                {{ profile.skill_set }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Looking of switch:' %}</label>
+            <span class="form-label-value">
+                {{ profile.get_job_change }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Job Experience:' %}</label>
+            <span class="form-label-value">
+                {%if profile.experience_yrs %}{{ profile.experience_yrs }} Yrs {% endif %}
+                {%if profile.experience_month %}{{ profile.experience_month }} Months {% endif %}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Salary Expectations:' %}</label>
+            <span class="form-label-value">
+                {%if profile.expected_ctc_lac %}{{ profile.expected_ctc_lac }} Lacks {% endif %}
+                {%if profile.expected_ctc_thousand %}{{ profile.expected_ctc_thousand }} Thousand {% endif %}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Ready to relocate in India:' %}</label>
+            <span class="form-label-value">
+                {{ profile.get_relocate }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Preferred Location(s):' %}</label>
+            <span class="form-label-value">
+                {{ profile.preferred_loc }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Good Time to contact:' %}</label>
+            <span class="form-label-value">
+                {{ profile.free_time }}
+            </span>
+        </div>
+        <div class="row">
+            <label class="form-label">{% trans 'Updated Resume:' %}</label>
+            <span class="form-label-value">
+                <a href="{% url 'download_uuid_file' profile.file_uuid %}">
+                    {{ profile.get_resume }}
+                </a>
+            </span>
+        </div>
+    </div>
+</section>

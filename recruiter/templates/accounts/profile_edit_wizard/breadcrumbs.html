@@ -1,17 +1,37 @@
 {% load i18n %}
     <div class="steps-indicators">
+
         <div class="step {% ifequal wizard.steps.current 'contact_details' %} active {%endifequal %}">
             <span>1</span>
             <label>{% trans 'Personal Info' %}</label>
         </div>
-        <div class="step {% ifequal wizard.steps.current 'recruiter_details' %} active {%endifequal %}">
-            <span>2</span>
-            <label> {% trans 'Company Info' %} </label>
-        </div>
-        <div class="step {% ifequal wizard.steps.current 'completed' %} active {%endifequal %}">
-            <span>3</span>
-            <label> {% trans 'Summary' %} </label>
-        </div>
+        {% if not user.is_seeker %}
+            <div class="step {% ifequal wizard.steps.current 'seeker_details' %} active {%endifequal %}">
+                <span>2</span>
+                <label>Education Background</label>
+            </div>
+            <div class="step {% ifequal wizard.steps.current 'education_details' %} active {%endifequal %}">
+                <span>3</span>
+                <label>Company Details</label>
+            </div>
+            <div class="step {% ifequal wizard.steps.current 'professional_details' %} active {%endifequal %}">
+                <span>4</span>
+                <label>Job Reference</label>
+            </div>
+            <div class="step {% ifequal wizard.steps.current 'job_expectations' %} active {%endifequal %}">
+                <span>5</span>
+                <label>Summary</label>
+            </div>
+        {% else %}
+            <div class="step {% ifequal wizard.steps.current 'recruiter_details' %} active {%endifequal %}">
+                <span>2</span>
+                <label> {% trans 'Company Info' %} </label>
+            </div>
+            <div class="step {% ifequal wizard.steps.current 'completed' %} active {%endifequal %}">
+                <span>3</span>
+                <label> {% trans 'Summary' %} </label>
+            </div>
+        {% endif %}
     </div>
 
 <!--<section class="registration-steps">-->
