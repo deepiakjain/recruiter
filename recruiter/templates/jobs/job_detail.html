@@ -1,10 +1,97 @@
 {% extends  'base.html' %}
 {% load i18n %}
 
-{% block title %}Job Creation Form{% endblock %}
+{% block title %}Job Detail{% endblock %}
 
 {% block content%}
-    <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
-    {% include 'jobs/job_block.html' with job=job is_seeker=is_seeker%}
+
+<span class="top-bar actions">
+    <a href="{% url 'job-list' %}" >Back to job list</a>
+    {% if is_recruiter %}
+        <div class="button-container">
+            <input type="button" name="" id="" value="Close this Position" />
+        </div>
+    {% endif %}
+</span>
+
+<section class="section-box green">
+    <div class="inner candidate-list job-details">
+        <div class="row">
+            <div class="data">
+                <h1>
+                    {{job.job_title|title}}
+                    <label class="data-row bold"><h3>{{job.recruiter.company.name|title}}</h3></label>
+                </h1>
+                <div class="sub-row">
+                    <label class="form-label">Designation:</label>
+                    <span class="form-label-value">{{job.designation}}</span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Opening Date:</label>
+                    <span class="form-label-value">{{job.opening_date}}</span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Number of Position:</label>
+                    <span class="form-label-value">{{job.number_of_positions}}</span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Country:</label>
+                    <span class="form-label-value">{{job.country}}</span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Location:</label>
+                    <span class="form-label-value">{{job.location_name}}</span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Experience:</label>
+                    <span class="form-label-value">{{job.min_experience}} - {{job.max_experience}}</span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Key Skills:</label>
+                    <span class="form-label-value">
+                        {{job.skill_set}}
+                    </span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Roles & Responsibilities:</label>
+                    <span class="form-label-value">
+                        {{job.roles_and_responsibilities}}
+                    </span>
+                </div>
+                <div class="sub-row">
+                    <label class="form-label">Job Type:</label>
+                    <span class="form-label-value">{{job.job_type}}</span>
+                </div>
+            </div>
+        </div>
+        {% if is_recruiter %}
+            <div class="applying-candidates">
+                <div class="pointer-border"></div>
+                <div class="pointer"></div>
+                <div class="header">
+                    <h1>Candidates applying for this job</h1>
+                    <!--<div class="button-container">-->
+                        <!--<input type="button" name="" id="" value="Fit for Job" class="fit" />-->
+                        <!--<input type="button" name="" id="" value="Not Fit for Job" class="not-fit" />-->
+                    <!--</div>-->
+                </div>
+                <div class="section-box">
+                    {% for seeker in seekers %}
+                        <div class="row">
+                            <input type="checkbox" name="" id="" />
+                            <p>
+                                <a href="javascript:void(0);">Vijay Anand - </a>
+                                <label><span class="bold">UI Lead</span> (5 Yrs.) Delhi</label>
+                            </p>
+                            <div class="button-container">
+                                <input type="button" name="" id="" value="Fit for Job" class="fit" />
+                                <input type="button" name="" id="" value="Not Fit for Job" class="not-fit" />
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
     </div>
+</section>
 {% endblock %}
