@@ -129,7 +129,7 @@ def job_list(request):
     if request.method == 'POST':
         search = request.POST.get('search', None)
         if search:
-            results = results.filter(Q(skill_set__icontains=search)|Q(roles_and_responsibilities__icontains=search))
+            results = results.filter(Q(skill_set__icontains=search) | Q(roles_and_responsibilities__icontains=search))
 
         experience = request.POST.get('experience', None)
         if experience:
@@ -143,11 +143,10 @@ def job_list(request):
 
     # update results for following function
     for result in results:
-        result.applied = result.applied_by_seeker(request.user)
+        result.applied = result.applied_by_seeker(request.user) if is_seeker else False
         if result.applied:
             #need to get correct name of status
             result.status = result.status_set.get(seeker__user=request.user).status
-
 
     context.update({'jobs': results, 'user': request.user})
 

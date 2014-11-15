@@ -239,7 +239,7 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 .search-filters{margin:40px 0 25px 0;}
 .search-filters input[type='text']{width:220px; height:; padding:7px; color:#A8A8A8; margin:0 10px 0 0;}
 .search-filters select{padding:7px; color:#A8A8A8; margin:0 10px 0 0;}
-.search-filters input[type='button']{width:100px; padding:9px; border:0; color:#FFF;
+.search-filters input[type='button']{width:100px; padding:5px; border:0; color:#FFF;
 	background: #92d050; /* Old browsers */
 	background: -moz-linear-gradient(top,  #92d050 0%, #0dc51f 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92d050), color-stop(100%,#0dc51f)); /* Chrome,Safari4+ */
