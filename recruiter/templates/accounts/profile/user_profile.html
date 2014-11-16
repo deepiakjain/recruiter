@@ -3,6 +3,10 @@
 
 {% block title %} Profile {% endblock %}
 
+{% block section_header %}
+    <h2>{% trans 'User Profile' %}</h2>
+{% endblock %}
+
 {% block content%}
     {% if is_seeker %}
         {% include 'accounts/profile/profile_seeker.html' with profile=profile %}
