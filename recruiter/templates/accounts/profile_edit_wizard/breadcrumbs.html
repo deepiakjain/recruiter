@@ -1,59 +1,37 @@
 {% load i18n %}
-    <div class="steps-indicators">
+    {% if not request.user.is_anonymous %}
+        <div class="steps-indicators">
 
-        <div class="step {% ifequal wizard.steps.current 'contact_details' %} active {%endifequal %}">
-            <span>1</span>
-            <label>{% trans 'Personal Info' %}</label>
+            <div class="step {% ifequal wizard.steps.current 'contact_details' %} active {%endifequal %}">
+                <span>1</span>
+                <label>{% trans 'Personal Info' %}</label>
+            </div>
+            {% if is_seeker %}
+                <div class="step {% ifequal wizard.steps.current 'seeker_details' %} active {%endifequal %}">
+                    <span>2</span>
+                    <label>Education Background</label>
+                </div>
+                <div class="step {% ifequal wizard.steps.current 'education_details' %} active {%endifequal %}">
+                    <span>3</span>
+                    <label>Company Details</label>
+                </div>
+                <div class="step {% ifequal wizard.steps.current 'professional_details' %} active {%endifequal %}">
+                    <span>4</span>
+                    <label>Job Reference</label>
+                </div>
+                <div class="step {% if 'complete' in request.path %} active {%endif %}">
+                    <span>5</span>
+                    <label>Summary</label>
+                </div>
+            {% else %}
+                <div class="step {% ifequal wizard.steps.current 'recruiter_details' %} active {%endifequal %}">
+                    <span>2</span>
+                    <label> {% trans 'Company Info' %} </label>
+                </div>
+                <div class="step {% if 'complete' in request.path %} active {% endif %}">
+                    <span>3</span>
+                    <label> {% trans 'Summary' %} </label>
+                </div>
+            {% endif %}
         </div>
-        {% if is_seeker %}
-            <div class="step {% ifequal wizard.steps.current 'seeker_details' %} active {%endifequal %}">
-                <span>2</span>
-                <label>Education Background</label>
-            </div>
-            <div class="step {% ifequal wizard.steps.current 'education_details' %} active {%endifequal %}">
-                <span>3</span>
-                <label>Company Details</label>
-            </div>
-            <div class="step {% ifequal wizard.steps.current 'professional_details' %} active {%endifequal %}">
-                <span>4</span>
-                <label>Job Reference</label>
-            </div>
-            <div class="step {% ifequal wizard.steps.current 'job_expectations' %} active {%endifequal %}">
-                <span>5</span>
-                <label>Summary</label>
-            </div>
-        {% else %}
-            <div class="step {% ifequal wizard.steps.current 'recruiter_details' %} active {%endifequal %}">
-                <span>2</span>
-                <label> {% trans 'Company Info' %} </label>
-            </div>
-            <div class="step {% ifequal wizard.steps.current 'completed' %} active {%endifequal %}">
-                <span>3</span>
-                <label> {% trans 'Summary' %} </label>
-            </div>
-        {% endif %}
-    </div>
-
-<!--<section class="registration-steps">-->
-	<!--<ul>-->
-        <!--<li class="{% ifequal wizard.steps.current 'seeker_profile' %} active {%endifequal %}">-->
-            <!--<a><small>1</small> {% trans 'Basic information' %} <i class="steps"></i></a>-->
-        <!--</li>-->
-        <!--<li class="{% ifequal wizard.steps.current 'seeker_advance_profile' %} active {% endifequal %}">-->
-            <!--<a><small>2</small> {% trans 'Education background' %} <i class="steps"></i></a>-->
-        <!--</li>-->
-        <!--<li class="{% ifequal wizard.steps.current 'seeker_expectation' %} active {% endifequal %}">-->
-            <!--<a><small>3</small> {% trans 'Looking for' %} <i class="steps"></i></a>-->
-        <!--</li>-->
-        <!--<li class="{% ifequal wizard.steps.current 'seeker_company' %} active {% endifequal %}">-->
-            <!--<a><small>4</small> {% trans 'Current company' %} <i class="steps"></i></a>-->
-        <!--</li>-->
-        <!--<li class="{% if 'complete' in request.path %}active{% endif %}">-->
-            <!--<a><small>5</small> {% trans 'Congratulations' %} <i class="steps"></i></a>-->
-        <!--</li>-->
-    <!--</ul>-->
-<!--</section>-->
-
-
-
-
+    {% endif %}

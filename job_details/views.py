@@ -119,12 +119,18 @@ def create_job(request, job_code=None):
 
 def job_list(request):
 
-    is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
+    is_anonymous = request.user.is_anonymous()
+
+    is_seeker = user_is_seeker(request.user) if not is_anonymous else False
 
     context = {'form': Search(), 'is_seeker': is_seeker}
     template = 'jobs/jobs_list.html'
 
     results = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
+
+    # show only those jobs which create by recruiter else filter out for logged out user
+    if not is_anonymous and not is_seeker:
+        results = results.filter(recruiter__user=request.user)
 
     if request.method == 'POST':
         search = request.POST.get('search', None)
@@ -160,13 +166,14 @@ def job_detail(request, job_code):
     """
     job = get_object_or_404(JobDetails, job_code=job_code)
 
-    job.applied = job.applied_by_seeker(request.user)
+    is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
+
+    job.applied = job.applied_by_seeker(request.user) if is_seeker else False
 
     if job.applied:
         #need to get correct name of status
         job.status = job.status_set.get(seeker__user=request.user).status
 
-    is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
 
     template = 'jobs/job_detail.html'
     context = {'job': job, 'is_seeker': is_seeker}

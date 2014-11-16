@@ -23,7 +23,9 @@
                     <div class="row">
                         <div class="data">
                             <h1>
-                                <a href="javascript:void(0);">{{user.user.get_full_name | title}}</a>
+                                <a href="{% url 'seeker-details' user.id %}">
+                                    {{user.user.get_full_name | title}}
+                                </a>
                                 <span>({{user.experience_yrs}} Yrs. {{user.experience_month}} Month)</span>
                                 <label class="data-row">
                                     <span class="bold">{{user.designation}} -</span><span>{{user.current_loc}}</span>
