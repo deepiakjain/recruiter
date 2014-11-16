@@ -359,3 +359,4 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 /* job form */
 
 .job_form textarea {width: 246px; height: 89px;}
+.non-field-errors p {color: red;}

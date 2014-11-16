@@ -1,5 +1,5 @@
 {% extends  'landing_base.html' %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 {% block title %} {% trans 'Login' %} {% endblock %}
 
@@ -29,26 +29,20 @@
             <div class="search-form job-content">
                 <form action="{% url 'job-list' %}" method="POST">
                     {% csrf_token %}
-                    {{search_form.search}}
-                    {{search_form.location}}
-                    {{search_form.experience}}
+                    {{search_form.search | attr:"placeholder: Enter skill set or roles, responsibilities" }}
+                    {{search_form.location | attr:"placeholder: Enter Job Location" }}
+                    {{search_form.experience }}
                     <input type="submit" value="Search" title="Search" class="search-btn" />
                 </form>
             </div>
             <div class="search-form candidate-content">
                 <form action="{% url 'seeker-list' %}" method="POST">
                     {% csrf_token %}
-                    {{search_form.search}}
-                    {{search_form.location}}
+                    {{search_form.search | attr:"placeholder: Enter skill set or qualification"}}
+                    {{search_form.location | attr:"placeholder: Enter Job Location" }}
                     {{search_form.experience}}
                     <input type="submit" value="Search" title="Search" class="search-btn" />
                 </form>
-                <!--<input type="text" name="" id="" value="" placeholder="Enter Skills, Designation" />-->
-                <!--<input type="text" name="" id="" value="" placeholder="Enter Location" />-->
-                <!--<select>-->
-                    <!--<option>Experience</option>-->
-                <!--</select>-->
-                <!--<input type="button" name="" id="" value="Search" title="Search" class="search-btn" />-->
             </div>
         </div>
         <div class="login-box">
@@ -59,18 +53,23 @@
                         {% csrf_token %}
                         <div class="form">
                             <div class="row">
-                                <label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>
-                                <!--<input type="text" name="" id="" value="" placeholder="Enter username" />-->
-                                {{form.username}}
+                                <!--<label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>-->
+                                {{form.username | attr:"placeholder:Username" | attr:"required"}}
                                 <div style="padding:5px;">{{form.username.errors.as_text}}</div>
                             </div>
                             <div class="row">
-                                <label id="{{form.password.id_for_label}}">{{form.password.label}}:</label>
-                                <!--<input type="password" name="" id="" value="" placeholder="Enter password" />-->
-                                {{form.password}}
+                                <!--<label id="{{form.password.id_for_label}}">{{form.password.label}}:</label>-->
+                                {{form.password | attr:"placeholder:Password" | attr:"required"}}
                                 <div style="padding:5px;">{{form.password.errors.as_text}}</div>
                             </div>
                             <input type="submit" id="login" value="Login" title="Login" class="login-btn" />
+                            {% if form.non_field_errors %}
+                                <div class="non-field-errors">
+                                {% for err in form.non_field_errors %}
+                                    <p class="form-error">{{ err }}</p>
+                                {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </form>
                 {% else %}
