@@ -1,0 +1,33 @@
+{% load i18n account_tags %}
+
+<nav>
+    <a href="{% url 'home' %}" title="Home" class="{% filter request_path %} {{ request.path }} {% endfilter %}">
+        {% trans 'Home' %}
+    </a>
+
+    <a href="{% url 'job-list' %}" title="Job list" class="{% if 'jobs' in request.path %}selected{% endif %}">
+        {% trans 'Jobs' %}
+    </a>
+
+    {% if request.user.recruiter %}
+        <a href="{% url 'seeker-list' %}" title="seeker list" class="{% if 'seekers' in request.path %}selected{% endif %}">
+            {% trans 'seekers' %}
+        </a>
+    {% endif %}
+
+    <a href="{% url 'about' %}" title="About Us" class="{% if 'about-us' in request.path %}selected{% endif %}">
+        {% trans 'About Us' %}
+    </a>
+    <a href="{% url 'contact-us' %}" title="Contact Us" class="{% if 'contact-us' in request.path %}selected{% endif %}">
+        {% trans 'Contact Us' %}
+    </a>
+    {% if request.user.is_anonymous %}
+        <a href="{% url 'auth_login' %}" title="Login" class="{% if 'login' in request.path %}selected{% endif %}">
+            {% trans 'Login' %}
+        </a>
+    {% else %}
+        <a href="{% url 'auth_logout' %}" title="Logout" class="{% if 'logout' in request.path %}selected{% endif %}">
+            {% trans 'Logout' %}
+        </a>
+    {% endif %}
+</nav>

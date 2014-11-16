@@ -21,7 +21,8 @@ ol, ul {list-style:none;}
 blockquote, q {quotes:none;}
 blockquote:before, blockquote:after,q:before, q:after {content:''; content:none;}
 table {border-collapse:collapse; border-spacing:0;}
-a, a:visited{color:#029FD0;}
+//a, a:visited{color:#029FD0;}
+.profile-pic a {text-decoration: none};
 a:hover{text-decoration:none;}
 h1{font-size:18px;}
 h2{font-size:16px;}
@@ -95,6 +96,7 @@ footer .right-section .social-links a{display:block; float:left; text-indent:-50
 footer .right-section .social-links a.facebook{width:24px; height:24px; background:url(../images/facebook-icon.png) no-repeat;}
 footer .right-section .social-links a.twitter{width:24px; height:24px; background:url(../images/twitter-icon.png) no-repeat;}
 footer .right-section .social-links a.youtube{width:57px; height:24px; background:url(../images/youtube-icon.png) no-repeat;}
+
 
 /* Styles for Form Layout starts */
 .form-layout{margin:20px 0 0 0; overflow:hidden;}

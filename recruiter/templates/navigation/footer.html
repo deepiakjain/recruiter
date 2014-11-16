@@ -2,17 +2,9 @@
 
 <footer>
     <div class="left-section">
-        <nav>
-            <a href="{% url 'home' %}" title="Home">{% trans 'Home' %}</a>
-            <a href="{% url 'about' %}" title="About Us">{% trans 'About Us' %}</a>
-            <a href="{% url 'contact-us' %}" title="Contact Us">{% trans 'Contact Us' %}</a>
-            {% if request.user.is_anonymous%}
-                <a href="{% url 'auth_login' %}" title="Home">{% trans 'Login' %}</a>
-            {% else %}
-                <a href="{% url 'auth_logout' %}" title="Home">{% trans 'Logout' %}</a>
-            {% endif %}
-            <a href="javascript:void(0);" title="Home">{% trans 'Leave Feedback' %}</a>
-        </nav>
+
+        {% include 'navigation/nav.html' %}
+
         <div class="company-tieups">
             <label>{% trans 'Our Tie ups with:' %}</label>
             <a href="javascript:void(0);" title="Company Name">{% trans 'Company Name' %}</a>
