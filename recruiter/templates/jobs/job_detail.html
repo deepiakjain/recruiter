@@ -19,7 +19,11 @@
         <div class="row">
             <div class="data">
                 <h1>
-                    {{job.job_title|title}}
+                    {% ifequal request.user job.recruiter.user %}
+                        <a href="{% url 'job-edition' job.job_code %}" title="Edit job">{{job.job_title|title}}</a>
+                    {% else %}
+                        {{job.job_title|title}}
+                    {% endifequal %}
                     <label class="data-row bold"><h3>{{job.recruiter.company.name|title}}</h3></label>
                 </h1>
                 <div class="sub-row">

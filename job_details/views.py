@@ -120,10 +120,13 @@ def create_job(request, job_code=None):
 def job_list(request):
 
     is_anonymous = request.user.is_anonymous()
+    is_seeker = is_recruiter = False
 
-    is_seeker = user_is_seeker(request.user) if not is_anonymous else False
+    if not is_anonymous:
+        is_seeker = user_is_seeker(request.user)
+        is_recruiter = user_is_recruiter(request.user)
 
-    context = {'form': Search(), 'is_seeker': is_seeker}
+    context = {'form': Search(), 'is_seeker': is_seeker, 'is_recruiter': is_recruiter}
     template = 'jobs/jobs_list.html'
 
     results = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')

@@ -192,7 +192,7 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 .top-bar{float:right; font-size:13px; text-align:right; margin:0 0 8px 0; overflow:hidden;}
 .top-bar.actions a{float:left; margin:7px 0 0 0;}
 .top-bar.actions .button-container{float:left; margin:0 0 0 10px;}
-.top-bar.actions .button-container input{min-width:100px; padding:8px; color:#FFF; border:0;
+.top-bar.actions .button-container input{min-width:100px; padding:5px; color:#FFF; border:0;
 	background: #00a7df; /* Old browsers */
 	background: -moz-linear-gradient(top,  #00a7df 0%, #005f81 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00a7df), color-stop(100%,#005f81)); /* Chrome,Safari4+ */

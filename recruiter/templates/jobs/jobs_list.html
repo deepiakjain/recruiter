@@ -1,7 +1,7 @@
 {% extends  'base.html' %}
 {% load i18n %}
 
-{% block title %}Job Creation Form{% endblock %}
+{% block title %}Job List{% endblock %}
 
 {% block content%}
 
@@ -9,6 +9,13 @@
         {% include 'navigation/search_form.html' with form=form %}
     </form>
 
+    <span class="top-bar actions">
+        {% if is_recruiter %}
+            <div class="button-container">
+                <input type="button" value="Create New Job" onclick="window.location='{% url 'job-create' %}'" />
+            </div>
+        {% endif %}
+    </span>
 
     <section class="section-box green">
         <div class="inner candidate-list">
