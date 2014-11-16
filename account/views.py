@@ -80,6 +80,9 @@ class ProfileEditWizard(SessionWizardView):
 
         context = super(ProfileEditWizard, self).get_context_data(form=form, **kwargs)
 
+        # add context user type
+        context.update({'is_seeker': user_is_seeker(self.request.user)})
+
         if self.steps.current in ['job_expectations']:
             form.initial = self.get_cleaned_data_for_step(self.get_prev_step())
 
