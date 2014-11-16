@@ -167,6 +167,7 @@ def recruiter_list(request):
                               context_instance=RequestContext(request))
 
 
+@login_required()
 def seeker_details(request, profile_id):
     """
     Will list all jobs based on created or open date.
@@ -176,8 +177,8 @@ def seeker_details(request, profile_id):
 
     is_recruiter = user_is_recruiter(request.user) if not request.user.is_anonymous() else False
 
-    template = 'accounts/seeker_details.html'
-    context = {'users': seeker, 'is_recruiter': is_recruiter}
+    template = 'accounts/profile/seeker_details.html'
+    context = {'form': Search(), 'users': seeker, 'is_recruiter': is_recruiter}
     # based on is_recruiter value will show one button to express interest in the use
     # user profile.
 

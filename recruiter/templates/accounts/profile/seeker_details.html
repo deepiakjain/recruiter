@@ -1,0 +1,24 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %} Profile Detail {% endblock %}
+
+{% block content%}
+
+    {%if is_recruiter %}
+        <form action="{% url 'seeker-list' %}" method="POST">
+            {% include 'navigation/search_form.html' with form=form %}
+        </form>
+
+        <span class="top-bar actions">
+            <a href="{% url 'seeker-list' %}">Back to candidates list</a>
+            <div class="button-container toggle-btns">
+                <input type="button" name="" id="" value="Like Profile" />
+            </div>
+        </span>
+
+    {% endif %}
+
+    {% include 'accounts/profile/profile_seeker.html' with profile=users is_recruiter=is_recruiter %}
+
+{% endblock %}

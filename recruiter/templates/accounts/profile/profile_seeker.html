@@ -1,24 +1,9 @@
 {% load i18n %}
 
-<!--<div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">-->
-    <!--<span>Profile Header : <a href="{% url 'seeker-details' profile.id %}">{{profile.profile_header}}</a> </span>-->
-    <!--<div>-->
-        <!--<span> Name : {{profile.user.get_full_name}}</span>-->
-        <!--<span> Contact No. : {{profile.mobile_no}}</span>-->
-        <!--<span> Passport : {{profile.passport_number}}</span>-->
-        <!--<div><br />-->
-            <!--<span style="float:left;">Address :</span><br />-->
-            <!--<span> Street No. : {{profile.address.street}}</span> <br />-->
-            <!--<span> City : {{profile.address.city}}</span><br />-->
-            <!--<span> Country : {{profile.address.country}}</span><br />-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<a href="{% url 'download_uuid_file' profile.file_uuid %}" >Resume </a>-->
-        <!--</div>-->
+{% if not is_recruiter %}
+    <span class="top-bar">{% trans 'Last updated on' %} {{profile.user.last_login}}</span>
+{% endif %}
 
-    <!--</div>-->
-<!--</div>-->
-<span class="top-bar">{% trans 'Last updated on' %} {{profile.user.last_login}}</span>
 <section class="section-box purple">
     <div class="inner">
         <div class="profile-pic">

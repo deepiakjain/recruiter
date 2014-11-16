@@ -1,7 +1,7 @@
 {% extends  'base.html' %}
 {% load i18n %}
 
-{% block title %} Profile Edit {% endblock %}
+{% block title %} Profile list {% endblock %}
 
 {% block content%}
 
@@ -10,11 +10,34 @@
             {% include 'navigation/search_form.html' with form=form %}
         </form>
     {% endif %}
-
+<section class="section-box green">
+    <div class="inner candidate-list">
     {% if users %}
         {% for user in users %}
             {%if is_seeker %}
-                {% include 'accounts/profile/profile_seeker.html' with profile=user %}
+                <div class="row">
+                    <div class="data">
+                        <h1>
+                            <a href="javascript:void(0);">{{user.user.get_full_name | title}}</a>
+                            <span>({{user.experience_yrs}} Yrs. {{user.experience_month}} Month)</span>
+                            <label class="data-row">
+                                <span class="bold">{{user.designation}} -</span><span>{{user.current_loc}}</span>
+                            </label>
+                        </h1>
+                        <label class="data-row"><span class="bold">{% trans 'Known as' %}:</span>
+                            <span>{{ user.profile_header }}</span>
+                        </label>
+                        <label class="data-row"><span class="bold">{% trans 'Key Skills' %}:</span>
+                            <span>{{user.skill_set}}</span>
+                        </label>
+                        <label class="data-row"><span class="bold">{% trans 'Preferred location' %}:</span>
+                            <span>{{user.preferred_loc}}</span>
+                        </label>
+                    </div>
+                    {% if request.user.username %}
+                        <a href="{% url 'seeker-details' user.id %}" class="view-btn">View Profile</a>
+                    {% endif %}
+                </div>
             {% else %}
                 {% include 'accounts/profile/profile_recruiter.html' with profile=user %}
             {% endif %}
@@ -22,4 +45,6 @@
     {% else %}
         No record found
     {% endif %}
+    </div>
+</section>
 {% endblock %}

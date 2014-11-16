@@ -94,6 +94,9 @@ class JobSeeker(BaseProfile):
     company_experience = models.OneToOneField(SeekerExperienceInfo, related_name='companies', null=True)
     skill_set = models.TextField(null=True, help_text="Comma-separated technologies")
 
+    # current_loc = models.CharField(max_length=30, blank=True)
+    #designation = models.CharField(max_length=30, blank=False)
+
     # Education qualification can be multiple.
     qualification = models.ForeignKey(EducationBackground, null=True)
 
