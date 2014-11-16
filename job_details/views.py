@@ -102,21 +102,6 @@ def create_job(request, job_code=None):
                               context_instance=RequestContext(request))
 
 
-# def job_list(request):
-#     """
-#     Will list all jobs based on created or open date.
-#     """
-#
-#     jobs = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
-#
-#     is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
-#
-#     template = 'jobs/jobs_list.html'
-#     context = {'jobs': jobs, 'is_seeker': is_seeker}
-#     return render_to_response(template, context,
-#                               context_instance=RequestContext(request))
-
-
 def job_list(request):
 
     is_anonymous = request.user.is_anonymous()

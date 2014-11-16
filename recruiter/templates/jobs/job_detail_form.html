@@ -1,21 +1,119 @@
 {% extends  'base.html' %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 {% block title %}Job Creation Form{% endblock %}
 
+{% block section_header %}
+    <h2>{% trans 'Job Detail Form' %}</h2>
+{% endblock %}
+
 {% block content%}
-    <div style="text-align: center; width: 50%; padding: 20px; margin-top: 5%; margin-left: 18%; border-radius: 5px; background-color: lightsteelblue;">
-        <form action=""{% url 'job-create' %}" method='POST'>
-            {% csrf_token %}
-            <div>
-                {{form.as_p}}
+    <form action="{% if form.instance %}{% url 'job-edition' form.instance.job_code %}{% else %}{% url 'job-create' %} {% endif %}" method='POST'>
+        {% csrf_token %}
+        {{form.errors}}
+        <div class="form-layout single">
+            <div class="row">
+                <label class="mandatory">{{ form.job_title.label|title }}</label>
+                <div class="form-elements">
+                    {{ form.job_title | attr:"placeholder: Enter Job title" | attr:"required"}}
+                </div>
+                <span class="form_error">{{ form.job_title.errors.as_text }}</span>
             </div>
-            <div style="width:100%;">
-                <span style="float:right">
-                    <input type='submit' value="Submit" />
-                    <input type='button' value="cancel" onclick="window.location.href='{% url 'home' %}';"/>
-                </span>
+
+            <div class="row">
+                <label class="mandatory">{{ form.designation.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.designation | attr:"placeholder: Required Designation" | attr:"required" }}
+                </div>
+                <span class="form_error">{{ form.designation.errors.as_text }}</span>
             </div>
-        </form>
-    </div>
+
+            <div class="row">
+                <label class="">{{ form.closing_date.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.closing_date | attr:"type:date" | attr:"placeholder: MM/DD/YYYY" }}
+                </div>
+                <span class="form_error">{{ form.closing_date.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.number_of_positions.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.number_of_positions }}
+                </div>
+                <span class="form_error">{{ form.number_of_positions.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.job_opening_status.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.job_opening_status }}
+                </div>
+                <span class="form_error">{{ form.job_opening_status.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.location_name.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.location_name | attr:"placeholder: Location" | attr:"required" }}
+                </div>
+                <span class="form_error">{{ form.location_name.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.country.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.country | attr:"placeholder: Country" | attr:"required" }}
+                </div>
+                <span class="form_error">{{ form.country.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.max_experience.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.max_experience | attr:"placeholder: max experience" | attr:"required"  }}
+                </div>
+                <span class="form_error">{{ form.max_experience.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.min_experience.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.min_experience | attr:"placeholder: min experience" | attr:"required" }}
+                </div>
+                <span class="form_error">{{ form.min_experience.errors.as_text }}</span>
+            </div>
+
+            <div class="row">
+                <label class="mandatory">{{ form.job_type.label | title }}</label>
+                <div class="form-elements">
+                    {{ form.job_type }}
+                </div>
+                <span class="form_error">{{ form.job_type.errors.as_text }}</span>
+            </div>
+
+            <div class="row job_form">
+                <label class="mandatory">{{ form.skill_set.label | title }}</label>
+                <div class="form-elements address">
+                    {{ form.skill_set | attr:"placeholder: Skill set required...." | attr:"required" }}
+                </div>
+                <span class="form_error">{{ form.skill_set.errors.as_text }}</span>
+            </div>
+
+            <div class="row job_form">
+                <label class="mandatory">{{ form.roles_and_responsibilities.label | title }}</label>
+                <div class="form-elements address">
+                    {{ form.roles_and_responsibilities | attr:"placeholder: Roles and Responsibilities" | attr:"required" }}
+                </div>
+                <span class="form_error">{{ form.roles_and_responsibilities.errors.as_text }}</span>
+            </div>
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <div class="button-container">
+                <input type='submit' value="Submit" />
+                <input type='button' value="cancel" onclick="window.location.href='{% url 'home' %}';"/>
+            </div>
+        </div>
+    </form>
 {% endblock %}

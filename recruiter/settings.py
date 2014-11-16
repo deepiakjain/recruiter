@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     #'south',
 
     'registration',
+    'widget_tweaks',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

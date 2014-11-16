@@ -355,3 +355,7 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 .edit-profile .success-message{text-align:center; margin:50px auto 0;}
 .edit-profile .success-message input{margin:10px 0 0 0;}
 /* Styles for Edit Profile Page ends */
+
+/* job form */
+
+.job_form textarea {width: 246px; height: 89px;}
