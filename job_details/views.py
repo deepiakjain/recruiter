@@ -123,7 +123,8 @@ def job_list(request):
     if request.method == 'POST':
         search = request.POST.get('search', None)
         if search:
-            results = results.filter(Q(skill_set__icontains=search) | Q(roles_and_responsibilities__icontains=search))
+            results = results.filter(Q(skill_set__icontains=search) | Q(roles_and_responsibilities__icontains=search)
+                                     | Q(job_title__icontains=search))
 
         experience = request.POST.get('experience', None)
         if experience:

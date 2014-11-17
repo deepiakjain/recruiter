@@ -1,5 +1,5 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 {% block title %}Registration{% endblock %}
 
@@ -17,8 +17,7 @@
             <div class="row">
                 <label id="{{form.email.id_for_label}}">{{form.email.label}}:</label>
                 <div class="form-elements">
-                    {{form.email}}
-                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    {{form.email | attr:"placeholder:Username" | attr:"required" | attr:"autocomplete:off" }}
                     <div>{{form.email.errors.as_text}}</div>
                 </div>
             </div>
@@ -26,8 +25,7 @@
             <div class="row">
                 <label id="{{form.password1.id_for_label}}">{{form.password1.label}}:</label>
                 <div class="form-elements">
-                    {{form.password1}}
-                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    {{form.password1 | attr:"placeholder:Password" | attr:"required" | attr:"autocomplete:off" }}
                     <div>{{form.password1.errors.as_text}}</div>
                 </div>
             </div>
@@ -35,8 +33,7 @@
             <div class="row">
                 <label id="{{form.password2.id_for_label}}">{{form.password2.label}}:</label>
                 <div class="form-elements">
-                    {{form.password2}}
-                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    {{form.password2 | attr:"placeholder:Re-type password" | attr:"required" | attr:"autocomplete:off" }}
                     <div>{{form.password2.errors.as_text}}</div>
                 </div>
             </div>
@@ -44,16 +41,14 @@
             <div class="row">
                 <label id="{{form.gender.id_for_label}}">{{form.gender.label}}:</label>
                 <div class="form-elements">
-                    {{form.gender}}
-                    <!--<input type="text" name="" id="" value="" placeholder="Enter desired username" />-->
+                    {{form.gender | attr:"required"}}
                     <div>{{form.gender.errors.as_text}}</div>
                 </div>
             </div>
             {{form.user_role}}
 
             <div class="button-container">
-                <input type="button" name="register" id="register_id"
-                       value="Submit" onClick="$('#registration').submit();"/>
+                <button type="submit" name="register" id="register_id" > Submit </button>
 
                 <input type="button" name="cancel" id="cancel_id"
                        value="Cancel" onClick="window.location.href='{% url 'auth_login' %}'" />

@@ -19,9 +19,13 @@
 
     <section class="section-box green">
         <div class="inner candidate-list">
-            {% for job in jobs %}
-                {% include 'jobs/job_block.html' with job=job is_seeker=is_seeker %}
-            {% endfor %}
+            {% if  jobs %}
+                {% for job in jobs %}
+                    {% include 'jobs/job_block.html' with job=job is_seeker=is_seeker %}
+                {% endfor %}
+            {% else %}
+                <p><b> No record found </b></p>
+            {% endif %}
         </div>
     </section>
 

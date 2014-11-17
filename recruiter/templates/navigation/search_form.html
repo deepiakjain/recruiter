@@ -1,23 +1,9 @@
-{% csrf_token %}
-<!--<div style="float:left; padding:2px;">{{form.search}}</div>-->
-<!--<div style="float:left; padding:2px;">{{form.location}}</div>-->
-<!--<div style="float:left; padding:2px;">{{form.experience}}</div>-->
-<!--<input type="submit" value="Search" title="Search" class="search-btn" />-->
+{% load i18n widget_tweaks %}
 
+{% csrf_token %}
 <div class="search-filters">
-    {{form.search}}
-    {{form.location}}
-    {{form.experience}}
-    <!--<input type="text" name="" id="" value="" placeholder="Enter Skills, Designation, etc" />-->
-    <!--<input type="text" name="" id="" value="" placeholder="Enter Location" />-->
-    <!--<select>-->
-        <!--<option>Select Experience</option>-->
-        <!--<option>0-1</option>-->
-        <!--<option>1-5</option>-->
-        <!--<option>5-10</option>-->
-        <!--<option>10-15</option>-->
-        <!--<option>15-20</option>-->
-        <!--<option>20+</option>-->
-    <!--</select>-->
+    {{ form.search | attr:"placeholder: Enter skill set or roles, responsibilities" | attr:"autocomplete:off" }}
+    {{ form.location | attr:"placeholder: Enter Job Location" | attr:"autocomplete:off"}}
+    {{ form.experience }}
     <input type="button" onclick="this.form.submit();" name="search_id" id="search_id" value="Search" />
 </div>

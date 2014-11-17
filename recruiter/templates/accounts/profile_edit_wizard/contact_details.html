@@ -1,5 +1,5 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 {% block section_header %}
     <h1 class="heading32">
@@ -30,8 +30,7 @@
                 {{form.profile.first_name.label}}
             </label>
             <div class="form-elements">
-                <!--<input type="text" name="" id="" value="" placeholder="First Name" />-->
-                {{form.profile.first_name}}
+                {{form.profile.first_name | attr:"placeholder:First Name" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.profile.first_name.errors.as_text}}
             </div>
 
@@ -39,15 +38,14 @@
                 {{form.profile.last_name.label}}
             </label>
             <div class="form-elements">
-                {{form.profile.last_name}}
+                {{form.profile.last_name | attr:"placeholder:Last Name" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.profile.last_name.errors.as_text}}
             </div>
             <label class="mandatory" id="{{form.profile.mobile_no.id_for_label}}">
                 {{form.profile.mobile_no.label}}
             </label>
             <div class="form-elements">
-                <!--<input type="text" name="" id="" value="" placeholder="+91 - XXXXXXXXXX" />-->
-                {{form.profile.mobile_no}}
+                {{form.profile.mobile_no | attr:"placeholder:+91-XXXXXXXXXX" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.profile.mobile_no.errors.as_text}}
             </div>
         </div>
@@ -57,7 +55,7 @@
                 Address
             </label>
             <div class="form-elements address">
-                {{form.address.street}}
+                {{form.address.street | attr:"placeholder:Address" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.address.street.errors.as_text}}
             </div>
 
@@ -65,7 +63,7 @@
                 {{form.address.city.label}}:
             </label>
             <div class="form-elements">
-                {{form.address.city}}
+                {{form.address.city | attr:"placeholder:City" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.address.city.errors.as_text}}
             </div>
 
@@ -80,7 +78,7 @@
                 {{form.address.country.label}}
             </label>
             <div class="form-elements">
-                {{form.address.country}}
+                {{form.address.country | attr:"placeholder:Country" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.address.country.errors.as_text}}
             </div>
         </div>
@@ -90,15 +88,3 @@
 {% block next-button %}
   {% trans 'Company <strong class="extra-bold">Info</strong>' %}<i class="right-arrowred"></i>
 {% endblock %}
-
-
-    <!--<div class="row">-->
-        <!--<label class="mandatory" id="{{form.profile.profile_pic.id_for_label}}">-->
-            <!--{{form.profile.profile_pic.label}}:-->
-        <!--</label>-->
-        <!--<div class="form-elements">-->
-            <!--{{form.profile.profile_pic}}-->
-            <!--{{form.profile.profile_pic.errors.as_text}}-->
-        <!--</div>-->
-    <!--</div>-->
-

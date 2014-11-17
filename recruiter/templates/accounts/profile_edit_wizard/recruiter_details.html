@@ -1,5 +1,5 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 
 {% block form_elements %}
@@ -10,7 +10,7 @@
                 {% trans 'Name of Company' %}
             </label>
             <div class="form-elements">
-                {{form.company.name}}
+                {{form.company.name | attr:"placeholder:Company Name" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.company.name.errors.as_text}}
             </div>
 
@@ -28,7 +28,7 @@
                 {{form.recruiter_info.company_email.label}}
             </label>
             <div class="form-elements">
-                {{form.recruiter_info.company_email}}
+                {{form.recruiter_info.company_email | attr:"placeholder:Official Email" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.recruiter_info.company_email.errors.as_text}}
             </div>
 
@@ -41,7 +41,7 @@
                 {% trans 'Address' %}
             </label>
             <div class="form-elements address">
-                {{form.company_address.street}}
+                {{form.company_address.street | attr:"placeholder:Office Address" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.company_address.street.errors.as_text}}
             </div>
         </div>
@@ -55,7 +55,7 @@
                 {{form.company_address.city.label}}
             </label>
             <div class="form-elements">
-                {{form.company_address.city}}
+                {{form.company_address.city | attr:"placeholder:City" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.company_address.city.errors.as_text}}
             </div>
 
@@ -70,7 +70,7 @@
                 {{form.company_address.country.label}}
             </label>
             <div class="form-elements">
-                {{form.company_address.country}}
+                {{form.company_address.country | attr:"placeholder:Country" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.company_address.country.errors.as_text}}
             </div>
 
@@ -83,7 +83,7 @@
                 {{form.company.website.label}}
             </label>
             <div class="form-elements">
-                {{form.company.website}}
+                {{form.company.website | attr:"placeholder:http://" | attr:"required" | attr:"autocomplete:off" }}
                 {{form.company.website.errors.as_text}}
             </div>
 
@@ -91,15 +91,12 @@
                 {{form.company.logo.label}}
             </label>
             <div class="form-elements">
-                {{form.company.logo}}
+                {{ form.company.logo }}
                 {{form.company.logo.errors.as_text}}
             </div>
 
         </div>
     </div>
-
-
-
 
 {% endblock %}
 

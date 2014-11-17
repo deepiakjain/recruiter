@@ -29,8 +29,8 @@
             <div class="search-form job-content">
                 <form action="{% url 'job-list' %}" method="POST">
                     {% csrf_token %}
-                    {{search_form.search | attr:"placeholder: Enter skill set or roles, responsibilities" }}
-                    {{search_form.location | attr:"placeholder: Enter Job Location" }}
+                    {{search_form.search | attr:"placeholder: Enter skill set or roles, responsibilities" | attr:"autocomplete:off" }}
+                    {{search_form.location | attr:"placeholder: Enter Job Location" | attr:"autocomplete:off" }}
                     {{search_form.experience }}
                     <input type="submit" value="Search" title="Search" class="search-btn" />
                 </form>
@@ -38,8 +38,8 @@
             <div class="search-form candidate-content">
                 <form action="{% url 'seeker-list' %}" method="POST">
                     {% csrf_token %}
-                    {{search_form.search | attr:"placeholder: Enter skill set or qualification"}}
-                    {{search_form.location | attr:"placeholder: Enter Job Location" }}
+                    {{search_form.search | attr:"placeholder: Enter skill set or qualification" | attr:"autocomplete:off" }}
+                    {{search_form.location | attr:"placeholder: Enter Job Location" | attr:"autocomplete:off" }}
                     {{search_form.experience}}
                     <input type="submit" value="Search" title="Search" class="search-btn" />
                 </form>
@@ -54,12 +54,12 @@
                         <div class="form">
                             <div class="row">
                                 <!--<label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>-->
-                                {{form.username | attr:"placeholder:Username" | attr:"required"}}
+                                {{form.username | attr:"placeholder:Username" | attr:"required"  }}
                                 <div style="padding:5px;">{{form.username.errors.as_text}}</div>
                             </div>
                             <div class="row">
                                 <!--<label id="{{form.password.id_for_label}}">{{form.password.label}}:</label>-->
-                                {{form.password | attr:"placeholder:Password" | attr:"required"}}
+                                {{form.password | attr:"placeholder:Password" | attr:"required" | attr:"autocomplete:off" }}
                                 <div style="padding:5px;">{{form.password.errors.as_text}}</div>
                             </div>
                             <input type="submit" id="login" value="Login" title="Login" class="login-btn" />
