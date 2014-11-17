@@ -11,6 +11,19 @@
         <div class="button-container">
             <input type="button" name="" id="" value="Close this Position" />
         </div>
+    {% else %}
+        {% if is_seeker and not job.status %}
+            <div class="button-container">
+                <input type="button" onclick="apply_for_job('{% url 'apply-for-job' job.job_code %}')"
+                       value="Apply this Position" />
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if job.status %}
+        <div class="button-container">
+            <input type="button" disabled="disabled" value="{{ job.status }}" class="">
+        </div>
     {% endif %}
 </span>
 
@@ -82,11 +95,33 @@
                 <div class="section-box">
                     {% for seeker in seekers %}
                         <div class="row">
-                            <input type="checkbox" name="" id="" />
+                            <!--<input type="checkbox" name="" id="" />-->
                             <p>
-                                <a href="javascript:void(0);">Vijay Anand - </a>
-                                <label><span class="bold">UI Lead</span> (5 Yrs.) Delhi</label>
-                            </p>
+                                <a href="{% url 'seeker-details' seeker.id %}">{{ seeker.user.get_full_name | title }}</a> -
+                                <label>
+                                    <span class="bold">{{ seeker.designation }}</span> ({{seeker.experience_yrs}} Yrs.) {{ seeker.current_loc }}
+                                </label>
+                            </p><br/>
+                            <div class="clear"></div>
+                            <div>
+                                <label class="data-row"><span class="bold">{% trans 'Known as' %}:</span>
+                                    <span>{{ seeker.profile_header }}</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="data-row"><span class="bold">{% trans 'Contact On' %}:</span>
+                                    <span>{{ seeker.mobile_no }}</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="data-row"><span class="bold">{% trans 'Updated Resume:' %}</span></label>
+                                <span>
+                                    <a href="{% url 'download_uuid_file' profile.file_uuid %}">
+                                        {{ seeker.get_resume }}
+                                    </a>
+                                </span>
+                            </div>
+
                             <div class="button-container">
                                 <input type="button" name="" id="" value="Fit for Job" class="fit" />
                                 <input type="button" name="" id="" value="Not Fit for Job" class="not-fit" />

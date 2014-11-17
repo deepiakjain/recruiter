@@ -155,17 +155,33 @@ def job_detail(request, job_code):
     """
     job = get_object_or_404(JobDetails, job_code=job_code)
 
-    is_seeker = user_is_seeker(request.user) if not request.user.is_anonymous() else False
+    # check for logged in user
+    is_anonymous = request.user.is_anonymous()
+    is_seeker = is_recruiter = False
+    context = {}
 
-    job.applied = job.applied_by_seeker(request.user) if is_seeker else False
+    if not is_anonymous:
+        is_seeker = user_is_seeker(request.user)
+        is_recruiter = user_is_recruiter(request.user)
 
-    if job.applied:
-        #need to get correct name of status
-        job.status = job.status_set.get(seeker__user=request.user).status
+    if is_seeker:
+        job.applied = job.applied_by_seeker(request.user)
 
+        if job.applied:
+            #need to get correct name of status
+            job.status = job.status_set.get(seeker__user=request.user).status
+
+    elif is_recruiter:
+        applied_status = Status.objects.filter(job=job)
+
+        seekers = []
+        for status in applied_status:
+            seekers.extend(status.seeker.all())
+
+        context.update({'seekers': seekers, 'is_recruiter': is_recruiter})
 
     template = 'jobs/job_detail.html'
-    context = {'job': job, 'is_seeker': is_seeker}
+    context.update({'job': job, 'is_seeker': is_seeker})
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 
@@ -173,11 +189,14 @@ def job_detail(request, job_code):
 @login_required()
 def seeker_job_detail(request, job_code, seeker_id):
     job = get_object_or_404(JobDetails, job_code=job_code)
+    seeker_obj = get_object_or_404(JobSeeker, id=seeker_id)
 
     is_recruiter = user_is_seeker(request.user)
+    if not is_recruiter:
+        return redirect(reverse('home'))
 
     template = 'jobs/job_detail.html'
-    context = {'job': job, 'is_recruiter': is_recruiter, 'seeker_id': seeker_id}
+    context = {'job': job, 'is_recruiter': is_recruiter, 'seeker_obj': seeker_obj}
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 

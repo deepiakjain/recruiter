@@ -3,8 +3,8 @@
     <div class="row">
         <div class="data">
             <h1>
-                <a href="{% url 'job-detail' job.job_code %}">{{job.job_title|title}}</a>
-                <span>({{job.min_experience}} - {{job.max_experience}})</span>
+                <a href="{% url 'job-detail' job.job_code %}" title="Click to view job detail">{{job.job_title|title}}</a>
+                <span>({{job.min_experience}} - {{job.max_experience}}) Yrs.</span>
                 <label class="data-row"><span class="bold">{{job.designation}} -</span>
                     <span>{{job.location_name}}</span></label></h1>
             <label class="data-row"><span class="bold">Key Skills:</span>
@@ -17,9 +17,10 @@
         </div>
         {% if is_seeker %}
             {% if not job.applied %}
-                <a href="javascript:void(0);" onclick="apply_for_job('{% url 'apply-for-job' job.job_code %}')" class="view-btn">Apply for</a>
+                <a href="javascript:void(0);"
+                   onclick="apply_for_job('{% url 'apply-for-job' job.job_code %}')" class="view-btn">Apply for</a>
             {% else %}
-                {{job.status}}
+                <input type="button" disabled="disabled" value="{{ job.status }}" class="view-btn2">
             {%endif%}
         {% else %}
             {% if is_recruiter %}
