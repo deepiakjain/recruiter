@@ -86,16 +86,15 @@
                 <div class="pointer-border"></div>
                 <div class="pointer"></div>
                 <div class="header">
-                    <h1>Candidates applying for this job</h1>
-                    <!--<div class="button-container">-->
-                        <!--<input type="button" name="" id="" value="Fit for Job" class="fit" />-->
-                        <!--<input type="button" name="" id="" value="Not Fit for Job" class="not-fit" />-->
-                    <!--</div>-->
+                    {% if seekers %}
+                        <h1 style="min-height: 22px;">Candidates applied for this job</h1>
+                    {% else %}
+                        <h1 style="min-height: 22px;">Candidates not applied for this job yet !</h1>
+                    {% endif %}
                 </div>
                 <div class="section-box">
-                    {% for seeker in seekers %}
+                    {% for seeker, status in seekers %}
                         <div class="row">
-                            <!--<input type="checkbox" name="" id="" />-->
                             <p>
                                 <a href="{% url 'seeker-details' seeker.id %}">{{ seeker.user.get_full_name | title }}</a> -
                                 <label>
@@ -121,11 +120,19 @@
                                     </a>
                                 </span>
                             </div>
-
+                            {% ifequal status 'AP' %}
                             <div class="button-container">
-                                <input type="button" name="" id="" value="Fit for Job" class="fit" />
-                                <input type="button" name="" id="" value="Not Fit for Job" class="not-fit" />
+                                <input type="button"
+                                       onclick="update_status('AC', '{{ job.job_code }}', '{{ seeker.id }}');"
+                                       value="Fit for Job" class="fit" />
+
+                                <input type="button"
+                                       onclick="update_status('NF', '{{ job.job_code }}', '{{ seeker.id }}');"
+                                       value="Not Fit for Job" class="not-fit" />
                             </div>
+                            {% else %}
+                                <input type="button" disabled="disabled" value="{{ status }}" class="view-btn2">
+                            {% endifequal %}
                         </div>
                     {% endfor %}
                 </div>

@@ -20,3 +20,19 @@ $(document).ready(function(){
 		}
 	});
 });
+
+function apply_for_job(url){
+    $.ajax({
+        url: url
+    }).done(function(response) {
+        window.location.href = response.url;
+    });
+}
+
+function update_status(status, job_code, seeker_id){
+    $.ajax({
+        url: '/jobs/status/' + status + '/' + job_code + '/' + seeker_id
+    }).done(function(response) {
+        window.location.href = response.url;
+    });
+}

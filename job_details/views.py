@@ -176,7 +176,7 @@ def job_detail(request, job_code):
 
         seekers = []
         for status in applied_status:
-            seekers.extend(status.seeker.all())
+            seekers.append((status.seeker.all()[0], status.status))
 
         context.update({'seekers': seekers, 'is_recruiter': is_recruiter})
 
