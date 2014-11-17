@@ -53,12 +53,12 @@
                         {% csrf_token %}
                         <div class="form">
                             <div class="row">
-                                <!--<label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>-->
+                                <label id="{{form.username.id_for_label}}">{{form.username.label}}:</label>
                                 {{form.username | attr:"placeholder:Username" | attr:"required"  }}
                                 <div style="padding:5px;">{{form.username.errors.as_text}}</div>
                             </div>
                             <div class="row">
-                                <!--<label id="{{form.password.id_for_label}}">{{form.password.label}}:</label>-->
+                                <label id="{{form.password.id_for_label}}">{{form.password.label}}:</label>
                                 {{form.password | attr:"placeholder:Password" | attr:"required" | attr:"autocomplete:off" }}
                                 <div style="padding:5px;">{{form.password.errors.as_text}}</div>
                             </div>
