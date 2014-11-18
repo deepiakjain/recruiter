@@ -8,7 +8,7 @@ def get_constant_dict(tuple_list):
     """
     Will convert list of tuples in tuple to dict.
     """
-    return {key : value for key, value in tuple_list}
+    return {key: value for key, value in tuple_list}
 
 
 @register.filter
