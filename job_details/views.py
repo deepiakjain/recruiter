@@ -26,10 +26,12 @@ from job_details.models import JobDetails, Status
 from job_details.forms import JobDetailsForm, InterestingResumeForm
 
 from utils.utilities import get_constant_dict, user_is_recruiter, user_is_seeker
+from recruiter.decorators import force_profile
 
 
 # TODO: need to work on it
 @login_required()
+@force_profile
 def upload_resume(request):
     """
     This function first check login if not navigate to login page.
@@ -61,6 +63,7 @@ def upload_resume(request):
 
 
 @login_required()
+@force_profile
 def create_job(request, job_code=None):
     """
     job detail form will manage jobs
@@ -101,7 +104,7 @@ def create_job(request, job_code=None):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 
-
+@force_profile
 def job_list(request):
 
     is_anonymous = request.user.is_anonymous()
@@ -148,7 +151,7 @@ def job_list(request):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 
-
+@force_profile
 def job_detail(request, job_code):
     """
     Job detail which will display two all users
@@ -187,6 +190,7 @@ def job_detail(request, job_code):
 
 
 @login_required()
+@force_profile
 def seeker_job_detail(request, job_code, seeker_id):
     job = get_object_or_404(JobDetails, job_code=job_code)
     seeker_obj = get_object_or_404(JobSeeker, id=seeker_id)
@@ -202,6 +206,7 @@ def seeker_job_detail(request, job_code, seeker_id):
 
 
 @login_required()
+@force_profile
 def apply_for_job(request, job_code):
     """
     Apply for job this functionality is available only for seeker no for recruiter.
@@ -230,6 +235,7 @@ def apply_for_job(request, job_code):
 
 
 @login_required()
+@force_profile
 def update_job_status(request, status, job_code, seeker_id):
     """
     Update job status by recruiter.
@@ -248,6 +254,7 @@ def update_job_status(request, status, job_code, seeker_id):
 
 
 @login_required()
+@force_profile
 def interesting_resume(request, seeker_id):
     """
     """
@@ -273,6 +280,7 @@ def interesting_resume(request, seeker_id):
 
 
 @login_required()
+@force_profile
 def job_status(request):
     """
     """
@@ -288,7 +296,7 @@ def job_status(request):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 
-
+@force_profile
 def applied_job_list(request):
     if user_is_recruiter(request.user):
         # redirect with message don't have access to perform this operation.

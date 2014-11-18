@@ -20,6 +20,7 @@ from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetail
                     JobExpectationsForm, SeekerDetailsForm, RecruiterDetailsForm)
 
 from account.models import JobSeeker, Recruiter
+from recruiter.decorators import force_profile
 
 from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
 from .forms import Search
@@ -132,6 +133,7 @@ profile_edit_wizard = ProfileEditWizard.as_view()
 profile_edit_wizard = login_required(profile_edit_wizard)
 
 
+@force_profile
 def user_profile(request):
     """
     profile which will identify login user, display its data.
@@ -141,9 +143,6 @@ def user_profile(request):
     :return:
     """
     profile = get_profile(request.user)
-
-    if profile.is_empty():
-        return redirect(reverse('profile_edit'))
 
     # check user is seeker or recruiter
     is_seeker = user_is_seeker(request.user)
@@ -168,9 +167,10 @@ def recruiter_list(request):
 
 
 @login_required()
+@force_profile
 def seeker_details(request, profile_id):
     """
-    Will list all jobs based on created or open date.
+    Will display seeker information
     """
 
     seeker = get_object_or_404(JobSeeker, id=profile_id)
@@ -200,6 +200,7 @@ def recruiter_details(request, profile_id):
                               context_instance=RequestContext(request))
 
 
+@force_profile
 def seeker_list(request):
 
     context = {'form': Search(), 'is_seeker': True}
