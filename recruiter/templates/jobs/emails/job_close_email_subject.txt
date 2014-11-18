@@ -1,0 +1,3 @@
+{% load i18n %}
+
+{% trans "Job closed successfully on " %}{{ site.name }}

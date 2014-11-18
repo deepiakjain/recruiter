@@ -8,12 +8,17 @@ Model used for job detail filled by user can be admin or Recruiter
 """
 
 from django.db import models
-from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.db.utils import IntegrityError
+from django.db.models.signals import post_save
+from django.contrib.sites.models import Site
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
+# project imports
 from account.models import JobSeeker, Recruiter
 from account.constants import STATUS, JOB_STATUS, JOB_TYPE, INTEREST
+
 
 
 class JobDetails(models.Model):
@@ -41,6 +46,33 @@ class JobDetails(models.Model):
         Check status object exist for user and job.
         """
         return Status.objects.filter(job=self, seeker__user=seeker).exists()
+
+@receiver(post_save, sender=JobDetails)
+def send_email_if_job_closed(sender, instance, **kwargs):
+    """
+    Send email if job was closed to update the owner and to keep recode of the jobs closed.
+    """
+
+    if instance.job_opening_status == 'CL':
+
+        # get current site info
+        site = Site.objects.get_current()
+        touser = instance.recruiter.user.email
+
+        ctx_dict = {'site': site, 'job_code':instance.job_code,
+                    'username': touser.split('@')[0],
+                    'job_title': instance.job_title}
+
+        subject = render_to_string('jobs/emails/job_close_email_subject.txt',
+                                   ctx_dict)
+
+        # Email subject *must not* contain newlines
+        subject = ''.join(subject.splitlines())
+
+        message = render_to_string('jobs/emails/job_close_email.txt',
+                                   ctx_dict)
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [touser], fail_silently=False)
+
 
 
 class Status(models.Model):
