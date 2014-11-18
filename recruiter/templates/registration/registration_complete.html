@@ -3,8 +3,20 @@
 
 {% block title %}{% trans "Registration complete" %}{% endblock %}
 
+{% block section_header %}
+    <h2> {% trans "Registration Completed" %} </h2>
+{% endblock %}
+
 {% block content %}
-    <h2>{% trans "Registration complete" %}</h2>
-    <p>{% trans "Thank you for your registration!" %}</p>
-    <p>{% trans "You will receive an email with an activation link shortly." %}</p>
+
+    <section class="content-area edit-profile">
+        <div class="form-container">
+            <div class="success-message">
+                <h1>{% trans "Thank you for your registration!" %}</h1>
+                <span>&nbsp;</span>
+                <h1>{% trans "You will receive an email with an activation link shortly." %}</h1>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}
