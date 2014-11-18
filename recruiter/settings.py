@@ -158,3 +158,6 @@ DEFAULT_FROM_EMAIL = 'mail.tradingowl@gmail.com'
 
 # temprary folder to store user data.
 TEMP_FOLDER = join(MEDIA_ROOT, 'temp')
+
+# pagination
+ITEM_PER_PAGE = 2

@@ -10,12 +10,14 @@ Url for job related functionality
 import json
 
 from django.db.models import Q
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from datetime import datetime
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # project imports
 from account.models import JobSeeker
@@ -147,7 +149,20 @@ def job_list(request):
             #need to get correct name of status
             result.status = result.status_set.get(seeker__user=request.user).status
 
-    context.update({'jobs': results, 'user': request.user})
+    # pagination code for jobs
+    paginator = Paginator(results, settings.ITEM_PER_PAGE)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        jobs = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        jobs = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        jobs = paginator.page(paginator.num_pages)
+
+    context.update({'jobs': jobs, 'user': request.user})
 
     return render_to_response(template, context,
                               context_instance=RequestContext(request))

@@ -261,7 +261,7 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 .candidate-list .data h1 span{}
 .candidate-list .data .data-row{display:block; margin:0 0 3px 0;}
 .candidate-list .data .data-row span{margin:0 7px 0 0;}
-.candidate-list .view-btn{float:right; min-width:100px; padding:10px 5px 5px; height:20px; font-size:14px; text-align:center; text-decoration:none; color:#FFF; margin:25px 0 0 0;
+.candidate-list .view-btn {float:right; min-width:100px; padding:10px 5px 5px; height:20px; font-size:14px; text-align:center; text-decoration:none; color:#FFF; margin:25px 0 0 0;
 	background: #00a7df; /* Old browsers */
 	background: -moz-linear-gradient(top,  #00a7df 0%, #005f81 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00a7df), color-stop(100%,#005f81)); /* Chrome,Safari4+ */
@@ -273,6 +273,18 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 }
 .candidate-list .view-btn2 {
     float:right; min-width:100px; font-size:14px; text-align:center; text-decoration:none; color:#FFF; margin:25px 0 0 0;
+	background: #00a7df; /* Old browsers */
+	background: -moz-linear-gradient(top,  #00a7df 0%, #005f81 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00a7df), color-stop(100%,#005f81)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #00a7df 0%,#005f81 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #00a7df 0%,#005f81 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #00a7df 0%,#005f81 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #00a7df 0%,#005f81 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a7df', endColorstr='#005f81',GradientType=0 ); /* IE6-9 */
+}
+
+.pagination {clear:both; float:left;}
+.pagination-view-btn {min-width:100px; padding:10px 5px 5px; height:20px; font-size:14px; text-align:center; text-decoration:none; color:#FFF; margin:25px 0 0 0;
 	background: #00a7df; /* Old browsers */
 	background: -moz-linear-gradient(top,  #00a7df 0%, #005f81 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00a7df), color-stop(100%,#005f81)); /* Chrome,Safari4+ */
