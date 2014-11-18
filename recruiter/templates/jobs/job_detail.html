@@ -1,5 +1,5 @@
 {% extends  'base.html' %}
-{% load i18n %}
+{% load i18n account_tags %}
 
 {% block title %}Job Detail{% endblock %}
 
@@ -23,7 +23,7 @@
 
     {% if job.status %}
         <div class="button-container">
-            <input type="button" disabled="disabled" value="{{ job.status }}" class="">
+            <input type="button" disabled="disabled" value="{% get_status_by_code job.status %}" class="">
         </div>
     {% endif %}
 </span>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="sub-row">
                     <label class="form-label">Job Type:</label>
-                    <span class="form-label-value">{{job.job_type}}</span>
+                    <span class="form-label-value">{% get_job_type_by_code job.job_type %}</span>
                 </div>
             </div>
         </div>

@@ -41,5 +41,5 @@ JOB_STATUS = (('OP', 'Open'),
               ('OH', 'On Hold'),
               )
 
-JOB_TYPE = (('PJ', 'Permanent'),
-            ('CJ', 'Contract'))
+JOB_TYPE = (('PJ', 'Permanent Job'),
+            ('CJ', 'Contract Job'))

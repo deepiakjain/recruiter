@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n account_tags %}
 
     <div class="row">
         <div class="data">
@@ -13,14 +13,18 @@
             <label class="data-row"><span class="bold">Roles & Responsibilities:</span>
                 <span>{{job.roles_and_responsibilities}}</span>
             </label>
-            <label class="data-row"><span class="bold">Job Type:</span><span>{{job.job_type}}</span></label>
+            <label class="data-row"><span class="bold">Job Type:</span>
+                <b><span>{% get_job_type_by_code job.job_type %}</span></b>
+            </label>
         </div>
         {% if is_seeker %}
             {% if not job.applied %}
                 <a href="javascript:void(0);"
                    onclick="update_job_status('{% url 'apply-for-job' job.job_code %}')" class="view-btn">Apply for</a>
             {% else %}
-                <input type="button" disabled="disabled" value="{{ job.status }}" class="view-btn2">
+                <input type="button" disabled="disabled"
+                       value="{% get_status_by_code job.status %}" class="view-btn2">
+
             {%endif%}
         {% else %}
             {% if is_recruiter %}
