@@ -21,7 +21,7 @@ $(document).ready(function(){
 	});
 });
 
-function apply_for_job(url){
+function update_job_status(url){
     $.ajax({
         url: url
     }).done(function(response) {

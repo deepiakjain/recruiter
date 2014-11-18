@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     # account logout request
     url(r'^creation/$', 'job_details.views.create_job', name='job-create'),
     url(r'^edit/(?P<job_code>\w+)$', 'job_details.views.create_job', name='job-edition'),
+    url(r'^close/(?P<job_code>\w+)$', 'job_details.views.close_job', name='job-close'),
 
     url(r'^detail/(?P<job_code>\w+)/(?P<seeker_id>\w+)$',
         'job_details.views.seeker_job_detail', name='seeker-job-detail'),

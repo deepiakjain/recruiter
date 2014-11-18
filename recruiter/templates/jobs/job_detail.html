@@ -9,12 +9,13 @@
     <a href="{% url 'job-list' %}" >Back to job list</a>
     {% if is_recruiter %}
         <div class="button-container">
-            <input type="button" name="" id="" value="Close this Position" />
+            <input type="button" onclick="update_job_status('{% url 'job-close' job.job_code %}')"
+                   value="Close this Position" />
         </div>
     {% else %}
         {% if is_seeker and not job.status %}
             <div class="button-container">
-                <input type="button" onclick="apply_for_job('{% url 'apply-for-job' job.job_code %}')"
+                <input type="button" onclick="update_job_status('{% url 'apply-for-job' job.job_code %}')"
                        value="Apply this Position" />
             </div>
         {% endif %}

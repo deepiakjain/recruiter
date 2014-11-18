@@ -11,21 +11,21 @@ import json
 
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, render_to_response, get_object_or_404
+from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from datetime import datetime
 
 # project imports
 from account.models import JobSeeker
 from account.forms import Search
 from account.profile_forms import InlineResumeForm
-from account.constants import STATUS
 
 from job_details.models import JobDetails, Status
 from job_details.forms import JobDetailsForm, InterestingResumeForm
 
-from utils.utilities import get_constant_dict, user_is_recruiter, user_is_seeker
+from utils.utilities import user_is_recruiter, user_is_seeker
 from recruiter.decorators import force_profile
 
 
@@ -310,3 +310,23 @@ def applied_job_list(request):
 
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
+
+@login_required()
+@force_profile
+def close_job(request, job_code):
+    """
+    Close job as the position is filled..
+    """
+
+    if user_is_seeker(request.user):
+        # redirect with message don't have access to perform this operation.
+        return HttpResponse(json.dumps({'url': reverse('home')}), content_type="application/json")
+
+    # get job object
+    job_obj = get_object_or_404(JobDetails, job_code=job_code)
+    job_obj.job_opening_status = 'CL'
+    job_obj.closing_date = datetime.now()
+
+    job_obj.save()
+
+    return HttpResponse(json.dumps({'url': reverse('job-list')}), content_type="application/json")

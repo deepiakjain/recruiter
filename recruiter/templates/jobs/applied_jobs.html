@@ -19,9 +19,9 @@
                 <a href="#" >{{status.seeker.all.0.user.username}} </a>
             </div>
                 <div>
-                    <input type='button' value="Not Fit" onclick="apply_for_job('{% url 'update-job-status' 'NF' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
-                    <input type='button' value="On Hold" onclick="apply_for_job('{% url 'update-job-status' 'OH' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
-                    <input type='button' value="Accept" onclick="apply_for_job('{% url 'update-job-status' 'AC' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
+                    <input type='button' value="Not Fit" onclick="update_job_status('{% url 'update-job-status' 'NF' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
+                    <input type='button' value="On Hold" onclick="update_job_status('{% url 'update-job-status' 'OH' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
+                    <input type='button' value="Accept" onclick="update_job_status('{% url 'update-job-status' 'AC' status.job.all.0.job_code status.seeker.all.0.id %}')"/>
                 </div>
             {% endif %}
         {% endfor %}

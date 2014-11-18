@@ -18,13 +18,14 @@
         {% if is_seeker %}
             {% if not job.applied %}
                 <a href="javascript:void(0);"
-                   onclick="apply_for_job('{% url 'apply-for-job' job.job_code %}')" class="view-btn">Apply for</a>
+                   onclick="update_job_status('{% url 'apply-for-job' job.job_code %}')" class="view-btn">Apply for</a>
             {% else %}
                 <input type="button" disabled="disabled" value="{{ job.status }}" class="view-btn2">
             {%endif%}
         {% else %}
             {% if is_recruiter %}
-                <a href="javascript:void(0);"  class="view-btn">Close Position</a>
+                <a href="javascript:void(0);" onclick="update_job_status('{% url 'job-close' job.job_code %}')"
+                   class="view-btn">Close Position</a>
             {% endif %}
         {% endif %}
     </div>
