@@ -99,8 +99,9 @@ def create_job(request, job_code=None):
         form = JobDetailsForm(instance=job_obj, initial=initial)
 
     template = 'jobs/job_detail_form.html'
+    url = reverse('job-create') if not job_code else reverse('job-edition', args=(job_code,))
 
-    context = {'form': form}
+    context = {'form': form, 'url': url}
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 

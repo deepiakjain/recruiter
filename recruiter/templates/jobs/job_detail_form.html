@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content%}
-    <form action="{% if form.instance %}{% url 'job-edition' form.instance.job_code %}{% else %}{% url 'job-create' %} {% endif %}" method='POST'>
+    <form action="{{url}}" method='POST'>
         {% csrf_token %}
         {{form.errors}}
         <div class="form-layout single">
@@ -111,7 +111,7 @@
                 {{ hidden }}
             {% endfor %}
             <div class="button-container">
-                <input type='submit' value="Submit" />
+                <button type='submit' value="Submit"> {% trans 'Submit' %}</button>
                 <input type='button' value="cancel" onclick="window.location.href='{% url 'home' %}';"/>
             </div>
         </div>
