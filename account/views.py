@@ -125,9 +125,14 @@ class ProfileEditWizard(SessionWizardView):
         return response
 
 
+@login_required()
 def profile_complete(request):
-    return render(request, 'accounts/profile_edit_wizard/configuration_completed.html')
 
+    template = 'accounts/profile_edit_wizard/configuration_completed.html'
+    context = {'is_seeker': user_is_seeker(request.user)}
+
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
 
 profile_edit_wizard = ProfileEditWizard.as_view()
 profile_edit_wizard = login_required(profile_edit_wizard)
