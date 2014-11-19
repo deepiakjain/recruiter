@@ -34,8 +34,8 @@ class ProfileEditWizard(SessionWizardView):
         form_list = (  # Will be common for both seeker and recruiter
                     ('contact_details', ContactDetailsForm),
 
-                    ('seeker_details', SeekerDetailsForm),  # seeker profile info
                     ('education_details', EducationDetailsForm),
+                    ('seeker_details', SeekerDetailsForm),  # seeker profile info
                     ('professional_details', ProfessionalDetailsForm),
                     ('job_expectations', JobExpectationsForm),
 

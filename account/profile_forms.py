@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from account.models import JobSeeker, SeekerExperienceInfo, Address,\
     EducationBackground, CompanyProfile, Recruiter
+from account.widgets import AdminImageWidget, AdminResumeWidget
 
 
 class InlineBaseProfileForm(forms.ModelForm):
@@ -13,7 +14,8 @@ class InlineBaseProfileForm(forms.ModelForm):
     first_name = forms.CharField(label='First Name')
     last_name = forms.CharField(label='Last Name')
     mobile_no = forms.CharField(label='Contact No.')
-    profile_pic = forms.FileField(label='Display Picture', required=False)
+    #profile_pic = forms.FileField(label='Display Picture', required=False)
+    profile_pic = forms.ImageField(label='Display Picture', required=False, widget=AdminImageWidget())
 
     def __init__(self, *arg, **kwarg):
         self.empty_permitted = False
@@ -65,6 +67,7 @@ class InlineResumeForm(forms.ModelForm):
     class Meta:
         model = JobSeeker
         fields = ('resume',)
+        widgets = {'resume': AdminResumeWidget()}
 
 
 class InlineProfessionalDetailsForm(forms.ModelForm):

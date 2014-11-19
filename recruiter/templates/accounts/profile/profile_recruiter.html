@@ -5,7 +5,7 @@
     <div class="inner">
         <div class="profile-pic">
             {% if profile.profile_pic %}
-                <img src="{{profile.profile_pic}}" />
+                <img src="/users_files/{{profile.profile_pic}}" />
             {% else %}
                 <img src="{{STATIC_URL}}images/user-profile-pic.png" />
             {% endif %}

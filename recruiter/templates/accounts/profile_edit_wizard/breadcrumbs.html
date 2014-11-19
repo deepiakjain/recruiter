@@ -7,17 +7,17 @@
                 <label>{% trans 'Personal Info' %}</label>
             </div>
             {% if is_seeker %}
-                <div class="step {% ifequal wizard.steps.current 'seeker_details' %} active {%endifequal %}">
+                <div class="step {% ifequal wizard.steps.current 'education_details' %} active {%endifequal %}">
                     <span>2</span>
                     <label>Education Background</label>
                 </div>
-                <div class="step {% ifequal wizard.steps.current 'education_details' %} active {%endifequal %}">
+                <div class="step {% ifequal wizard.steps.current 'job-experience' %} active {%endifequal %}">
                     <span>3</span>
-                    <label>Company Details</label>
+                    <label>Job Reference</label>
                 </div>
                 <div class="step {% ifequal wizard.steps.current 'professional_details' %} active {%endifequal %}">
                     <span>4</span>
-                    <label>Job Reference</label>
+                    <label>Company Details</label>
                 </div>
                 <div class="step {% if 'complete' in request.path %} active {%endif %}">
                     <span>5</span>

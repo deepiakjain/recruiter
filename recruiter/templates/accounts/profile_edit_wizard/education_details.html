@@ -1,75 +1,77 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
-
-{% block registration_title %}
-    <h1 class="heading32">
-        {% trans "Registration" %}: <span class="txt-red">{% trans "Education background" %}</span>
-    </h1>
+{% block section_header %}
+    <h1>{% trans "Your Qualification" %}</h1>
 {% endblock %}
 
 {% block form_elements %}
 
-    <div class="row">
-        <label class="mandatory" id="{{form.qualification.qualification.id_for_label}}">
-            {{form.qualification.qualification.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.qualification.qualification}}
-            {{form.qualification.qualification.errors.as_text}}
-        </div>
-        <label class="mandatory" id="{{form.resume_file.resume.id_for_label}}">
-            {{form.resume_file.resume.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.resume_file.resume}}
-            {{form.resume_file.resume.errors.as_text}}
-        </div>
-    </div>
+    <section class="content-area edit-profile">
+        <div class="form-container">
+            <div class="column-left">
+                <label class="mandatory" id="{{ form.qualification.qualification.id_for_label }}">
+                    {{ form.qualification.qualification.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.qualification.qualification | attr:"required" | attr:"placeholder:Higher Qualification" }}
+                    {{ form.qualification.qualification.errors.as_text }}
+                </div>
 
-    <div class="row">
-        <label class="mandatory" id="{{form.qualification.institute_name.id_for_label}}">
-            {{form.qualification.institute_name.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.qualification.institute_name}}
-            {{form.qualification.institute_name.errors.as_text}}
-        </div>
-        <label class="mandatory" id="{{form.qualification.year_of_passing.id_for_label}}">
-            {{form.qualification.year_of_passing.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.qualification.year_of_passing}}
-            {{form.qualification.year_of_passing.errors.as_text}}
-        </div>
-    </div>
+                <label class="mandatory" id="{{form.qualification.institute_name.id_for_label}}">
+                    {{ form.qualification.institute_name.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.qualification.institute_name | attr:"required" | attr:"placeholder:Institute Name"}}
+                    {{ form.qualification.institute_name.errors.as_text }}
+                </div>
 
-    <div class="row">
-        <label class="mandatory" id="{{form.qualification.percentage.id_for_label}}">
-            {{form.qualification.percentage.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.qualification.percentage}}
-            {{form.qualification.percentage.errors.as_text}}
+                <label class="mandatory" id="{{form.qualification.year_of_passing.id_for_label}}">
+                    {{form.qualification.year_of_passing.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.qualification.year_of_passing | attr:"required" | attr:"placeholder:Year of passing" }}
+                    {{ form.qualification.year_of_passing.errors.as_text }}
+                </div>
+            </div>
+
+            <div class="column-right">
+                <label class="mandatory" id="{{form.qualification.percentage.id_for_label}}">
+                    {{ form.qualification.percentage.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.qualification.percentage | attr:"required" | attr:"placeholder:Year of passing" | attr:"class:small" }}
+                    <span>%</span>
+                    {{ form.qualification.percentage.errors.as_text }}
+                </div>
+
+                <label id="{{form.qualification.special_achievement.id_for_label}}">
+                    {{ form.qualification.special_achievement.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.qualification.special_achievement | attr:"placeholder:Achievement" }}
+                    {{ form.qualification.special_achievement.errors.as_text }}
+                </div>
+
+                <label class="mandatory" id="{{form.resume_file.resume.id_for_label}}">
+                    {{form.resume_file.resume.label}}
+                </label>
+                <div class="form-elements">
+                    {{form.resume_file.resume | attr:"required"}}
+                    {{form.resume_file.resume.errors.as_text}}
+                </div>
+            </div>
         </div>
-        <label class="" id="{{form.qualification.special_achievement.id_for_label}}">
-            {{form.qualification.special_achievement.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.qualification.special_achievement}}
-            {{form.qualification.special_achievement.errors.as_text}}
-        </div>
-    </div>
+    </section>
 
 {% endblock %}
 
 
 {% block prev-button %}
-  {% blocktrans %}information{% endblocktrans %} <i class="left-arrowd"></i>
+  {% blocktrans %}< Personal Info{% endblocktrans %}
 {% endblock %}
 
 
 {% block next-button %}
-  {% trans 'Looking <strong class="extra-bold"> For </strong>' %}<i class="right-arrowred"></i>
+  {% trans 'Job Reference >' %}
 {% endblock %}
-

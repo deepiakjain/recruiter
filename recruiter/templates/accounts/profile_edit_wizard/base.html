@@ -26,7 +26,6 @@
                         {% endblock %}
 
                         <div id="id-main-btns" class="button-container">
-                            <!--<input type="button" name="" id="" value="Next Step" />-->
                             {% if wizard.steps.prev %}
                                 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}" class="arrow-btn">
                                 {% block prev-button %} {% endblock %}
@@ -34,7 +33,6 @@
                             {% endif %}
 
                             <button id="submit_button" type="submit" class="arrow-btn txt-red pull-right ">
-                                <!--<input type="button" name="" id="" value="Prev Step" disabled="disabled" />-->
                                 {% block next-button %}{% endblock %}
                             </button>
                         </div>

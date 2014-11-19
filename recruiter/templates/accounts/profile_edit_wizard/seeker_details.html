@@ -1,31 +1,69 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 
-{% block registration_title %}
-    <h1 class="heading32">
-        {% trans "Profile" %}: <span class="txt-red">{% trans "Seeker Detail" %}</span>
-    </h1>
+{% block section_header %}
+    <h1>{% trans "Your Qualification" %}</h1>
 {% endblock %}
 
 {% block form_elements %}
+    <section class="content-area edit-profile">
+        <div class="form-container">
+            <div class="column-left">
+                <label class="mandatory" id="{{form.seeker_info.profile_header.id_for_label}}">
+                    {{form.seeker_info.profile_header.label}}
+                </label>
+                <div class="form-elements">
+                    {{form.seeker_info.profile_header | attr:"required" | attr:"placeholder:Higher Qualification"}}
+                    {{form.seeker_info.profile_header.errors.as_text}}
+                </div>
 
-    <div class="row">
-        <label class="mandatory" id="{{form.seeker_info.profile_header.id_for_label}}">
-            {{form.seeker_info.profile_header.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.seeker_info.profile_header}}
-            {{form.seeker_info.profile_header.errors.as_text}}
+                <label class="mandatory">Name of Institute</label>
+                <div class="form-elements">
+                    <input type="text" name="" id="" value="" placehodler="Enter Institute Name" />
+                </div>
+                <label class="mandatory">Passing year</label>
+                <div class="form-elements">
+                    <select>
+                        <option>Select Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="column-right">
+                <label class="mandatory">Percentage</label>
+                <div class="form-elements">
+                    <input type="text" name="" id="" value="" class="small" />
+                    <span>%</span>
+                </div>
+                <label>Special Achievement	</label>
+                <div class="form-elements">
+                    <input type="text" name="" id="" value="" />
+                </div>
+
+                <label id="{{form.seeker_info.passport_number.id_for_label}}">
+                    {{form.seeker_info.passport_number.label}}
+                </label>
+                <div class="form-elements">
+                    {{form.seeker_info.passport_number | attr:"placeholder:Passport No" }}
+                    {{form.seeker_info.passport_number.errors.as_text}}
+                </div>
+
+            </div>
         </div>
-        <label class="mandatory" id="{{form.seeker_info.passport_number.id_for_label}}">
-            {{form.seeker_info.passport_number.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.seeker_info.passport_number}}
-            {{form.seeker_info.passport_number.errors.as_text}}
-        </div>
-    </div>
+    </section>
+{% endblock %}
+
+
+{% block prev-button %}
+  {% blocktrans %}Basic information{% endblocktrans %} <i class="left-arrowd"></i>
+{% endblock %}
+
+
+{% block next-button %}
+  {% trans 'Education <strong class="extra-bold"> Details </strong>' %}<i class="right-arrowred"></i>
+{% endblock %}
+
 
     <div class="row">
         <label class="mandatory" id="{{form.seeker_info.skill_set.id_for_label}}">
@@ -72,16 +110,3 @@
             {{form.seeker_info.free_time.errors.as_text}}
         </div>
     </div>
-
-{% endblock %}
-
-
-{% block prev-button %}
-  {% blocktrans %}Basic information{% endblocktrans %} <i class="left-arrowd"></i>
-{% endblock %}
-
-
-{% block next-button %}
-  {% trans 'Education <strong class="extra-bold"> Details </strong>' %}<i class="right-arrowred"></i>
-{% endblock %}
-

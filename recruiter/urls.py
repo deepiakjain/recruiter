@@ -25,6 +25,9 @@ urlpatterns += patterns('django.contrib.flatpages.views',
 if settings.DEBUG:
     urlpatterns += patterns(
         '',
+        (r'^users_files/(?P<path>.*)$', 'django.views.static.serve',
+         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+
         (r'^static/(?P<path>.*)$', 'django.views.static.serve',
          {'document_root': settings.STATIC_ROOT, 'show_indexes': True}),
 

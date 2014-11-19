@@ -9,7 +9,15 @@
         <a href="{% url 'registration_register' %}" title="Sign Up" class="account-btn">{% trans 'Sign Up' %}</a>
     {% else %}
         <a href="{% url 'profile' %}" title="Sign Up" class="account-btn dropdown">
-            <img src="{{STATIC_URL}}images/user-icon.png" />
+            {% if request.user.recruiter.profile_pic %}
+                <img src="/users_files/{{request.user.recruiter.profile_pic}}" />
+            {% else %}
+                {% if request.user.jobseeker.profile_pic %}
+                    <img src="/users_files/{{request.user.jobseeker.profile_pic}}" />
+                {% else%}
+                    <img src="{{STATIC_URL}}images/user-icon.png" />
+                {% endif %}
+            {% endif %}
             <span>{% filter split:"@" %} {{ request.user.username }} {% endfilter %}</span>
         </a>
     {% endif %}
