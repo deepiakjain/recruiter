@@ -12,7 +12,7 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 from django.shortcuts import render, redirect, render_to_response, get_object_or_404
 from django.utils.decorators import classonlymethod
 from django.core.files.storage import FileSystemStorage
-from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from django.conf import settings
 
@@ -226,6 +226,19 @@ def seeker_list(request):
 
         context.update({'form': Search(request.POST)})
 
-    context.update({'users': results})
+    # pagination code for jobs
+    paginator = Paginator(results, settings.ITEM_PER_PAGE)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        users = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        users = paginator.page(paginator.num_pages)
+
+    context.update({'users': users})
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
