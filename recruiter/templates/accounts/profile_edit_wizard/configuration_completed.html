@@ -12,9 +12,8 @@
         <div class="form-container">
             <div class="success-message">
                 <h1>Your profile has been updated successfully!</h1>
-                 <a href="{% url 'profile' %}" class="arrow-btn txt-red pull-right ">
-                    {% trans 'Go to <strong class="extra-bold">your account</strong>' %}
-                 </a>
+                <input type="button" id="view-profile" value="{% trans 'Go to your account' %}"
+                       onclick="window.location.href='{% url 'profile' %}'" />
             </div>
         </div>
     </section>
