@@ -104,7 +104,7 @@ class JobSeeker(BaseProfile):
     expected_ctc_lac = models.CharField(max_length=2, choices=CTC_RANGE, default=0)
     expected_ctc_thousand = models.CharField(max_length=2, choices=CTC_RANGE, default=0)
     relocate = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='Y',
-                                verbose_name="Ready to re-locate in India")
+                                verbose_name="Ready to relocate any city in India?")
 
     # time when recruiter can contact.
     free_time = models.TimeField(verbose_name="Good time to contact you", null=True)
@@ -112,7 +112,7 @@ class JobSeeker(BaseProfile):
     # preferred locations.
     preferred_loc = models.CharField(max_length=30, help_text="Comma-separated cities name")
     job_change = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='Y',
-                                  verbose_name="Looking job for change")
+                                  verbose_name="Looking for a switch ?")
 
     def __unicode__(self):
         return "User %s" % (self.user.first_name)

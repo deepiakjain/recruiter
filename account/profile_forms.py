@@ -62,13 +62,20 @@ class InlineEducationBackgroundForm(forms.ModelForm):
 
 
 class InlineResumeForm(forms.ModelForm):
-    #resume = forms.FileField(label='Resume')
 
     class Meta:
         model = JobSeeker
         fields = ('resume',)
         widgets = {'resume': AdminResumeWidget()}
 
+    def clean_resume(self):
+        """
+        Validate resume field to upload on file with .doc, .docx, pdf and .org
+        """
+        resume_file = self.cleaned_data['resume']
+        if resume_file.name.split('.')[-1] not in ['doc', 'docx', 'pdf' 'org']:
+            raise forms.ValidationError("Incorrect file extension")
+        return resume_file
 
 class InlineProfessionalDetailsForm(forms.ModelForm):
 
@@ -77,12 +84,13 @@ class InlineProfessionalDetailsForm(forms.ModelForm):
         fields = ('expected_ctc_lac', 'expected_ctc_thousand', 'relocate')
 
 
-class InlineSeekerDetailsForm(forms.ModelForm):
+class InlineJobReferenceForm(forms.ModelForm):
 
     class Meta:
         model = JobSeeker
-        fields = ('profile_header', 'passport_number', 'preferred_loc', 'job_change', 'free_time',
-                  'experience_yrs', 'experience_month', 'skill_set')
+        fields = ('profile_header', 'skill_set', 'job_change', 'relocate',
+                  'experience_yrs', 'experience_month', 'preferred_loc', 'free_time',
+                  'expected_ctc_lac', 'expected_ctc_thousand')
 
 
 class InlineRecruiterDetailsForm(forms.ModelForm):

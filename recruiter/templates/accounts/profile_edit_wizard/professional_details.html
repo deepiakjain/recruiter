@@ -1,69 +1,75 @@
 {% extends "accounts/profile_edit_wizard/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 
 {% block registration_title %}
-    <h1 class="heading32">
-        {% trans "Profile" %}: <span class="txt-red">{% trans "Professional Detail" %}</span>
-    </h1>
+    <h2>
+        {% trans "Company Detail" %}</span>
+    </h2>
 {% endblock %}
 
 {% block form_elements %}
+    <section class="content-area edit-profile">
+        <div class="form-container">
+            <div class="column-left">
+                <label class="mandatory" id="{{form.company.name.id_for_label}}">
+                    {{form.company.name.label}}:
+                </label>
+                <div class="form-elements">
+                    {{form.company.name | attr:"required" |attr:"placeholder:Name of Company"}}
+                    {{form.company.name.errors.as_text}}
+                </div>
 
-    <div class="row">
-        <label class="mandatory" id="{{form.company.name.id_for_label}}">
-            {{form.company.name.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company.name}}
-            {{form.company.name.errors.as_text}}
-        </div>
-        <label class="mandatory" id="{{form.extra_info.joining_date.id_for_label}}">
-            {{form.extra_info.joining_date.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.extra_info.joining_date}}
-            {{form.extra_info.joining_date.errors.as_text}}
-        </div>
-    </div>
+                <label class="mandatory" id="{{form.extra_info.joining_date.id_for_label}}">
+                    {{form.extra_info.joining_date.label}}:
+                </label>
+                <div class="form-elements">
+                    {{form.extra_info.joining_date | attr:"required" | attr:"placehodler:DD/MM/YYYY"| attr:"class:medium"}}
+                    <span class="date-picker"></span>
+                    {{form.extra_info.joining_date.errors.as_text}}
+                </div>
 
-    <div class="row">
-        <label class="mandatory" id="{{form.company.website.id_for_label}}">
-            {{form.company.website.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.company.website}}
-            {{form.company.website.errors.as_text}}
-        </div>
-        <label class="mandatory" id="{{form.extra_info.notice_period.id_for_label}}">
-            {{form.extra_info.notice_period.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.extra_info.notice_period}}
-            {{form.extra_info.notice_period.errors.as_text}}
-        </div>
-    </div>
 
-    <div class="row">
-        <label class="mandatory" id="{{form.extra_info.current_ctc_lac.id_for_label}}">
-            {{form.extra_info.current_ctc_lac.label}}:
-        </label>
-        <div class="form-elements">
-            {{form.extra_info.current_ctc_lac}}
-            {{form.extra_info.current_ctc_thousand}}
+                <label class="mandatory" id="{{form.extra_info.current_ctc_lac.id_for_label}}">
+                    {% trans 'Current CTC' %}
+                </label>
+                <div class="form-elements">
+                    {{form.extra_info.current_ctc_lac | attr:"class:small" | attr:"required" }} <span>Lack(s)</span>
+                    {{form.extra_info.current_ctc_thousand | attr:"class:small" | attr:"required" }} <span>Thousand(s)</span>
 
-            {{form.extra_info.current_ctc_lac.errors.as_text}}
-            {{form.extra_info.current_ctc_thousand.errors.as_text}}
+                    {{ form.extra_info.current_ctc_lac.errors.as_text }}
+                    {{ form.extra_info.current_ctc_thousand.errors.as_text }}
+                </div>
+
+            </div>
+
+            <div class="column-right">
+                <label class="mandatory" id="{{form.extra_info.notice_period.id_for_label}}">
+                    {{ form.extra_info.notice_period.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.extra_info.notice_period | attr:"placeholder:Days" | attr:"required" | attr:"class:small" }}
+                    <span>Days</span>
+                    {{ form.extra_info.notice_period.errors.as_text }}
+                </div>
+
+                <label class="mandatory" id="{{form.company.website.id_for_label}}">
+                    {{ form.company.website.label }}
+                </label>
+                <div class="form-elements">
+                    {{ form.company.website | attr:"required" | attr:"placeholder:http://"}}
+                    {{ form.company.website.errors.as_text }}
+                </div>
+            </div>
         </div>
-    </div>
-
+    </section>
 {% endblock %}
 
 {% block prev-button %}
-  {% blocktrans %}Education background{% endblocktrans %} <i class="left-arrowd"></i>
+  {% blocktrans %}< Job Reference{% endblocktrans %}
 {% endblock %}
 
 
 {% block next-button %}
-  {% trans 'Company <strong class="extra-bold"> info </strong>' %}<i class="right-arrowred"></i>
+  {% trans 'summary >' %}
 {% endblock %}

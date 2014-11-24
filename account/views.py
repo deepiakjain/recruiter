@@ -17,7 +17,7 @@ from django.template import RequestContext
 from django.conf import settings
 
 from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetailsForm,
-                    JobExpectationsForm, SeekerDetailsForm, RecruiterDetailsForm)
+                    RecruiterDetailsForm, JobReferenceForm)
 
 from account.models import JobSeeker, Recruiter
 from recruiter.decorators import force_profile
@@ -35,9 +35,8 @@ class ProfileEditWizard(SessionWizardView):
                     ('contact_details', ContactDetailsForm),
 
                     ('education_details', EducationDetailsForm),
-                    ('seeker_details', SeekerDetailsForm),  # seeker profile info
+                    ('job_reference', JobReferenceForm),
                     ('professional_details', ProfessionalDetailsForm),
-                    ('job_expectations', JobExpectationsForm),
 
                     ('recruiter_details', RecruiterDetailsForm),
                     )
@@ -45,10 +44,9 @@ class ProfileEditWizard(SessionWizardView):
         condition_dict = {  # It should be common for both type user
                             'contact_details': ProfileEditWizard.contact_condition,
 
-                            'seeker_details': ProfileEditWizard.seeker_profile_condition,
                             'education_details': ProfileEditWizard.seeker_profile_condition,
+                            'job_reference': ProfileEditWizard.seeker_profile_condition,
                             'professional_details': ProfileEditWizard.seeker_profile_condition,
-                            'job_expectations': ProfileEditWizard.seeker_profile_condition,
 
                             # recruiter profile
                             'recruiter_details': ProfileEditWizard.recruiter_profile_condition,

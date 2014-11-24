@@ -9,7 +9,7 @@ from django import forms
 from utils.form_container import FormContainer
 from account.profile_forms import InlineAddressForm, InlineSeekerCompanyForm, InlineBaseProfileForm,\
     InlineEducationBackgroundForm, InlineResumeForm, InlineProfessionalDetailsForm, InlineCompanyProfileForm,\
-    InlineSeekerDetailsForm, InlineRecruiterDetailsForm
+    InlineRecruiterDetailsForm, InlineJobReferenceForm
 
 from utils.utilities import get_profile
 from account.constants import YEAR_EXPERIENCE
@@ -63,15 +63,15 @@ class ContactDetailsForm(FormContainer):
         profile.save()
 
 
-class SeekerDetailsForm(FormContainer):
-    seeker_info = InlineSeekerDetailsForm
+class JobReferenceForm(FormContainer):
+    seeker_info = InlineJobReferenceForm
 
     def __init__(self, user, **kwargs):
         """
         set user in object to get instance
         """
         self.user = user
-        super(SeekerDetailsForm, self).__init__(**kwargs)
+        super(JobReferenceForm, self).__init__(**kwargs)
 
     def get_form_kwargs(self, prefix, **kwargs):
 
