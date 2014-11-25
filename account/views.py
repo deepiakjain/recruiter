@@ -21,6 +21,7 @@ from .forms import (ContactDetailsForm, EducationDetailsForm, ProfessionalDetail
 
 from account.models import JobSeeker, Recruiter
 from recruiter.decorators import force_profile
+from job_details.models import InterestingResume
 
 from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
 from .forms import Search
@@ -180,8 +181,15 @@ def seeker_details(request, profile_id):
 
     is_recruiter = user_is_recruiter(request.user) if not request.user.is_anonymous() else False
 
+    #check InterestingResume info for the seeker
+    interest = False
+    if is_recruiter:
+        interest = InterestingResume.objects.filter(seeker=seeker, recruiter=request.user.recruiter)
+
     template = 'accounts/profile/seeker_details.html'
-    context = {'form': Search(), 'users': seeker, 'is_recruiter': is_recruiter}
+    context = {'form': Search(), 'users': seeker,
+               'profile_id': profile_id, 'interest': interest,
+               'is_recruiter': is_recruiter}
     # based on is_recruiter value will show one button to express interest in the use
     # user profile.
 

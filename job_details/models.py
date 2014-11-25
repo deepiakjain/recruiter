@@ -74,7 +74,6 @@ def send_email_if_job_closed(sender, instance, **kwargs):
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [touser], fail_silently=False)
 
 
-
 class Status(models.Model):
     job = models.ManyToManyField(JobDetails)
     seeker = models.ManyToManyField(JobSeeker)

@@ -17,7 +17,13 @@
         <span class="top-bar actions">
             <a href="{% url 'seeker-list' %}">Back to candidates list</a>
             <div class="button-container toggle-btns">
-                <input type="button" name="" id="" value="Like Profile" />
+                {%if not  interest %}
+                    <input type="button" name="like_profile" id="like_profile"
+                           onclick="update_job_status('{% url 'interesting-resume' profile_id %}')"
+                           value="Like Profile" />
+                {% else %}
+                    <input type="button" name="unlike_profile" id="unlike_profile" value="Liked Profile" />
+                {% endif %}
             </div>
         </span>
 

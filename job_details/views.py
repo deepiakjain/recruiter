@@ -24,8 +24,8 @@ from account.models import JobSeeker
 from account.forms import Search
 from account.profile_forms import InlineResumeForm
 
-from job_details.models import JobDetails, Status
-from job_details.forms import JobDetailsForm, InterestingResumeForm
+from job_details.models import JobDetails, Status, InterestingResume
+from job_details.forms import JobDetailsForm
 
 from utils.utilities import user_is_recruiter, user_is_seeker
 from recruiter.decorators import force_profile
@@ -273,26 +273,24 @@ def update_job_status(request, status, job_code, seeker_id):
 @force_profile
 def interesting_resume(request, seeker_id):
     """
+    Show interest seeker resumes
     """
     if user_is_seeker(request.user):
         # redirect with message don't have access to perform this operation.
         return redirect(reverse('home'))
 
-    form = InterestingResumeForm(request.POST or None)
+    # Get seeker info
+    seeker_obj = JobSeeker.objects.get(id=seeker_id)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-    else:
-        seeker_obj = JobSeeker.objects.get(id=seeker_id)
-        initial = {'seeker': seeker_obj, 'recruiter': request.user.recruiter}
-        form.initial = initial
+    # create entry in InterestingResume for the seeker
+    interest = InterestingResume(interest='PM')
+    interest.save()
 
-    context = {'form': form}
-    template = 'jobs/interesting_resume.html'
+    interest.seeker.add(seeker_obj)
+    interest.recruiter.add(request.user.recruiter)
 
-    return render_to_response(template, context,
-                              context_instance=RequestContext(request))
+    return HttpResponse(json.dumps({'url': reverse('seeker-details', args=[seeker_id])}),
+                        content_type="application/json")
 
 
 @login_required()
