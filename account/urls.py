@@ -1,14 +1,19 @@
 from django.conf.urls import patterns, url
 from django.views.generic.base import TemplateView
+from django.contrib.auth.views import login
+from django.contrib.auth.decorators import user_passes_test
+
 from registration.backends.default.views import ActivationView
 
 # search forms for candidate and jobs
 from account.forms import Search
 
+login_forbidden = user_passes_test(lambda u: u.is_anonymous(), '/')
+
 urlpatterns = patterns('',
 
                        # account logout request
-                       url(r'^login/$', 'django.contrib.auth.views.login',
+                       url(r'^login/$', login_forbidden(login),
                            {'extra_context': {'login_flag': True, 'search_form': Search()}}, name='auth_login'),
                        url(r'^logout/$', 'django.contrib.auth.views.logout',
                            {'next_page': '/'}, name='auth_logout'),

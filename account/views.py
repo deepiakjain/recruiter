@@ -138,6 +138,7 @@ profile_edit_wizard = login_required(profile_edit_wizard)
 
 
 @force_profile
+@login_required
 def user_profile(request):
     """
     profile which will identify login user, display its data.
