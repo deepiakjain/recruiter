@@ -87,5 +87,5 @@ class InterestingResume(models.Model):
     interest = models.CharField(max_length=2, choices=INTEREST)
 
     def __unicode__(self):
-        return "User: %s like profile: %s for job: %s" % (self.recruiter.user.username,
-                                                  self.seeker.user.username, self.job.job_code)
+        return "User: %s like profile: %s" % (self.recruiter.all()[0].user.username,
+                                              self.seeker.all()[0].user.username)

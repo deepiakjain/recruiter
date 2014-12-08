@@ -1,0 +1,62 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %}Home{% endblock %}
+
+{% block content%}
+    <span class="top-bar">
+        <a href="{% url 'seeker-list' %}" style="text-decoration: none; font-size:18px;"> Seeker List </a>
+    </span>
+    <span style="float: left; font-size: 18px;" class="top-bar">{% trans 'Favorite Candidate' %}</span>
+    <section class="section-box green">
+        <div class="inner candidate-list">
+        {% if favorites %}
+            {% for favorite in favorites %}
+                <div class="row">
+                    {% for user in favorite.seeker.all %}
+                    <div class="data">
+                        <h1>
+                            <a href="{% url 'seeker-details' user.id %}">
+                                {{user.user.get_full_name | title}}
+                            </a>
+                            <span>({{user.experience_yrs}} Yrs. {{user.experience_month}} Month)</span>
+                            <label class="data-row">
+                                <span class="bold">{{user.designation}} -</span><span>{{user.current_loc}}</span>
+                            </label>
+                        </h1>
+                        <label class="data-row"><span class="bold">{% trans 'Known as' %}:</span>
+                            <span>{{ user.profile_header }}</span>
+                        </label>
+                        <label class="data-row"><span class="bold">{% trans 'Key Skills' %}:</span>
+                            <span>{{user.skill_set}}</span>
+                        </label>
+                        <label class="data-row"><span class="bold">{% trans 'Preferred location' %}:</span>
+                            <span>{{user.preferred_loc}}</span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% else %}
+            No record found
+        {% endif %}
+        </div>
+    </section>
+
+    <span class="top-bar">
+        <a href="{% url 'job-list' %}" style="text-decoration: none; font-size:18px;"> Job List </a>
+    </span>
+    <span style="float: left; font-size: 18px;" class="top-bar">{% trans 'Lastest Jobs' %}</span>
+    <section class="section-box purple">
+        <div class="inner candidate-list">
+            {% if  jobs %}
+                {% for job in jobs %}
+                    {% include 'jobs/job_block.html' with job=job is_seeker=is_seeker %}
+                {% endfor %}
+            {% else %}
+                <p><b> No record found </b></p>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}

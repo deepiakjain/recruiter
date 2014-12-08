@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 
+from recruiter.views import home
+
 from django.contrib import admin
 admin.autodiscover()
 
@@ -16,7 +18,7 @@ urlpatterns = patterns('',
 
 # flat pages info urls
 urlpatterns += patterns('django.contrib.flatpages.views',
-    url(r'^$', 'flatpage', {'url': '/home/'}, name='home'),
+    url(r'^$', home, name='home'),
     url(r'^about-us/$', 'flatpage', {'url': '/about-us/'}, name='about'),
     url(r'^contact-us/$', 'flatpage', {'url': '/contact-us/'}, name='contact-us'),
     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='license'),
