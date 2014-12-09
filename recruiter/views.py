@@ -31,13 +31,13 @@ def home(request):
         profile = get_profile(request.user)
         results = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
 
-        # for skill in profile.skill_set.split(','):
-        import ipdb; ipdb.set_trace()
-        results = results.filter(Q(skill_set__istartswith=profile.skill_set) |
-                                 Q(skill_set__iendswith=profile.skill_set))
+        filter_data = []
+        for skill in profile.skill_set.split(','):
+            row = results.filter(Q(skill_set__icontains=skill))
+            filter_data.extend(row)
 
         # context for recruiter home page ...
-        context_data = {'lastest_jobs': results[:3], 'applied_jobs': applied_jobs}
+        context_data = {'lastest_jobs': filter_data[:3], 'applied_jobs': applied_jobs}
 
         # template name
         template = 'home/seeker.html'
