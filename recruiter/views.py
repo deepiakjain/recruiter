@@ -1,6 +1,6 @@
 
 from django.db.models import Q
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from utils.utilities import user_is_seeker, user_is_recruiter, get_profile
 from job_details.models import JobDetails, InterestingResume, Status
 
@@ -25,13 +25,18 @@ def home(request):
     if not is_anonymous and user_is_seeker(request.user):
 
         # get latest jobs posted by recruiter...
-        applied_jobs = Status.objects.filter(seeker__user=request.user)[:3]
+        applied_jobs = Status.objects.filter(seeker__user=request.user, status='AP')[:3]
 
         # Interest shown to the resumes.
         profile = get_profile(request.user)
         results = JobDetails.objects.filter(job_opening_status='OP').order_by('-opening_date')
 
         filter_data = []
+        for pre_loc in profile.preferred_loc.split(','):
+            loc = results.filter(Q(location_name__icontains=pre_loc))
+            filter_data.extend(loc)
+
+        # filter based on skill set
         for skill in profile.skill_set.split(','):
             row = results.filter(Q(skill_set__icontains=skill))
             filter_data.extend(row)
@@ -54,8 +59,7 @@ def home(request):
 
         # template name
         template = 'home/recruiter.html'
-
     else:
-        profile = None
+        return redirect('auth_login')
 
     return render_to_response(template, context_data, context_instance=RequestContext(request))
