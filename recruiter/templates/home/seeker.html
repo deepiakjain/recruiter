@@ -6,7 +6,11 @@
 {% block content%}
 
     <span class="top-bar">
-        <a href="{% url 'job-list' %}" style="text-decoration: none; font-size:18px;"> Job List </a>
+        <a href="{% url 'job-list' %}" style="text-decoration: none; font-size:18px;"> {% trans 'Job List' %}</a>
+    </span>
+    <span class="top-bar">
+        <a href="{% url 'upload-resume' %}" style="text-decoration: none; font-size:18px;">
+            {% trans 'Upload Resume' %} </a>&nbsp;&nbsp;&nbsp;
     </span>
     <span style="float: left; font-size: 18px;" class="top-bar">{% trans 'Lastest Jobs' %}</span>
     <section class="section-box purple">
