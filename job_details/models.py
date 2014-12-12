@@ -80,6 +80,30 @@ class Status(models.Model):
     status = models.CharField(max_length=2, choices=STATUS)
 
 
+def send_email_job_applied(instance, **kwargs):
+    """
+    Send email if job was applied to both users
+    """
+
+    if instance.status == 'AP':
+
+        # get current site info
+        site = Site.objects.get_current()
+        job = instance.job.all()[0]
+        to_owner = job.recruiter.user.email
+        to_seeker = instance.seeker.all()[0].user.email
+
+
+        ctx_dict = {'site': site, 'job_code':job.job_code,
+                    'job_title': job.job_title}
+
+        subject = "Applied for Job %s." % job.job_code
+
+        message = render_to_string('jobs/emails/applied_for_job.txt',
+                                   ctx_dict)
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [to_seeker, to_owner], fail_silently=False)
+
+
 class InterestingResume(models.Model):
     recruiter = models.ManyToManyField(Recruiter)
     job = models.ManyToManyField(JobDetails)

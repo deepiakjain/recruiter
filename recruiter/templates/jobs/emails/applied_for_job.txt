@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% trans 'Hey' %} {{ username | title }},
+
+{% blocktrans %}
+    The Job title : <b>{{job_title}}</b> has been applied successfully.
+
+    If this wasn't you, please edit job details by clicking below link its valid till 7 days.
+{% endblocktrans %}
+http://{{ site.domain }}{% url "job-edition" job_code=job_code %}
+
+
+{% trans "Sincerely," %}
+{{ site.name }}

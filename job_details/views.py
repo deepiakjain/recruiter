@@ -24,7 +24,7 @@ from account.models import JobSeeker
 from account.forms import Search
 from account.profile_forms import InlineResumeForm
 
-from job_details.models import JobDetails, Status, InterestingResume
+from job_details.models import JobDetails, Status, InterestingResume, send_email_job_applied
 from job_details.forms import JobDetailsForm
 
 from utils.utilities import user_is_recruiter, user_is_seeker
@@ -261,6 +261,9 @@ def apply_for_job(request, job_code):
     # add many to many fields
     status.job.add(job_obj)
     status.seeker.add(request.user.jobseeker)
+
+    # send email now
+    send_email_job_applied(status)
 
     return HttpResponse(json.dumps({'url': reverse('job-detail', args=[job_code])}), content_type="application/json")
 
