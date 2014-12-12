@@ -32,7 +32,9 @@
     <div class="pagination">
         <span class="step-links">
             {% if jobs.has_previous %}
-                <a href="?page={{ jobs.previous_page_number }}" class="pagination-view-btn">previous</a>
+                <a href="?page={{ jobs.previous_page_number }}{{search_params}}" class="pagination-view-btn">
+                    previous
+                </a>
             {% endif %}
 
             <span class="current">
@@ -40,7 +42,9 @@
             </span>
 
             {% if jobs.has_next %}
-                <a href="?page={{ jobs.next_page_number }}" class="pagination-view-btn">next</a>
+                <a href="?page={{ jobs.next_page_number }}{{search_params}}" class="pagination-view-btn">
+                    next
+                </a>
             {% endif %}
         </span>
     </div>

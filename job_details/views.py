@@ -107,6 +107,32 @@ def create_job(request, job_code=None):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
 
+
+def filter_jobs(results, search_dict):
+    """
+    :param search_dict:
+    :return:
+    """
+    search = search_dict.get('search', None)
+    search_params = ''
+    if search:
+        results = results.filter(Q(skill_set__icontains=search) | Q(roles_and_responsibilities__icontains=search)
+                                 | Q(job_title__icontains=search))
+        search_params += "&search=" + search
+
+    experience = search_dict.get('experience', None)
+    if experience:
+        results = results.filter(min_experience__gte=experience)
+        search_params += "&experience=" + experience
+
+    location = search_dict.get('location', None)
+    if location:
+        results = results.filter(location_name__icontains=location)
+        search_params += "&location=" + location
+
+    return results, search_params
+
+
 @force_profile
 def job_list(request):
 
@@ -126,21 +152,10 @@ def job_list(request):
     if not is_anonymous and not is_seeker:
         results = results.filter(recruiter__user=request.user)
 
-    if request.method == 'POST':
-        search = request.POST.get('search', None)
-        if search:
-            results = results.filter(Q(skill_set__icontains=search) | Q(roles_and_responsibilities__icontains=search)
-                                     | Q(job_title__icontains=search))
+    search_dict = request.POST or request.GET
+    results, search_params = filter_jobs(results, search_dict)
 
-        experience = request.POST.get('experience', None)
-        if experience:
-            results = results.filter(min_experience__gte=experience)
-
-        location = request.POST.get('location', None)
-        if location:
-            results = results.filter(location_name__icontains=location)
-
-        context.update({'form': Search(request.POST)})
+    context.update({'form': Search(search_dict), 'search_params': search_params})
 
     # update results for following function
     for result in results:

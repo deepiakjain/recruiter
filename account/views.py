@@ -212,6 +212,29 @@ def recruiter_details(request, profile_id):
                               context_instance=RequestContext(request))
 
 
+def filter_seekers(results, search_dict):
+    """
+    :param search_dict:
+    :return:
+    """
+    search = search_dict.get('search', None)
+    search_params = ''
+    if search:
+        results = results.filter(Q(skill_set__icontains=search)|Q(qualification__qualification__icontains=search))
+        search_params += "&search=" + search
+
+    experience = search_dict.get('experience', None)
+    if experience:
+        results = results.filter(experience_yrs__gte=experience)
+        search_params += "&experience=" + experience
+
+    location = search_dict.get('location', None)
+    if location:
+        results = results.filter(preferred_loc__icontains=location)
+        search_params += "&location=" + location
+
+    return results, search_params
+
 @force_profile
 def seeker_list(request):
 
@@ -222,21 +245,10 @@ def seeker_list(request):
         exclude(resume=None).exclude(user__username=request.user.username)\
         .order_by('user__first_name')
 
-    if request.method == 'POST':
+    search_dict = request.POST or request.GET
+    results, search_params = filter_seekers(results, search_dict)
 
-        search = request.POST.get('search', None)
-        if search:
-            results = results.filter(Q(skill_set__icontains=search)|Q(qualification__qualification__icontains=search))
-
-        experience = request.POST.get('experience', None)
-        if experience:
-            results = results.filter(experience_yrs__gte=experience)
-
-        location = request.POST.get('location', None)
-        if location:
-            results = results.filter(preferred_loc__icontains=location)
-
-        context.update({'form': Search(request.POST)})
+    context.update({'form': Search(search_dict), 'search_params': search_params})
 
     # pagination code for jobs
     paginator = Paginator(results, settings.ITEM_PER_PAGE)  # Show 25 contacts per page
