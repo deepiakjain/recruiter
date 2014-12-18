@@ -352,6 +352,16 @@ footer .right-section .social-links a.youtube{width:57px; height:24px; backgroun
 .section-box .basic-info .row .form-label{width:100px;}
 /* Styles for My Profile Page ends */
 
+/* Map for ofc location */
+.ofc-map{float:left; width:55%; text-align:center; margin:0 10px 0 0;}
+.ofc-map label{font-size:18px; font-weight:bold; display:block; margin:10px 0 0 0;}
+.ofc-loc-info{float:left; width:40%; position: sticky; top:15%;}
+.section-box .ofc-loc-info .row .form-label{width:100px;}
+
+#mapPlaceholder { height: 200px; width: 650px; }
+
+/* end */
+
 /* Styles for Edit Profile Page starts */
 .edit-profile{}
 .edit-profile .form-container{overflow:hidden;}

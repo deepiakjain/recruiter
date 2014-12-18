@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+from django.views.generic import TemplateView
 
 from recruiter.views import home
 
@@ -20,7 +21,8 @@ urlpatterns = patterns('',
 urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^$', home, name='home'),
     url(r'^about-us/$', 'flatpage', {'url': '/about-us/'}, name='about'),
-    url(r'^contact-us/$', 'flatpage', {'url': '/contact-us/'}, name='contact-us'),
+    # url(r'^contact-us/$', 'flatpage', {'url': '/contact-us/'}, name='contact-us'),
+    url(r'^contact-us/$', TemplateView.as_view(template_name="flatpages/contact_us.html"), name='contact-us'),
     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='license'),
 )
 

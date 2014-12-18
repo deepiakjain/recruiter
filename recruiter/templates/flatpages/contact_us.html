@@ -1,0 +1,80 @@
+{% extends  'base.html' %}
+{% load i18n %}
+
+{% block title %} Contact Us {% endblock %}
+
+{% block content%}
+    <section class="section-box purple">
+        <div class="inner">
+            <div class="ofc-map">
+                <div id="mapPlaceholder"></div>
+                <label>
+                    Our Head office location
+                </label>
+            </div>
+            <div class="ofc-loc-info">
+                <div class="row">
+                    <span class="form-label-value">
+                        {% blocktrans %}
+                        I-1002, mont vert tropez,
+                        wakad
+                        {% endblocktrans %}
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="form-label-value">
+                        {% blocktrans %}
+                            Pune, 411057
+                        {% endblocktrans %}
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="form-label-value">{% trans "India" %}</span>
+                </div>
+                <div class="row">
+                    <label class="form-label"> Email us: </label>
+                    <span class="form-label-value">
+                        <a href="mailto:deepika.jain@mailinator.com">
+                            deepika.jain@mailinator.com
+                        </a>
+                    </span>
+                </div>
+                <div class="row">
+                    <label class="form-label" > Contact us: </label>
+                    <span class="form-label-value">+91-9552105933</span>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script>
+
+        var latitude = 18.594440799999997   //position.coords.latitude;
+        var longitude = 73.7667017   //position.coords.longitude;
+
+        var coords = new google.maps.LatLng(latitude, longitude);
+
+        var mapOptions = {
+            zoom: 15,
+            center: coords,
+            mapTypeControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        //create the map, and place it in the HTML map div
+        map = new google.maps.Map (
+            document.getElementById("mapPlaceholder"), mapOptions
+        );
+
+        //place the initial marker
+        var marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: "Office location!"
+        });
+
+    </script>
+{% endblock %}

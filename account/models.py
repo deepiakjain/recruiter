@@ -54,7 +54,7 @@ class EducationBackground(models.Model):
     year_of_passing = models.CharField(max_length=4, null=True)
     percentage = models.CharField(max_length=5, null=True)
     special_achievement = models.CharField(max_length=40, null=True, blank=True)
-    #website = models.CharField(max_length=90, validators=[URLValidator()], null=True)
+    website = models.CharField(max_length=90, validators=[URLValidator()], null=True)
 
     def __unicode__(self):
         return "Complete %s from %s in year %s" %(self.qualification, self.institute_name, self.year_of_passing)
